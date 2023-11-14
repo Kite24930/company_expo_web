@@ -23,8 +23,8 @@ return new class extends Migration
             $table->longText('business_detail')->nullable()->comment('事業内容');
             $table->longText('pr')->nullable()->comment('PR');
             $table->string('head_office_address')->comment('本社所在地');
-            $table->double('head_office_lat')->unsigned()->comment('本社緯度');
-            $table->double('head_office_lng')->unsigned()->comment('本社経度');
+            $table->double('head_office_lat')->comment('本社緯度');
+            $table->double('head_office_lng')->comment('本社経度');
             $table->date('established_at')->comment('設立年月日');
             $table->integer('capital')->comment('資本金');
             $table->integer('sales')->nullable()->comment('売上高');
