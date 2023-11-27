@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -35,6 +36,7 @@ class PermissionSeeder extends Seeder
         $adminUser->name = 'Project M, Inc.';
         $adminUser->email = 'main@mie-projectm.com';
         $adminUser->password = bcrypt('projectm0701');
+        $adminUser->token = Str::random(25);
         $adminUser->save();
 
         // Link User and Role
