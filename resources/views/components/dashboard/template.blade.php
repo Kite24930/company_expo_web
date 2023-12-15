@@ -15,8 +15,8 @@
 
 </x-dashboard.header>
 {{ $slot }}
-<x-dashboard.footer>
+<x-footer>
 
-</x-dashboard.footer>
+</x-footer>
 </body>
 </html>
