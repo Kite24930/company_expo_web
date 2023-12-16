@@ -1,10 +1,38 @@
 @import "bootstrap-icons/font/bootstrap-icons.min.css";
+@import "@toast-ui/editor/dist/toastui-editor-viewer.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 * {
   color: #303E59;
   font-family: "Noto Sans JP", sans-serif;
+}
+
+.bg-required {
+  background-color: #E2592D;
+}
+
+.color-required {
+  color: #E2592D;
+}
+
+.editor .toastui-editor-tooltip .text {
+  color: white;
+}
+.editor .tui-view-2 ul.tui-colorpicker-clearfix {
+  display: flex;
+  flex-wrap: wrap;
+}
+.editor .tui-view-2 div.tui-colorpicker-clearfix {
+  display: none !important;
+}
+.editor .tui-view-3 {
+  display: none !important;
+}
+.editor button {
+  position: relative !important;
+  top: 0 !important;
+  right: 0 !important;
 }
 
 /*# sourceMappingURL=dashboard.css.map */

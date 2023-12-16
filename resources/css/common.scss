@@ -1,9 +1,49 @@
 @import "app";
 @import "bootstrap-icons/font/bootstrap-icons.min.css";
-
-
+@import "@toast-ui/editor/dist/toastui-editor-viewer.css";
 
 * {
     color: #303E59;
     font-family: "Noto Sans JP", sans-serif;
+}
+
+.bg-required {
+    background-color: #E2592D;
+}
+
+.color-required {
+    color: #E2592D;
+}
+
+.editor {
+    .toastui-editor-tooltip .text {
+        color: white;
+    }
+
+    .tui-view-2 {
+        ul {
+            &.tui-colorpicker-clearfix {
+                display: flex;
+                flex-wrap: wrap;
+                li {
+
+                }
+            }
+        }
+        div {
+            &.tui-colorpicker-clearfix {
+                display: none!important;
+            }
+        }
+    }
+
+    .tui-view-3 {
+        display: none!important;
+    }
+
+    button {
+        position: relative!important;
+        top: 0!important;
+        right: 0!important;
+    }
 }

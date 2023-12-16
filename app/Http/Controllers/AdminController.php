@@ -2,19 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Overview;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
     public function AdminSetting() {
         $data = [
-
+            'overview' => Overview::find(1),
         ];
         return view('admin.setting', $data);
     }
 
     public function AdminSettingPost(Request $request) {
-
+        try {
+            $overview = Overview::find(1);
+            $period_change_status = 0;
+            if (isset($request->period_change_status)) {
+                $period_change_status = 1;
+            };
+            $overview->update([
+                'target' => $request->target,
+                'title' => $request->title,
+                'description' => $request->description,
+                'place' => $request->place,
+                'period_change_status' => $period_change_status,
+                'footer_hosts' => $request->footer_hosts,
+                'footer_in_charge' => $request->footer_in_charge,
+            ]);
+            return redirect()->back1()->with('success', '基本設定の更新が完了しました');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     public function AdminDistribution() {
