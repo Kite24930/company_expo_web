@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('major_industries', function (Blueprint $table) {
             $table->id();
             $table->string('major_class_name')->comment('大分類名');
+            $table->timestamps();
         });
 
         Artisan::call('db:seed', [

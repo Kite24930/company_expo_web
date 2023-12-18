@@ -1,4 +1,4 @@
-<header class="flex md:flex-col flex-row gap-2 bg-gray-50 fixed top-0 left-0 md:w-80 w-full p-2 md:border-r md:h-full h-auto justify-between md:justify-start">
+<header class="flex md:flex-col flex-row gap-2 bg-gray-100 fixed top-0 left-0 md:w-80 w-full p-2 md:border-r md:h-full h-auto justify-between md:justify-start">
     <x-app-logo :overview="$overview"></x-app-logo>
 {{--    PC--}}
     <hr class="md:block hidden">

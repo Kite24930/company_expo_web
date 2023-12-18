@@ -1,5 +1,5 @@
 <x-dashboard.template title="Dashboard" css="dashboard/dashboard.css" :overview="$overview">
-    <main class="w-full md:pl-80 pt-20 md:pt-4 pb-24">
+    <main class="w-full md:pl-80 pt-20 md:pt-4 pb-24 bg-gray-50">
         <div class="text-3xl flex justify-center items-center">
             <x-symbols.setting class="mr-2" />基本設定
         </div>
@@ -16,7 +16,7 @@
                 </div>
             </div>
         @endif
-        <form id="sendForm" method="POST" action="{{ route('admin.setting.post') }}" class="w-full flex flex-col items-center m-auto gap-3 px-4">
+        <form id="sendForm" method="POST" action="{{ route('admin.setting.post') }}" class="w-full flex flex-col items-start m-auto gap-3 px-4">
             @csrf
             <x-dashboard.text-card title="イベント対象者" required :value="$overview->target" setId="target" class="max-w-xl" />
             <x-dashboard.text-card title="イベント名" required :value="$overview->title" setId="title" class="max-w-xl" />

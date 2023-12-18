@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('layouts', function (Blueprint $table) {
             $table->integer('distribution_id')->unsigned()->primary();
             $table->integer('company_id')->unsigned();
+            $table->timestamps();
         });
     }
 

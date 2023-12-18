@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('period')->comment('区分名 exe)第一部');
             $table->time('period_start')->comment('開始時間');
             $table->time('period_end')->comment('終了時間');
+            $table->timestamps();
         });
 
         Artisan::call('db:seed', [

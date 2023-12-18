@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('dates', function (Blueprint $table) {
             $table->id();
             $table->date('date')->comment('開催日程');
+            $table->timestamps();
         });
 
         Artisan::call('db:seed', [

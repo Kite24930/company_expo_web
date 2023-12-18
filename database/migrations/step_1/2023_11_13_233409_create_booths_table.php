@@ -14,6 +14,7 @@ return new class extends Migration
     {
         Schema::create('booths', function (Blueprint $table) {
             $table->integer('booth_number')->unsigned()->primary()->comment('ブース番号');
+            $table->timestamps();
         });
 
         Artisan::call('db:seed', [

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->integer('major_class_id')->unsigned()->comment('大分類ID');
             $table->string('industry_name')->comment('中分類名');
+            $table->timestamps();
         });
 
         Artisan::call('db:seed', [
