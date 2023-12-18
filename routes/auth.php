@@ -95,6 +95,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin/advertisement/company/{id}', [AdminController::class, 'AdminAdvertisementEdit'])->name('admin.advertisement.edit');
         Route::post('/admin/advertisement/company/{id}', [AdminController::class, 'AdminAdvertisementEditPost'])->name('admin.advertisement.edit.post');
         Route::get('/admin/user/list', [AdminController::class, 'AdminUserList'])->name('admin.user.list');
+        Route::get('/admin/user/list/{id}', [AdminController::class, 'AdminUserListDetail'])->name('admin.user.list.detail');
         Route::post('/admin/user/list/{id}', [AdminController::class, 'AdminUserListPost'])->name('admin.user.list.post');
         Route::get('/admin/company_issue', [AdminController::class, 'AdminCompanyIssue'])->name('admin.company.issue');
         Route::post('/admin/company_issue', [AdminController::class, 'AdminCompanyIssuePost'])->name('admin.company.issue.post');

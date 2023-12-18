@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Booth;
 use App\Models\Date;
+use App\Models\Faculty;
+use App\Models\Grade;
 use App\Models\Overview;
 use App\Models\Period;
+use App\Models\Student;
+use App\Models\StudentView;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -141,13 +145,41 @@ class AdminController extends Controller
 
     public function AdminUserList() {
         $data = [
-
+            'overview' => Overview::find(1),
+            'students' => StudentView::all(),
         ];
         return view('admin.users', $data);
     }
 
-    public function AdminUserListPost($id, Request $request) {
+    public function AdminUserListDetail($id) {
+        $data = [
+            'overview' => Overview::find(1),
+            'student' => StudentView::find($id),
+            'faculties' => Faculty::all(),
+            'grades' => Grade::all(),
+        ];
+        return view('admin.user-detail', $data);
+    }
 
+    public function AdminUserListPost($id, Request $request) {
+        try {
+            $student = Student::find($id);
+            $follow_disclosure = 0;
+            if (isset($request->follow_disclosure)) {
+                $follow_disclosure = 1;
+            };
+            $student->update([
+                'student_name' => $request->student_name,
+                'email' => $request->email,
+                'tel' => $request->tel,
+                'faculty_id' => $request->faculty_id,
+                'grade_id' => $request->grade_id,
+                'follow_disclosure' => $follow_disclosure,
+            ]);
+            return redirect()->back()->with('success', 'ユーザー情報の更新が完了しました');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     public function AdminCompanyIssue() {

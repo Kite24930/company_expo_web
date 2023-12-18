@@ -22,7 +22,7 @@
             <x-dashboard.text-card title="イベント名" required :value="$overview->title" setId="title" class="max-w-xl" />
             <x-dashboard.md-box title="補足・備考" required :value="$overview->description" class="w-full" setId="description" />
             <x-dashboard.text-card title="開催場所" required :value="$overview->place" setId="place" class="max-w-xl" />
-            <x-dashboard.toggle title="ピリオド企業切り替わりあり" required :value="$overview->period_change_status" setId="period_change_status" class="max-w-xl" description="ピリオド切り替わり時に企業の入れ替えがあるかどうか" />
+            <x-dashboard.toggle title="ピリオド企業切り替わりあり" required :value="$overview->period_change_status" setId="period_change_status" class="max-w-xl" description="ピリオド切り替わり時に企業の入れ替えがあるかどうか" leftText="切り替わりなし" rightText="切り替わりあり" />
             <x-dashboard.md-box title="フッター【主催・共催】" required :value="$overview->footer_hosts" setId="footer_hosts" class="w-full" />
             <x-dashboard.md-box title="フッター【担当者】" required :value="$overview->footer_in_charge" setId="footer_in_charge" class="w-full" />
             <x-dashboard.submit-button id="submitBtn">更新</x-dashboard.submit-button>

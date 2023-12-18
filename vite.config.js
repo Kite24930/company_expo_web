@@ -23,6 +23,8 @@ export default defineConfig({
                 dashboardStyles: 'resources/css/dashboard/dashboard.css',
                 adminSetting: 'resources/js/dashboard/admin-setting.js',
                 adminDistribution: 'resources/js/dashboard/distribution.js',
+                adminUserList: 'resources/js/dashboard/user-list.js',
+                adminUserDetail: 'resources/js/dashboard/user-detail.js',
             },
         },
     }

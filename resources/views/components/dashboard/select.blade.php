@@ -10,9 +10,13 @@
     @if(isset($description))
         <div class="color-required text-sm">{{ $description }}</div>
     @endif
-    @if(isset($setType))
-        <x-text-input :value="$value" :id="$setId" :name="$setId" class="w-full mt-2" :type="$setType" />
+    @if(isset($disabled))
+        <x-select-input :id="$setId" :name="$setId" class="w-full mt-2 disabled" disabled>
+            {{ $slot }}
+        </x-select-input>
     @else
-        <x-text-input :value="$value" :id="$setId" :name="$setId" class="w-full mt-2" />
+        <x-select-input :id="$setId" :name="$setId" class="w-full mt-2">
+            {{ $slot }}
+        </x-select-input>
     @endif
 </div>
