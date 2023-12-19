@@ -14,6 +14,7 @@ return new class extends Migration
     {
         Schema::create('overviews', function (Blueprint $table) {
             $table->id();
+            $table->string('url')->comment('イベントURL');
             $table->string('target')->comment('イベント対象者');
             $table->string('title')->comment('イベント名');
             $table->string('description')->comment('イベント説明、補足等');

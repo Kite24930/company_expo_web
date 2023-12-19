@@ -14,6 +14,7 @@ class OverViewSeeder extends Seeder
     public function run(): void
     {
         DB::table('overviews')->insert([
+            'url' => 'https://company-expo.com/2023/',
             'target' => '令和⚪︎年度卒対象',
             'title' => '学内合同企業説明会',
             'description' => '様々な業界の優良・人気企業が三重大学に集結！全ての企業が、まだまだ積極採用中！ぜひ参加して、内定を掴み取ろう！',

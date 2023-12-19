@@ -25,6 +25,9 @@ export default defineConfig({
                 adminDistribution: 'resources/js/dashboard/distribution.js',
                 adminUserList: 'resources/js/dashboard/user-list.js',
                 adminUserDetail: 'resources/js/dashboard/user-detail.js',
+                adminCompanyList: 'resources/js/dashboard/company-list.js',
+                adminCompanyDetail: 'resources/js/dashboard/company-detail.js',
+                adminCompanyIssue: 'resources/js/dashboard/company-issue.js',
             },
         },
     }

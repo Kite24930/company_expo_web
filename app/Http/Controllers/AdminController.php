@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booth;
+use App\Models\Company;
 use App\Models\Date;
 use App\Models\Faculty;
 use App\Models\Grade;
@@ -10,7 +11,11 @@ use App\Models\Overview;
 use App\Models\Period;
 use App\Models\Student;
 use App\Models\StudentView;
+use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class AdminController extends Controller
 {
@@ -184,13 +189,48 @@ class AdminController extends Controller
 
     public function AdminCompanyIssue() {
         $data = [
-
+            'overview' => Overview::find(1),
         ];
         return view('admin.company-issue', $data);
     }
 
     public function AdminCompanyIssuePost(Request $request) {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+        ]);
 
+        try {
+            $emailCheck = User::where('email', $request->email)->get()->count();
+            if ($emailCheck > 0) {
+                return redirect()->back()->with('error', '既に登録されているメールアドレスです');
+            }
+            $password = Str::random(10);
+            $company = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($password),
+                'token' => Str::random(25),
+                'first_login' => 0,
+            ]);
+            $company->assignRole('company');
+            event(new Registered($company));
+
+            $overview = Overview::find(1);
+
+            $contact = 'contact@mie-projectm.com';
+
+            $body = $request->name."様%0D%0A%0D%0A平素より大変お世話になっております。運営を担当しております株式会社プロジェクトMです。%0D%0Aこの度は".$overview->title."にお申し込みいただきまして誠にありがとうございます。%0D%0Aお手続きよりお時間をいただきまして、ありがとうございました。%0D%0A%0D%0A企業アカウントの発行が完了致しました。%0D%0A%0D%0A以下のURLからログインしてください。%0D%0A".$overview->url."/login/%0D%0A%0D%0Aアカウント情報のメールアドレスはこのお送りしているメールアドレスをご使用ください。%0D%0Aパスワード：".$password."%0D%0A※初回ログイン時に任意のパスワードに変更する必要があります。%0D%0A%0D%0A%0D%0Aご不明な点等ありましたら、お手数をおかけいたしますが、下記の問い合わせ先もしくは弊社の担当までご連絡ください。%0D%0A%0D%0A今後ともどうぞよろしくお願い致します。%0D%0A%0D%0A※このメールに心当たりがない場合は、お手数ですが破棄してください。%0D%0A%0D%0A問い合わせ先%0D%0A株式会社プロジェクトM%0D%0AEmail：".$contact;
+
+            $data = [
+                'overview' => $overview,
+                'company' => $company,
+                'body' => $body,
+            ];
+            return view('admin.company-issue-send', $data)->with('success', '企業アカウントの発行が完了しました');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     public function AdminCompanyList() {

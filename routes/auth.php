@@ -87,9 +87,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin/distribution', [AdminController::class, 'AdminDistribution'])->name('admin.distribution');
         Route::post('/admin/distribution/date/post', [AdminController::class, 'AdminDistributionPost'])->name('admin.date.post');
         Route::delete('/admin/distribution/date/delete/{id}', [AdminController::class, 'AdminDistributionDelete'])->name('admin.date.delete');
-        Route::post('admin/distribution/period/post', [AdminController::class, 'AdminDistributionPeriodPost'])->name('admin.period.post');
+        Route::post('/admin/distribution/period/post', [AdminController::class, 'AdminDistributionPeriodPost'])->name('admin.period.post');
         Route::delete('admin/distribution/period/delete/{id}', [AdminController::class, 'AdminDistributionPeriodDelete'])->name('admin.period.delete');
-        Route::post('admin/distribution/booth/post', [AdminController::class, 'AdminDistributionBoothPost'])->name('admin.booth.post');
+        Route::post('/admin/distribution/booth/post', [AdminController::class, 'AdminDistributionBoothPost'])->name('admin.booth.post');
         Route::get('/admin/advertisement/setting', [AdminController::class, 'AdminAdvertisementSetting'])->name('admin.advertisement.setting');
         Route::post('/admin/advertisement/setting', [AdminController::class, 'AdminAdvertisementSettingPost'])->name('admin.advertisement.setting.post');
         Route::get('/admin/advertisement/company/{id}', [AdminController::class, 'AdminAdvertisementEdit'])->name('admin.advertisement.edit');

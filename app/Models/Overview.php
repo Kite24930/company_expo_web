@@ -10,6 +10,7 @@ class Overview extends Model
     use HasFactory;
 
     protected $fillable = [
+        'url',
         'target',
         'title',
         'description',
