@@ -123,7 +123,7 @@ class AdminController extends Controller
 
     public function AdminAdvertisementSetting() {
         $data = [
-
+            'overview' => Overview::find(1),
         ];
         return view('admin.ad-setting', $data);
     }
@@ -134,7 +134,7 @@ class AdminController extends Controller
 
     public function AdminAdvertisementEdit() {
         $data = [
-
+            'overview' => Overview::find(1),
         ];
         return view('admin.ad-edit', $data);
     }
