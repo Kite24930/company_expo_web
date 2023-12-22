@@ -100,8 +100,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin/company_issue', [AdminController::class, 'AdminCompanyIssue'])->name('admin.company.issue');
         Route::post('/admin/company_issue', [AdminController::class, 'AdminCompanyIssuePost'])->name('admin.company.issue.post');
         Route::get('/admin/company/list', [AdminController::class, 'AdminCompanyList'])->name('admin.company.list');
-        Route::get('/admin/company/edit/{id}', [AdminController::class, 'AdminCompanyEdit'])->name('admin.company.edit');
-        Route::post('/admin/company/edit/{id}', [AdminController::class, 'AdminCompanyEditPost'])->name('admin.company.edit.post');
+        Route::post('/admin/company/layout/post/{id}', [AdminController::class, 'AdminCompanyLayoutPost'])->name('admin.company.layout.post');
+        Route::get('/admin/company/edit/{user_id}', [AdminController::class, 'AdminCompanyEdit'])->name('admin.company.edit');
+        Route::post('/admin/company/edit/{user_id}', [AdminController::class, 'AdminCompanyEditPost'])->name('admin.company.edit.post');
         Route::get('/admin/qr/issue', [AdminController::class, 'AdminQrIssue'])->name('admin.qr.issue');
         Route::get('/admin/admission', [AdminController::class, 'AdminAdmission'])->name('admin.admission');
         Route::post('/admin/admission', [AdminController::class, 'AdminAdmissionPost'])->name('admin.admission');

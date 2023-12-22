@@ -3,17 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booth;
+use App\Models\BranchOffice;
 use App\Models\Company;
+use App\Models\CompanyIndustryView;
 use App\Models\Date;
+use App\Models\DistributionView;
 use App\Models\Faculty;
 use App\Models\Grade;
+use App\Models\IndustryView;
+use App\Models\Layout;
+use App\Models\LayoutView;
+use App\Models\MajorIndustry;
+use App\Models\MiddleIndustry;
+use App\Models\Occupation;
 use App\Models\Overview;
 use App\Models\Period;
 use App\Models\Student;
 use App\Models\StudentView;
+use App\Models\TargetView;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -234,20 +245,57 @@ class AdminController extends Controller
     }
 
     public function AdminCompanyList() {
+        $company_users = Company::pluck('user_id')->toArray();
+        $layout_views = LayoutView::pluck('company_id')->toArray();
         $data = [
-
+            'overview' => Overview::find(1),
+            'layouts' => LayoutView::all(),
+            'companies' => Company::whereNotIn('id', $layout_views)->get(),
+            'company_users' => User::role('company')->whereNotIn('id', $company_users)->get(),
+            'distribution_views' => DistributionView::all(),
         ];
         return view('admin.companies', $data);
     }
 
-    public function AdminCompanyEdit($id) {
-        $data = [
+    public function AdminCompanyLayoutPost($id, Request $request) {
+        try {
+            if ($request->distribution_id == 0) {
+                Layout::where('company_id', $id)->delete();
+            } else {
+                Layout::updateOrCreate(
+                    ['company_id' => $id],
+                    ['distribution_id' => $request->distribution_id]
+                );
+            }
+            return redirect()->back()->with('success', '企業アカウントのレイアウトの更新が完了しました');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
 
+    public function AdminCompanyEdit($user_id) {
+        if (Auth::user()->id !== $user_id && !Auth::user()->hasRole('admin')) {
+            return redirect()->back()->with('error', 'アクセス権限がありません');
+        }
+        $company = Company::where('user_id', $user_id)->first();
+        $data = [
+            'overview' => Overview::find(1),
+            'company' => $company,
+            'user' => User::find($user_id),
+            'layout' => LayoutView::where('company_id', $company->id)->first(),
+            'faculties' => Faculty::all(),
+            'grades' => Grade::all(),
+            'industry' => CompanyIndustryView::where('company_id', $company->id)->first(),
+            'major_industry' => MajorIndustry::all(),
+            'industry_views' => IndustryView::all(),
+            'occupation' => Occupation::where('company_id', $company->id)->first(),
+            'targets' => TargetView::where('company_id', $company->id)->get(),
+            'branch_offices' => BranchOffice::where('company_id', $company->id)->get(),
         ];
         return view('admin.company-edit', $data);
     }
 
-    public function AdminCompanyEditPost($id, Request $request) {
+    public function AdminCompanyEditPost($user_id, Request $request) {
 
     }
 

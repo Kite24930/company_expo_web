@@ -72,3 +72,12 @@
         訪問企業一覧
     </x-dashboard.menu-item>
 @endcan
+<li class="py-1 border-b">
+    <form action="{{ route('logout') }}" method="POST">
+        @csrf
+        <button type="submit" class="py-2 md:pl-6 pl-2 flex justify-start w-full hover:bg-blue-300 rounded-lg">
+            <x-symbols.logout class="mr-2" />
+            ログアウト
+        </button>
+    </form>
+</li>

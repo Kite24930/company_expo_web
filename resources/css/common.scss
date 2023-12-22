@@ -47,3 +47,17 @@
         right: 0!important;
     }
 }
+
+header {
+    &.hide {
+        left: -310px;
+    }
+
+    #headerToggleButton {
+        .text {
+            -ms-writing-mode: tb-rl;
+            writing-mode: vertical-rl;
+            text-orientation: sideways;
+        }
+    }
+}
