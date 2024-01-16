@@ -1,12 +1,16 @@
 @import '../common';
 
 body {
-    padding-left: 10px;
+    @media (min-width: 768px) {
+        padding-left: 10px;
+    }
 }
 
 main {
     transition-duration: 500ms;
     &.full {
-        padding-left: 10px;
+        @media (min-width: 768px) {
+            padding-left: 10px;
+        }
     }
 }

@@ -1,0 +1,10 @@
+#company_img_wrapper {
+  max-width: 100%;
+}
+#company_img_wrapper::before {
+  content: "";
+  display: block;
+  padding-top: 62.5%;
+}
+
+/*# sourceMappingURL=company-detail.css.map */

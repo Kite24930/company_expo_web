@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->string('token')->comment('識別用トークン');
+            $table->string('api_token')->comment('識別用トークン');
             $table->tinyInteger('first_login')->default(1)->comment('初回ログインフラグ');
             $table->timestamps();
         });

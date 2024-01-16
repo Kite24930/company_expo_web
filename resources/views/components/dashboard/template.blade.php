@@ -11,9 +11,11 @@
     @vite(['resources/css/'.$css])
 </head>
 <body>
-<x-dashboard.header :overview="$overview">
-
-</x-dashboard.header>
+@if(isset($hide))
+    <x-dashboard.header :overview="$overview" hide="true" />
+@else
+    <x-dashboard.header :overview="$overview" />
+@endif
 {{ $slot }}
 <x-footer>
 

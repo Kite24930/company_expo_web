@@ -50,7 +50,9 @@
 
 header {
     &.hide {
-        left: -310px;
+        @media (min-width: 767px) {
+            left: -310px;
+        }
     }
 
     #headerToggleButton {

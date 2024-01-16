@@ -31,11 +31,11 @@ return new class extends Migration
             $table->integer('employees')->unsigned()->comment('従業員数');
             $table->integer('mie_univ_ob_og')->unsigned()->comment('三重大OB・OG数');
             $table->longText('job_detail')->nullable()->comment('仕事内容');
-            $table->integer('planned_number')->unsigned()->comment('募集人数');
+            $table->integer('planned_number')->nullable()->unsigned()->comment('募集人数');
             $table->string('recruit_department')->comment('採用担当部署');
             $table->string('recruit_in_charge_person')->comment('採用担当者');
             $table->string('recruit_in_charge_person_ruby')->comment('採用担当者(フリガナ)');
-            $table->string('recruit_in_charge_tel')->comment('採用担当者電話番号');
+            $table->string('recruit_in_charge_tel')->nullable()->comment('採用担当者電話番号');
             $table->string('recruit_in_charge_email')->comment('採用担当者メールアドレス');
             $table->timestamps();
         });

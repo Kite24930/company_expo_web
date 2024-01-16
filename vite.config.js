@@ -28,6 +28,10 @@ export default defineConfig({
                 adminCompanyList: 'resources/js/dashboard/company-list.js',
                 adminCompanyDetail: 'resources/js/dashboard/company-detail.js',
                 adminCompanyIssue: 'resources/js/dashboard/company-issue.js',
+                corporate: 'resources/js/corporate/corporate.js',
+                corporateStyles: 'resources/css/dashboard/corporate.css',
+                corporateEdit: 'resources/js/corporate/corporate-edit.js',
+                corporateEditStyles: 'resources/css/dashboard/corporate-edit.css',
             },
         },
     }

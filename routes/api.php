@@ -21,3 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/followed/{id}', [ApiController::class, 'Followed'])->name('api.followed');
 Route::post('/unfollowed/{id}', [ApiController::class, 'Unfollowed'])->name('api.unfollowed');
+Route::middleware('auth:api')->group(function () {
+    Route::post('/company_name_edit', [ApiController::class, 'companyNameEdit'])->name('api.company_name_edit');
+    Route::post('/company_industry_edit', [ApiController::class, 'companyIndustryEdit'])->name('api.company_industry_edit');
+});

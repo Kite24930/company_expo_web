@@ -35,8 +35,10 @@
   right: 0 !important;
 }
 
-header.hide {
-  left: -310px;
+@media (min-width: 767px) {
+  header.hide {
+    left: -310px;
+  }
 }
 header #headerToggleButton .text {
   -ms-writing-mode: tb-rl;
@@ -44,15 +46,19 @@ header #headerToggleButton .text {
   text-orientation: sideways;
 }
 
-body {
-  padding-left: 10px;
+@media (min-width: 768px) {
+  body {
+    padding-left: 10px;
+  }
 }
 
 main {
   transition-duration: 500ms;
 }
-main.full {
-  padding-left: 10px;
+@media (min-width: 768px) {
+  main.full {
+    padding-left: 10px;
+  }
 }
 
 /*# sourceMappingURL=dashboard.css.map */
