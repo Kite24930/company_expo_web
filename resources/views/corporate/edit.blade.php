@@ -8,11 +8,11 @@
         <div class="w-full md:px-10 flex justify-center">
             <div class="md:bg-white rounded-lg md:border w-full max-w-3xl flex flex-col">
                 <div id="company_header" class="w-full flex justify-start gap-4 p-4">
-                    <div class="w-12 h-12">
+                    <div id="company_logo_wrapper" class="w-12 h-12">
                         @if($company->company_logo)
-                            <img id="company_logo" src="{{ asset('company/' . $company->id . '/' . $company->company_logo) }}" alt="{{ $company->company_name }}" class="w-full h-full object-cover rounded-full">
+                            <img id="company_logo" src="{{ asset('storage/company/' . $company->id . '/' . $company->company_logo . '?token=' . Str::random(5)) }}" alt="{{ $company->company_name }}" class="w-full h-full object-cover rounded-full border">
                         @else
-                            <img id="company_logo" src="{{ __('https://placehold.jp/3d4070/ffffff/150x150.png?text=logo') }}" alt="logo" class="w-full h-full object-cover rounded-full">
+                            <img id="company_logo" src="{{ __('https://placehold.jp/3d4070/ffffff/150x150.png?text=logo') }}" alt="logo" class="w-full h-full object-cover rounded-full border">
                         @endif
                     </div>
                     <div class="flex flex-col gap-1">
@@ -294,7 +294,7 @@
                     更新
                 </x-elements.button>
             </x-elements.modal-item>
-            <x-elements.modal-item setId="company_industry_edit" title="業種変更">
+            <x-elements.modal-item setId="company_industry_edit" title="業種変更" class="hidden">
                 <div class="w-full">
                     <x-input-label for="company_industry_input">業種</x-input-label>
                     <x-select-input id="company_industry_input" class="w-full">
@@ -311,6 +311,23 @@
                     </x-select-input>
                 </div>
                 <x-elements.button id="company_industry_btn">
+                    更新
+                </x-elements.button>
+            </x-elements.modal-item>
+            <x-elements.modal-item setId="company_logo_edit" title="企業ロゴ編集" class="hidden">
+                <div class="w-full">
+                    <x-input-label for="company_logo_input_wrapper" class="mb-2">企業ロゴ</x-input-label>
+                    <div id="company_logo_input_wrapper" class="p-2 border rounded-lg inline-flex items-center gap-2 hover:bg-gray-300 cursor-pointer">
+                        @if($company->company_logo)
+                            <img id="company_logo_preview" src="{{ asset('storage/company/' . $company->id . '/' . $company->company_logo) }}" alt="{{ $company->company_name }}" class="w-12 h-12 object-cover rounded-full border">
+                        @else
+                            <img id="company_logo_preview" src="{{ __('https://placehold.jp/3d4070/ffffff/150x150.png?text=logo') }}" alt="logo" class="w-12 h-12 object-cover rounded-full border">
+                        @endif
+                        <x-input-label class="font-semibold cursor-pointer">企業ロゴを変更する</x-input-label>
+                        <input id="company_logo_input" type="file" accept="image/jpeg, image/png" class="hidden">
+                    </div>
+                </div>
+                <x-elements.button id="company_logo_btn">
                     更新
                 </x-elements.button>
             </x-elements.modal-item>

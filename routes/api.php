@@ -24,4 +24,5 @@ Route::post('/unfollowed/{id}', [ApiController::class, 'Unfollowed'])->name('api
 Route::middleware('auth:api')->group(function () {
     Route::post('/company_name_edit', [ApiController::class, 'companyNameEdit'])->name('api.company_name_edit');
     Route::post('/company_industry_edit', [ApiController::class, 'companyIndustryEdit'])->name('api.company_industry_edit');
+    Route::post('/company_logo_edit', [ApiController::class, 'companyLogoEdit'])->name('api.company_logo_edit');
 });
