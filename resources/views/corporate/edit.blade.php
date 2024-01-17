@@ -63,11 +63,7 @@
                                     事業内容
                                 </x-elements.category-title>
                                 <x-elements.category-content id="business_detail">
-                                    @if($company->business_detail)
-                                        <div id="business_detail_viewer"></div>
-                                    @else
-                                        未入力
-                                    @endif
+                                    <div id="business_detail_viewer"></div>
                                 </x-elements.category-content>
                             </x-elements.category-wrapper>
                             <x-elements.category-wrapper>
@@ -75,11 +71,7 @@
                                     企業PR
                                 </x-elements.category-title>
                                 <x-elements.category-content id="pr">
-                                    @if($company->pr)
-                                        <div id="pr_viewer"></div>
-                                    @else
-                                        未入力
-                                    @endif
+                                    <div id="pr_viewer"></div>
                                 </x-elements.category-content>
                             </x-elements.category-wrapper>
                             <x-elements.category-wrapper>
@@ -103,11 +95,7 @@
                                     仕事内容
                                 </x-elements.category-title>
                                 <x-elements.category-content id="job_detail">
-                                    @if($company->job_detail)
-                                        <div id="job_detail_viewer"></div>
-                                    @else
-                                        未入力
-                                    @endif
+                                    <div id="job_detail_viewer"></div>
                                 </x-elements.category-content>
                             </x-elements.category-wrapper>
                             <x-elements.category-wrapper>
@@ -353,11 +341,58 @@
                     更新
                 </x-elements.button>
             </x-elements.modal-item>
+            <x-elements.modal-item setId="business_detail_edit" title="事業内容編集" class="hidden">
+                <div class="w-full">
+                    <x-input-label for="business_detail_wrapper" class="mb-2">事業内容</x-input-label>
+                    <div id="business_detail_editor"></div>
+                    <x-input-label class="text-xs text-red-500">
+                        ※事業内容は、企業自体が行っている内容をご記入ください。<br>今回の募集職種に関する内容は、仕事内容の項目でご記入ください。
+                    </x-input-label>
+                    <x-input-label class="text-xs text-green-500">
+                        ※編集画面の上部にありますツールバーを使用して、文字の装飾や箇条書きなどを行うことができます。
+                    </x-input-label>
+                </div>
+                <x-elements.button id="business_detail_btn">
+                    更新
+                </x-elements.button>
+            </x-elements.modal-item>
+            <x-elements.modal-item setId="pr_edit" title="企業PR編集" class="hidden">
+                <div class="w-full">
+                    <x-input-label for="pr_wrapper" class="mb-2">企業PR</x-input-label>
+                    <div id="pr_editor"></div>
+                    <x-input-label class="text-xs text-red-500">
+                        ※企業PRは、企業の特色など学生に推していきたいポイントをご記入ください。
+                    </x-input-label>
+                    <x-input-label class="text-xs text-green-500">
+                        ※編集画面の上部にありますツールバーを使用して、文字の装飾や箇条書きなどを行うことができます。
+                    </x-input-label>
+                </div>
+                <x-elements.button id="pr_btn">
+                    更新
+                </x-elements.button>
+            </x-elements.modal-item>
+
+
+            <x-elements.modal-item setId="job_detail_edit" title="仕事内容編集" class="hidden">
+                <div class="w-full">
+                    <x-input-label for="job_detail_wrapper" class="mb-2">募集職種仕事内容</x-input-label>
+                    <div id="job_detail_editor"></div>
+                    <x-input-label class="text-xs text-red-500">
+                        ※企業PRは、企業の特色など学生に推していきたいポイントをご記入ください。
+                    </x-input-label>
+                    <x-input-label class="text-xs text-green-500">
+                        ※編集画面の上部にありますツールバーを使用して、文字の装飾や箇条書きなどを行うことができます。
+                    </x-input-label>
+                </div>
+                <x-elements.button id="job_detail_btn">
+                    更新
+                </x-elements.button>
+            </x-elements.modal-item>
         </div>
-    </div>1
+    </div>
     <script>
         window.Laravel = {};
-        window.Laravel.industries = @json($industries);
+        window.Laravel.company = @json($company);
         console.log(window.Laravel)
     </script>
     @vite(['resources/js/corporate/corporate-edit.js'])

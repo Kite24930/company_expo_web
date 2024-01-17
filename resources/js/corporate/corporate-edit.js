@@ -1,5 +1,11 @@
 import '../common';
 import axios from 'axios';
+import Editor from '@toast-ui/editor';
+import ColorSyntax from '@toast-ui/editor-plugin-color-syntax';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import '@toast-ui/editor/dist/toastui-editor-viewer.css';
+import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
+import '@toast-ui/editor/dist/i18n/ja-jp';
 
 const modal = document.getElementById('modalWrapper');
 const indicator = document.getElementById('indicator');
@@ -45,6 +51,72 @@ function errorIndicatorShow(errors) {
 
 function errorIndicatorHide() {
     errorIndicator.classList.add('hidden');
+}
+
+// Viewerの初期化
+const toastUiTarget = {
+    business_detail: {
+        id: 'business_detail',
+        viewer: null,
+        viewerEl: 'business_detail_viewer',
+        editor: null,
+        editorEl: 'business_detail_editor',
+        data: Laravel.company.business_detail,
+        btn: 'business_detail_btn',
+    },
+    pr: {
+        id: 'pr',
+        viewer: null,
+        viewerEl: 'pr_viewer',
+        editor: null,
+        editorEl: 'pr_editor',
+        data: Laravel.company.pr,
+        btn: 'pr_btn',
+    },
+    job_detail: {
+        id: 'job_detail',
+        viewer: null,
+        viewerEl: 'job_detail_viewer',
+        editor: null,
+        editorEl: 'job_detail_editor',
+        data: Laravel.company.job_detail,
+        btn: 'job_detail_btn',
+    },
+}
+for(const key in toastUiTarget) {
+    if (toastUiTarget[key].data !== null) {
+        toastUiTarget[key].viewer = new Editor.factory({
+            el: document.getElementById(toastUiTarget[key].viewerEl),
+            viewer: true,
+            plugins: [[ColorSyntax]],
+            initialValue: toastUiTarget[key].data,
+        });
+        toastUiTarget[key].editor = new Editor({
+            el: document.getElementById(toastUiTarget[key].editorEl),
+            plugins: [[ColorSyntax]],
+            initialValue: toastUiTarget[key].data,
+            height: '300px',
+            initialEditType: 'wysiwyg',
+            language: 'ja',
+        });
+    } else {
+        toastUiTarget[key].viewer = new Editor.factory({
+            el: document.getElementById(toastUiTarget[key].viewerEl),
+            viewer: true,
+            plugins: [[ColorSyntax]],
+            initialValue: '未入力',
+        });
+        toastUiTarget[key].editor = new Editor({
+            el: document.getElementById(toastUiTarget[key].editorEl),
+            plugins: [[ColorSyntax]],
+            height: '300px',
+            initialEditType: 'wysiwyg',
+            language: 'ja',
+        });
+    }
+    document.getElementById(toastUiTarget[key].btn).addEventListener('click', () => {
+        toastUiEdit(toastUiTarget[key]);
+    });
 }
 
 // 企業名の変更
@@ -178,3 +250,23 @@ document.getElementById('company_img_btn').addEventListener('click', () => {
             errorIndicatorShow(errors);
         });
 });
+
+function toastUiEdit(target) {
+    let sendData = {
+        company_id: company_id,
+    };
+    sendData[target.id] = target.editor.getMarkdown();
+    axios.post('/api/' + target.id + '_edit?api_token=' + api_token, sendData)
+        .then((res) => {
+            if (res.data.success) {
+                target.viewer.setMarkdown(res.data.company[target.id]);
+                indicatorSuccess();
+            }
+        })
+        .catch((error) => {
+            indicatorError();
+            console.log(error);
+            const errors = error.response.data.errors;
+            errorIndicatorShow(errors);
+        });
+}

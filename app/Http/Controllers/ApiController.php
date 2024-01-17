@@ -134,4 +134,81 @@ class ApiController extends Controller
             ]);
         }
     }
+
+    public function businessDetailEdit(Request $request) {
+        $request->validate([
+            'company_id' => 'required',
+            'business_detail' => 'required',
+        ],
+        [
+            'business_detail.required' => '事業内容を入力してください。',
+        ]);
+        try {
+            $company = Company::find($request->company_id);
+            $company->business_detail = $request->business_detail;
+            $company->save();
+            return response()->json([
+                'success' => true,
+                'message' => '事業内容の更新が完了しました。',
+                'company' => $company,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => '事業内容の更新に失敗しました。',
+            ]);
+        }
+    }
+
+    public function prEdit(Request $request) {
+        $request->validate([
+            'company_id' => 'required',
+            'pr' => 'required',
+        ],
+        [
+            'pr.required' => 'PRを入力してください。',
+        ]);
+        try {
+            $company = Company::find($request->company_id);
+            $company->pr = $request->pr;
+            $company->save();
+            return response()->json([
+                'success' => true,
+                'message' => 'PRの更新が完了しました。',
+                'company' => $company,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'PRの更新に失敗しました。',
+            ]);
+        }
+    }
+
+
+
+    public function jobDetailEdit(Request $request) {
+        $request->validate([
+            'company_id' => 'required',
+            'job_detail' => 'required',
+        ],
+        [
+            'job_detail.required' => '仕事内容を入力してください。',
+        ]);
+        try {
+            $company = Company::find($request->company_id);
+            $company->job_detail = $request->job_detail;
+            $company->save();
+            return response()->json([
+                'success' => true,
+                'message' => '仕事内容の更新が完了しました。',
+                'company' => $company,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => '仕事内容の更新に失敗しました。',
+            ]);
+        }
+    }
 }

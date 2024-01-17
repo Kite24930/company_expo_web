@@ -46,6 +46,48 @@ header #headerToggleButton .text {
   text-orientation: sideways;
 }
 
+.toastui-editor-tooltip .text {
+  color: white;
+}
+
+.toastui-editor-popup-color {
+  height: 250px;
+}
+
+ul.tui-colorpicker-clearfix {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+div.tui-colorpicker-clearfix {
+  height: 32px;
+}
+
+.tui-colorpicker-palette-preview {
+  display: inline-block;
+}
+
+.tui-colorpicker-palette-hex {
+  box-sizing: content-box;
+}
+
+.tui-colorpicker-slider-left {
+  float: left;
+}
+
+.tui-colorpicker-slider-right {
+  float: right;
+}
+
+.tui-colorpicker-svg-slider {
+  width: 120px;
+  height: 120px;
+}
+
+.tui-colorpicker-svg-huebar {
+  height: 120px;
+}
+
 @media (min-width: 768px) {
   body {
     padding-left: 10px;
