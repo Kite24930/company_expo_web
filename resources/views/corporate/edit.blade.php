@@ -34,7 +34,7 @@
                     </div>
                     <div id="company_img_wrapper" class="relative">
                         @if($company->company_img)
-                            <img id="company_img" src="{{ $comapny->company_img }}" alt="{{ $company->company_name }}" class="absolute top-0 left-0 bottom-0 right-0 w-full h-full object-cover z-20">
+                            <img id="company_img" src="{{ asset('storage/company/'.$company->id.'/'.$company->company_img.'?token='.Str::random(5)) }}" alt="{{ $company->company_name }}" class="absolute top-0 left-0 bottom-0 right-0 w-full h-full object-cover z-20">
                         @else
                             <img id="company_img" src="{{ __('https://placehold.jp/99cccc/ffffff/800x500.png?text=%E3%82%A4%E3%83%A1%E3%83%BC%E3%82%B8%E7%94%BB%E5%83%8F') }}" alt="イメージ画像" class="absolute top-0 left-0 bottom-0 right-0 w-full h-full object-cover z-20">
                         @endif
@@ -267,7 +267,10 @@
         @csrf
         <input id="company_id" type="hidden" value="{{ $company->id }}" class="text-green-500 bg-green-100 text-red-500 bg-red-100">
         <input id="api_token" type="hidden" value="{{ Auth::user()->api_token }}">
-        <div class="relative w-full h-full flex justify-center items-center">
+        <div class="relative w-full h-full flex flex-col justify-center items-center">
+            <ul id="errorIndicator" class="bg-white rounded-lg mb-2 hidden w-full max-w-3xl p-4 list-disc list-inside">
+
+            </ul>
             <div class="absolute top-10 right-10 flex flex-col items-end gap-6">
                 <button id="modalClose" class="w-10 h-10 flex items-center justify-center rounded-lg bg-white hover:bg-gray-300">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
@@ -331,8 +334,27 @@
                     更新
                 </x-elements.button>
             </x-elements.modal-item>
+            <x-elements.modal-item setId="company_img_edit" title="企業イメージ画像編集" class="hidden">
+                <div class="w-full">
+                    <x-input-label for="company_img_edit_wrapper" class="mb-2">企業イメージ画像</x-input-label>
+                    <div id="company_img_edit_wrapper" class="relative">
+                        @if($company->company_img)
+                            <img id="company_img" src="{{ asset('storage/company/'.$company->id.'/'.$company->company_img.'?token='.Str::random(5)) }}" alt="{{ $company->company_name }}" class="absolute top-0 left-0 bottom-0 right-0 w-full h-full object-cover z-20">
+                        @else
+                            <img id="company_img_preview" src="{{ __('https://placehold.jp/99cccc/ffffff/800x500.png?text=%E3%82%A4%E3%83%A1%E3%83%BC%E3%82%B8%E7%94%BB%E5%83%8F') }}" alt="イメージ画像" class="absolute top-0 left-0 bottom-0 right-0 w-full h-full object-cover z-20">
+                        @endif
+                    </div>
+                    <div id="company_img_input_wrapper" class="p-2 border rounded-lg inline-flex items-center gap-2 hover:bg-gray-300 cursor-pointer mt-2">
+                        <x-input-label class="font-semibold cursor-pointer">企業イメージ画像を変更する</x-input-label>
+                        <input id="company_img_input" type="file" accept="image/jpeg, image/png" class="hidden">
+                    </div>
+                </div>
+                <x-elements.button id="company_img_btn">
+                    更新
+                </x-elements.button>
+            </x-elements.modal-item>
         </div>
-    </div>
+    </div>1
     <script>
         window.Laravel = {};
         window.Laravel.industries = @json($industries);

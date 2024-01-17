@@ -103,4 +103,35 @@ class ApiController extends Controller
             ]);
         }
     }
+
+    public function companyImgEdit(Request $request) {
+        $request->validate([
+            'company_id' => 'required',
+            'company_img' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ],
+        [
+            'company_img.required' => '画像を選択してください。',
+            'company_img.image' => '画像は画像ファイルを選択してください。',
+            'company_img.mimes' => '画像はjpeg,png,jpgのいずれかのファイルを選択してください。',
+            'company_img.max' => '画像は2MB以下のファイルを選択してください。',
+        ]);
+        try {
+            $file = $request->file('company_img');
+            $file_name = 'company_img.'.$file->getClientOriginalExtension();
+            Storage::disk('public')->putFileAs('company/'.$request->company_id, $file, $file_name);
+            $company = Company::find($request->company_id);
+            $company->company_img = $file_name;
+            $company->save();
+            return response()->json([
+                'success' => true,
+                'message' => '画像の更新が完了しました。',
+                'company' => $company,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => '画像の更新に失敗しました。',
+            ]);
+        }
+    }
 }

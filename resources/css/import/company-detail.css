@@ -1,7 +1,7 @@
-#company_img_wrapper {
+#company_img_wrapper, #company_img_edit_wrapper {
   max-width: 100%;
 }
-#company_img_wrapper::before {
+#company_img_wrapper::before, #company_img_edit_wrapper::before {
   content: "";
   display: block;
   padding-top: 62.5%;
