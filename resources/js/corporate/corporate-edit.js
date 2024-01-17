@@ -270,3 +270,110 @@ function toastUiEdit(target) {
             errorIndicatorShow(errors);
         });
 }
+
+// 募集職種の変更・追加
+document.getElementById('occupation-add').addEventListener('click', () => {
+    let targetId = -1;
+    while (document.querySelector('.occupation-input[data-id="' + targetId + '"]') !== null) {
+        targetId--;
+    }
+    axios.get('/api/occupation_item_add?api_token=' + api_token + '&company_id=' + company_id + '&id=' + targetId)
+        .then((res) => {
+            console.log(res.data);
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(res.data.doc, 'text/html');
+            const insertPoint = document.getElementById('occupation_insert_point');
+            insertPoint.innerHTML += doc.body.innerHTML;
+            document.querySelector('.occupation-input[data-id="' + targetId + '"]').addEventListener('keyup', (el) => {
+                occupationInputReflection(el.target);
+            });
+            document.querySelector('.occupation-delete[data-id="' + targetId + '"]').addEventListener('click', (el) => {
+                occupationDelete(el.target);
+            });
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+});
+
+document.querySelectorAll('.occupation-input').forEach((el) => {
+    el.addEventListener('keyup', () => {
+        occupationInputReflection(el);
+    });
+});
+
+function occupationInputReflection(target) {
+    target.setAttribute('value', target.value);
+}
+
+document.querySelectorAll('.occupation-delete').forEach((el) => {
+    el.addEventListener('click', () => {
+        occupationDelete(el);
+    });
+});
+
+function occupationDelete(target) {
+    const targetId = Number(target.getAttribute('data-id'));
+    if (targetId > 0) {
+        axios.delete('/api/occupation_item_delete/' + targetId + '?api_token=' + api_token)
+            .then((res) => {
+                console.log(res.data);
+                document.querySelector('.occupation-item[data-id="' + targetId + '"]').remove();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    } else {
+        document.querySelector('.occupation-item[data-id="' + targetId + '"]').remove();
+    }
+}
+
+document.getElementById('occupation_btn').addEventListener('click', () => {
+    let occupations = [];
+    document.querySelectorAll('.occupation-input').forEach((el) => {
+        if (el.value !== '') {
+            occupations.push({
+                id: Number(el.getAttribute('data-id')),
+                recruit_occupation: el.value,
+            });
+        }
+    });
+    const sendData = {
+        occupations: occupations,
+        company_id: company_id,
+    };
+    console.log(sendData);
+    axios.post('/api/occupation_edit?api_token=' + api_token, sendData)
+        .then((res) => {
+            console.log(res.data);
+            const occupation = document.querySelector('#occupation ul');
+            occupation.innerHTML = '';
+            res.data.occupations.forEach((el) => {
+                occupation.innerHTML += '<li>' + el.recruit_occupation + '</li>';
+            });
+            const parser = new DOMParser();
+            const insertPoint = document.getElementById('occupation_insert_point');
+            insertPoint.innerHTML = '';
+            res.data.doc.forEach((docData) => {
+                const doc = parser.parseFromString(docData, 'text/html');
+                insertPoint.innerHTML += doc.body.innerHTML;
+            });
+            document.querySelectorAll('.occupation-input').forEach((el) => {
+                el.addEventListener('keyup', () => {
+                    occupationInputReflection(el);
+                });
+            });
+            document.querySelectorAll('.occupation-delete').forEach((el) => {
+                el.addEventListener('click', () => {
+                    occupationDelete(el);
+                });
+            });
+            indicatorSuccess();
+        })
+        .catch((error) => {
+            indicatorError();
+            console.log(error);
+            const errors = error.response.data.errors;
+            errorIndicatorShow(errors);
+        });
+});

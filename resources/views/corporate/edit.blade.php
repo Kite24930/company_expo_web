@@ -79,15 +79,15 @@
                                     募集職種
                                 </x-elements.category-title>
                                 <x-elements.category-content id="occupation">
-                                    @if($occupations && $occupations->count() > 0)
-                                        <ul>
+                                    <ul class="list-disc">
+                                        @if($occupations && $occupations->count() > 0)
                                             @foreach($occupations as $item)
-                                                <li>{{ $item->occupation_name }}</li>
+                                                <li>{{ $item->recruit_occupation }}</li>
                                             @endforeach
-                                        </ul>
-                                    @else
-                                        未入力
-                                    @endif
+                                        @else
+                                            <li>未入力</li>
+                                        @endif
+                                    </ul>
                                 </x-elements.category-content>
                             </x-elements.category-wrapper>
                             <x-elements.category-wrapper>
@@ -371,8 +371,26 @@
                     更新
                 </x-elements.button>
             </x-elements.modal-item>
-
-
+            <x-elements.modal-item setId="occupation_edit" title="募集職種編集" class="hidden">
+                <div class="w-full flex flex-col gap-2">
+                    <div id="occupation_insert_point" class="w-full flex flex-col gap-2">
+                        @if($occupations && $occupations->count() > 0)
+                            @foreach($occupations as $occupation)
+                                <x-elements.occupation-item :target="$occupation->id" :value="$occupation->recruit_occupation" />
+                            @endforeach
+                        @else
+                            <x-elements.occupation-item target="0" value="" />
+                        @endif
+                    </div>
+                    <div>
+                        <x-elements.add-btn id="occupation-add" />
+                    </div>
+                    <x-input-label class="text-red-500 text-sm">※募集職種ごとにご記入ください。</x-input-label>
+                </div>
+                <x-elements.button id="occupation_btn">
+                    更新
+                </x-elements.button>
+            </x-elements.modal-item>
             <x-elements.modal-item setId="job_detail_edit" title="仕事内容編集" class="hidden">
                 <div class="w-full">
                     <x-input-label for="job_detail_wrapper" class="mb-2">募集職種仕事内容</x-input-label>

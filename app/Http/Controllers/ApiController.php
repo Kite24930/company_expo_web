@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Company;
 use App\Models\Industry;
 use App\Models\IndustryView;
+use App\Models\Occupation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -185,7 +186,73 @@ class ApiController extends Controller
         }
     }
 
+    public function occupationItemAdd(Request $request) {
+        $target = $request->id;
+        $value = '';
+        $doc = view('components.elements.occupation-item', compact('target', 'value'))->render();
+        return response()->json([
+            'success' => true,
+            'message' => '職種の追加が完了しました。',
+            'doc' => $doc,
+        ]);
+    }
 
+    public function occupationItemDelete($id, Request $request) {
+        try {
+            $occupation = Occupation::find($id);
+            $occupation->delete();
+            return response()->json([
+                'success' => true,
+                'message' => '職種の削除が完了しました。',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => '職種の削除に失敗しました。',
+            ]);
+        }
+    }
+
+    public function occupationEdit(Request $request) {
+        $request->validate([
+            'company_id' => 'required',
+            'occupations' => 'required',
+        ],
+        [
+            'occupations.required' => '職種を入力してください。',
+        ]);
+        try {
+            foreach ($request->occupations as $item) {
+                if ($item['id'] > 0) {
+                    $occupation = Occupation::find($item['id']);
+                    $occupation->recruit_occupation = $item['recruit_occupation'];
+                    $occupation->save();
+                } else {
+                    $occupation = Occupation::create([
+                        'company_id' => $request->company_id,
+                        'recruit_occupation' => $item['recruit_occupation'],
+                    ]);
+                }
+            }
+            $occupations = Occupation::where('company_id', $request->company_id)->get();
+            foreach ($occupations as $occupation) {
+                $target = $occupation->id;
+                $value = $occupation->recruit_occupation;
+                $doc[] = view('components.elements.occupation-item', compact('target', 'value'))->render();
+            }
+            return response()->json([
+                'success' => true,
+                'message' => '職種の更新が完了しました。',
+                'occupations' => $occupations,
+                'doc' => $doc,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => '職種の更新に失敗しました。',
+            ]);
+        }
+    }
 
     public function jobDetailEdit(Request $request) {
         $request->validate([

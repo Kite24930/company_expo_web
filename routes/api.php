@@ -28,6 +28,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/company_img_edit', [ApiController::class, 'companyImgEdit'])->name('api.company_img_edit');
     Route::post('/business_detail_edit', [ApiController::class, 'businessDetailEdit'])->name('api.business_detail_edit');
     Route::post('/pr_edit', [ApiController::class, 'prEdit'])->name('api.pr_edit');
-
+    Route::get('/occupation_item_add', [ApiController::class, 'occupationItemAdd'])->name('api.occupation_item_add');
+    Route::delete('/occupation_item_delete/{id}', [ApiController::class, 'occupationItemDelete'])->name('api.occupation_item_delete');
+    Route::post('/occupation_edit', [ApiController::class, 'occupationEdit'])->name('api.occupation_edit');
     Route::post('/job_detail_edit', [ApiController::class, 'jobDetailEdit'])->name('api.job_detail_edit');
 });
