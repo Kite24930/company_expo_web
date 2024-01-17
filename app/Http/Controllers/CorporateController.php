@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BranchOffice;
 use App\Models\Company;
+use App\Models\Faculty;
 use App\Models\Industry;
 use App\Models\IndustryView;
 use App\Models\LayoutView;
@@ -64,6 +65,7 @@ class CorporateController extends Controller
         }
         $occupations = Occupation::where('company_id', $company->id)->get();
         $target = TargetView::where('company_id', $company->id)->get();
+        $target_list = TargetView::where('company_id', $company->id)->pluck('faculty_id')->toArray();
         $branch_offices = BranchOffice::where('company_id', $company->id)->get();
         $major_industries = MajorIndustry::all();
         foreach ($major_industries as $major_industry) {
@@ -73,6 +75,7 @@ class CorporateController extends Controller
                 'industries' => IndustryView::where('major_class_id', $major_industry->id)->get(),
             ];
         }
+        $faculties = Faculty::all();
         $data = [
             'overview' => Overview::find(1),
             'msg' => $msg,
@@ -80,8 +83,10 @@ class CorporateController extends Controller
             'industry' => $industry,
             'occupations' => $occupations,
             'target' => $target,
+            'target_list' => $target_list,
             'branch_offices' => $branch_offices,
             'industries' => $industries,
+            'faculties' => $faculties,
         ];
         return view('corporate.edit', $data);
     }

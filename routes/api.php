@@ -32,4 +32,5 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('/occupation_item_delete/{id}', [ApiController::class, 'occupationItemDelete'])->name('api.occupation_item_delete');
     Route::post('/occupation_edit', [ApiController::class, 'occupationEdit'])->name('api.occupation_edit');
     Route::post('/job_detail_edit', [ApiController::class, 'jobDetailEdit'])->name('api.job_detail_edit');
+    Route::post('/target_edit', [ApiController::class, 'targetEdit'])->name('api.target_edit');
 });

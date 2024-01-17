@@ -79,7 +79,7 @@
                                     募集職種
                                 </x-elements.category-title>
                                 <x-elements.category-content id="occupation">
-                                    <ul class="list-disc">
+                                    <ul class="list-disc list-inside">
                                         @if($occupations && $occupations->count() > 0)
                                             @foreach($occupations as $item)
                                                 <li>{{ $item->recruit_occupation }}</li>
@@ -103,15 +103,15 @@
                                     対象学生
                                 </x-elements.category-title>
                                 <x-elements.category-content id="faculty">
-                                    @if($target && $target->count() > 0)
-                                        <ul>
+                                    <ul class="list-disc list-inside">
+                                        @if($target && $target->count() > 0)
                                             @foreach($target as $item)
                                                 <li>{{ $item->faculty_name }}</li>
                                             @endforeach
-                                        </ul>
-                                    @else
-                                        未選択
-                                    @endif
+                                        @else
+                                            <li>未選択</li>
+                                        @endif
+                                    </ul>
                                 </x-elements.category-content>
                             </x-elements.category-wrapper>
                             <x-elements.category-wrapper>
@@ -403,6 +403,20 @@
                     </x-input-label>
                 </div>
                 <x-elements.button id="job_detail_btn">
+                    更新
+                </x-elements.button>
+            </x-elements.modal-item>
+            <x-elements.modal-item setId="target_edit" title="対象学生編集" class="hidden">
+                <div class="w-full flex flex-col items-start gap-2">
+                    @foreach($faculties as $faculty)
+                        @if(in_array($faculty->id, $target_list))
+                            <x-elements.checkbox :setValue="$faculty->id" :setId="__('target-'.$faculty->faculty_name)" :notation="$faculty->faculty_name" class="target-input" checked />
+                        @else
+                            <x-elements.checkbox :setValue="$faculty->id" :setId="__('target-'.$faculty->faculty_name)" :notation="$faculty->faculty_name" class="target-input" />
+                        @endif
+                    @endforeach
+                </div>
+                <x-elements.button id="target_btn">
                     更新
                 </x-elements.button>
             </x-elements.modal-item>

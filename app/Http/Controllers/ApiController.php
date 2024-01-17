@@ -6,6 +6,8 @@ use App\Models\Company;
 use App\Models\Industry;
 use App\Models\IndustryView;
 use App\Models\Occupation;
+use App\Models\Target;
+use App\Models\TargetView;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -275,6 +277,36 @@ class ApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => '仕事内容の更新に失敗しました。',
+            ]);
+        }
+    }
+
+    public function targetEdit(Request $request) {
+        $request->validate([
+            'company_id' => 'required',
+            'targets' => 'required',
+        ],
+        [
+            'targets.required' => '対象者を入力してください。',
+        ]);
+        try {
+            Target::where('company_id', $request->company_id)->delete();
+            foreach ($request->targets as $item) {
+                Target::create([
+                    'company_id' => $request->company_id,
+                    'faculty_id' => $item['id'],
+                ]);
+            }
+            $targets = TargetView::where('company_id', $request->company_id)->get();
+            return response()->json([
+                'success' => true,
+                'message' => '対象者の更新が完了しました。',
+                'targets' => $targets,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => '対象者の更新に失敗しました。',
             ]);
         }
     }

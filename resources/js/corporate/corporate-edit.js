@@ -31,11 +31,13 @@ function indicatorPost() {
 }
 
 function indicatorSuccess() {
+    indicator.classList.remove('text-green-500', 'bg-green-100', 'text-red-500', 'bg-red-100');
     indicator.innerText = '更新完了';
     indicator.classList.add('text-green-500', 'bg-green-100');
 }
 
 function indicatorError() {
+    indicator.classList.remove('text-green-500', 'bg-green-100', 'text-red-500', 'bg-red-100');
     indicator.innerText = '更新失敗';
     indicator.classList.add('text-red-500', 'bg-red-100');
 }
@@ -367,6 +369,38 @@ document.getElementById('occupation_btn').addEventListener('click', () => {
                 el.addEventListener('click', () => {
                     occupationDelete(el);
                 });
+            });
+            indicatorSuccess();
+        })
+        .catch((error) => {
+            indicatorError();
+            console.log(error);
+            const errors = error.response.data.errors;
+            errorIndicatorShow(errors);
+        });
+});
+
+// 対象学生の編集
+document.getElementById('target_btn').addEventListener('click', () => {
+    let targets = [];
+    document.querySelectorAll('.target-input').forEach((el) => {
+        if (el.checked) {
+            targets.push({
+                id: Number(el.value),
+            });
+        }
+    });
+    const sendData = {
+        targets: targets,
+        company_id: company_id,
+    };
+    axios.post('/api/target_edit?api_token=' + api_token, sendData)
+        .then((res) => {
+            console.log(res.data);
+            const target = document.querySelector('#faculty ul');
+            target.innerHTML = '';
+            res.data.targets.forEach((el) => {
+                target.innerHTML += '<li>' + el.faculty_name + '</li>';
             });
             indicatorSuccess();
         })
