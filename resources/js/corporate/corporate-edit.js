@@ -689,3 +689,41 @@ document.getElementById('mie_univ_ob_og_btn').addEventListener('click', () => {
             console.log(error);
         });
 });
+
+document.getElementById('planned_number_input_null').addEventListener('change', (e) => {
+    const input = document.getElementById('planned_number_input');
+    if(e.target.checked) {
+        input.disabled = true;
+        input.classList.add('bg-gray-300');
+    } else {
+        input.disabled = false;
+        input.classList.remove('bg-gray-300');
+    }
+});
+
+document.getElementById('planned_number_btn').addEventListener('click', () => {
+    indicatorPost();
+    let sendData = {
+        company_id: company_id,
+    };
+    if (document.getElementById('planned_number_input_null').checked) {
+        sendData['planned_number'] = null;
+    } else {
+        sendData['planned_number'] = document.getElementById('planned_number_input').value;
+    }
+    axios.post('/api/planned_number_edit?api_token=' + api_token, sendData)
+        .then((res) => {
+            console.log(res.data);
+            if (res.data.company.planned_number === null) {
+                document.getElementById('planned_number').innerText = '未定';
+                document.getElementById('planned_number_input').value = '';
+            } else {
+                document.getElementById('planned_number').innerText = res.data.company.planned_number + '人程度';
+            }
+            indicatorSuccess();
+        })
+        .catch((error) => {
+            indicatorError();
+            console.log(error);
+        });
+});

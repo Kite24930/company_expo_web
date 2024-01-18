@@ -172,7 +172,7 @@
                                 </x-elements.category-title>
                                 <x-elements.category-content id="planned_number">
                                     @if($company->planned_number)
-                                        {{ __($company->planned_number.'人') }}
+                                        {{ __($company->planned_number.'人程度') }}
                                     @else
                                         未定
                                     @endif
@@ -516,7 +516,7 @@
                     更新
                 </x-elements.button>
             </x-elements.modal-item>
-            <x-elements.modal-item setId="mie_univ_ob_og_edit" title="三重大学OB・OG数編集" class="">
+            <x-elements.modal-item setId="mie_univ_ob_og_edit" title="三重大学OB・OG数編集" class="hidden">
                 <div class="w-full">
                     <x-input-label for="mie_univ_ob_og_input">三重大学OB・OG数</x-input-label>
                     <div class="flex gap-2 items-center">
@@ -524,6 +524,27 @@
                     </div>
                 </div>
                 <x-elements.button id="mie_univ_ob_og_btn">
+                    更新
+                </x-elements.button>
+            </x-elements.modal-item>
+            <x-elements.modal-item setId="planned_number_edit" title="採用予定人数編集" class="">
+                <div class="w-full">
+                    <x-input-label for="planned_number_input">採用予定人数</x-input-label>
+                    <div class="flex flex-col gap-2 items-start">
+                        @if($company->planned_number)
+                            <x-elements.checkbox :setValue="$company->id" :setId="__('planned_number_input_null')" :notation="__('採用予定人数を未定にする')" class="target-input" />
+                            <div class="flex gap-2 items-center">
+                                <x-text-input id="planned_number_input" class="w-44" value="{{ $company->planned_number }}" placeholder="採用予定人数" type="number" />人程度
+                            </div>
+                        @else
+                            <x-elements.checkbox :setValue="$company->id" :setId="__('planned_number_input_null')" :notation="__('採用予定人数を未定にする')" class="target-input" checked />
+                            <div class="flex gap-2 items-center">
+                                <x-text-input id="planned_number_input" class="w-44 bg-gray-300" value="{{ $company->planned_number }}" placeholder="採用予定人数" type="number" disabled />人程度
+                            </div>
+                        @endif
+                    </div>
+                </div>
+                <x-elements.button id="planned_number_btn">
                     更新
                 </x-elements.button>
             </x-elements.modal-item>

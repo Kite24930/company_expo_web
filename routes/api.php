@@ -39,4 +39,5 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/sales_edit', [ApiController::class, 'salesEdit'])->name('api.sales_edit');
     Route::post('/employees_edit', [ApiController::class, 'employeesEdit'])->name('api.employees_edit');
     Route::post('/mie_univ_ob_og_edit', [ApiController::class, 'mieUnivObOgEdit'])->name('api.mie_univ_ob_og_edit');
+    Route::post('/planned_number_edit', [ApiController::class, 'plannedNumberEdit'])->name('api.planned_number_edit');
 });
