@@ -444,4 +444,29 @@ class ApiController extends Controller
             ]);
         }
     }
+
+    public function mieUnivObOgEdit(Request $request) {
+        $request->validate([
+            'company_id' => 'required',
+            'mie_univ_ob_og' => 'required',
+        ],
+        [
+            'mie_univ_ob_og.required' => '三重大OB・OGを入力してください。',
+        ]);
+        try {
+            $company = Company::find($request->company_id);
+            $company->mie_univ_ob_og = $request->mie_univ_ob_og;
+            $company->save();
+            return response()->json([
+                'success' => true,
+                'message' => '三重大OB・OGの更新が完了しました。',
+                'company' => $company,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => '三重大OB・OGの更新に失敗しました。',
+            ]);
+        }
+    }
 }

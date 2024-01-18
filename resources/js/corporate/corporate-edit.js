@@ -670,3 +670,22 @@ document.getElementById('employees_btn').addEventListener('click', () => {
             console.log(error);
         });
 });
+
+document.getElementById('mie_univ_ob_og_btn').addEventListener('click', () => {
+    indicatorPost();
+    const mieUnivObOg = document.getElementById('mie_univ_ob_og_input').value;
+    const sendData = {
+        mie_univ_ob_og: mieUnivObOg,
+        company_id: company_id,
+    };
+    axios.post('/api/mie_univ_ob_og_edit?api_token=' + api_token, sendData)
+        .then((res) => {
+            console.log(res.data);
+            document.getElementById('mie_univ_ob_og').innerText = res.data.company.mie_univ_ob_og + '人';
+            indicatorSuccess();
+        })
+        .catch((error) => {
+            indicatorError();
+            console.log(error);
+        });
+});

@@ -505,7 +505,7 @@
                     更新
                 </x-elements.button>
             </x-elements.modal-item>
-            <x-elements.modal-item setId="employees_edit" title="従業員数編集" class="">
+            <x-elements.modal-item setId="employees_edit" title="従業員数編集" class="hidden">
                 <div class="w-full">
                     <x-input-label for="employees_input">従業員数</x-input-label>
                     <div class="flex gap-2 items-center">
@@ -513,6 +513,17 @@
                     </div>
                 </div>
                 <x-elements.button id="employees_btn">
+                    更新
+                </x-elements.button>
+            </x-elements.modal-item>
+            <x-elements.modal-item setId="mie_univ_ob_og_edit" title="三重大学OB・OG数編集" class="">
+                <div class="w-full">
+                    <x-input-label for="mie_univ_ob_og_input">三重大学OB・OG数</x-input-label>
+                    <div class="flex gap-2 items-center">
+                        <x-text-input id="mie_univ_ob_og_input" class="w-44" value="{{ $company->mie_univ_ob_og }}" placeholder="三重大学OB・OG数" type="number" />人
+                    </div>
+                </div>
+                <x-elements.button id="mie_univ_ob_og_btn">
                     更新
                 </x-elements.button>
             </x-elements.modal-item>
