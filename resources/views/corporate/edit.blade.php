@@ -481,7 +481,7 @@
                     更新
                 </x-elements.button>
             </x-elements.modal-item>
-            <x-elements.modal-item setId="sales_edit" title="売上金編集" class="">
+            <x-elements.modal-item setId="sales_edit" title="売上金編集" class="hidden">
                 <div class="w-full">
                     <x-input-label for="sales_input">売上金</x-input-label>
                     <div class="flex flex-col gap-2 items-start">
@@ -502,6 +502,17 @@
                     </x-input-label>
                 </div>
                 <x-elements.button id="sales_btn">
+                    更新
+                </x-elements.button>
+            </x-elements.modal-item>
+            <x-elements.modal-item setId="employees_edit" title="従業員数編集" class="">
+                <div class="w-full">
+                    <x-input-label for="employees_input">従業員数</x-input-label>
+                    <div class="flex gap-2 items-center">
+                        <x-text-input id="employees_input" class="w-44" value="{{ $company->employees }}" placeholder="従業員数" type="number" />人
+                    </div>
+                </div>
+                <x-elements.button id="employees_btn">
                     更新
                 </x-elements.button>
             </x-elements.modal-item>

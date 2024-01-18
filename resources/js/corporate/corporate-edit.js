@@ -651,3 +651,22 @@ document.getElementById('sales_btn').addEventListener('click', () => {
             console.log(error);
         });
 });
+
+document.getElementById('employees_btn').addEventListener('click', () => {
+    indicatorPost();
+    const employees = document.getElementById('employees_input').value;
+    const sendData = {
+        employees: employees,
+        company_id: company_id,
+    };
+    axios.post('/api/employees_edit?api_token=' + api_token, sendData)
+        .then((res) => {
+            console.log(res.data);
+            document.getElementById('employees').innerText = res.data.company.employees + '人';
+            indicatorSuccess();
+        })
+        .catch((error) => {
+            indicatorError();
+            console.log(error);
+        });
+});

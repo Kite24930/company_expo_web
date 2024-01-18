@@ -419,4 +419,29 @@ class ApiController extends Controller
             ]);
         }
     }
+
+    public function employeesEdit(Request $request) {
+        $request->validate([
+            'company_id' => 'required',
+            'employees' => 'required',
+        ],
+        [
+            'employees.required' => '従業員数を入力してください。',
+        ]);
+        try {
+            $company = Company::find($request->company_id);
+            $company->employees = $request->employees;
+            $company->save();
+            return response()->json([
+                'success' => true,
+                'message' => '従業員数の更新が完了しました。',
+                'company' => $company,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => '従業員数の更新に失敗しました。',
+            ]);
+        }
+    }
 }
