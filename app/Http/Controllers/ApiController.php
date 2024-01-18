@@ -344,4 +344,29 @@ class ApiController extends Controller
             ]);
         }
     }
+
+    public function establishedAtEdit(Request $request) {
+        $request->validate([
+            'company_id' => 'required',
+            'established_at' => 'required',
+        ],
+        [
+            'established_at.required' => '設立年月日を入力してください。',
+        ]);
+        try {
+            $company = Company::find($request->company_id);
+            $company->established_at = $request->established_at;
+            $company->save();
+            return response()->json([
+                'success' => true,
+                'message' => '設立年月日の更新が完了しました。',
+                'company' => $company,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => '設立年月日の更新に失敗しました。',
+            ]);
+        }
+    }
 }

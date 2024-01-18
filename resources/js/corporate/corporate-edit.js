@@ -574,3 +574,24 @@ document.getElementById('head_office_address_btn').addEventListener('click', () 
             console.log(error);
         });
 });
+
+document.getElementById('established_at_btn').addEventListener('click', () => {
+    indicatorPost();
+    const establishedAtYear = document.getElementById('established_at_year_input').value;
+    const establishedAtMonth = document.getElementById('established_at_month_input').value;
+    const sendData = {
+        established_at: establishedAtYear + '-' + ('00' + establishedAtMonth).slice(-2) + '-01',
+        company_id: company_id,
+    };
+    axios.post('/api/established_at_edit?api_token=' + api_token, sendData)
+        .then((res) => {
+            console.log(res.data);
+            const establishedAt = new Date(res.data.company.established_at);
+            document.getElementById('established_at').innerText = establishedAt.getFullYear() + '年' + (establishedAt.getMonth() + 1) + '月';
+            indicatorSuccess();
+        })
+        .catch((error) => {
+            indicatorError();
+            console.log(error);
+        });
+});

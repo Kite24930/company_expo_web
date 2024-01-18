@@ -34,4 +34,5 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/job_detail_edit', [ApiController::class, 'jobDetailEdit'])->name('api.job_detail_edit');
     Route::post('/target_edit', [ApiController::class, 'targetEdit'])->name('api.target_edit');
     Route::post('/head_office_address_edit', [ApiController::class, 'headOfficeAddressEdit'])->name('api.head_office_address_edit');
+    Route::post('/established_at_edit', [ApiController::class, 'establishedAtEdit'])->name('api.established_at_edit');
 });

@@ -448,6 +448,25 @@
                     更新
                 </x-elements.button>
             </x-elements.modal-item>
+            <x-elements.modal-item setId="established_at_edit" title="設立年月編集">
+                <div class="w-full">
+                    <x-input-label for="established_at_input">設立年月</x-input-label>
+                    <div class="flex gap-2 items-center">
+                        <x-text-input id="established_at_year_input" class="w-28" value="{{ date('Y', strtotime($company->established_at)) }}" placeholder="設立年月" type="number" />年
+                        <x-select-input id="established_at_month_input">
+                            @for($i = 1; $i <= 12; $i++)
+                                <option value="{{ $i }}" @if(date('n', strtotime($company->established_at)) === $i) selected @endif>{{ __($i.'月') }}</option>
+                            @endfor
+                        </x-select-input>
+                    </div>
+                    <x-input-label class="text-xs text-red-500">
+                        ※設立年月は、西暦でご記入ください。
+                    </x-input-label>
+                </div>
+                <x-elements.button id="established_at_btn">
+                    更新
+                </x-elements.button>
+            </x-elements.modal-item>
         </div>
     </div>
     <script>
