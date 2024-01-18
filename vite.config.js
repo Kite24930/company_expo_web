@@ -17,6 +17,7 @@ export default defineConfig({
             input: {
                 app: 'resources/js/app.js',
                 appStyles: 'resources/css/app.css',
+                firebase: 'resources/js/firebase.js',
                 common: 'resources/js/common.js',
                 commonStyles: 'resources/css/common.css',
                 dashboard: 'resources/js/dashboard/dashboard.js',

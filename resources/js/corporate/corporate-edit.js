@@ -1,4 +1,6 @@
 import '../common';
+import { loader } from '../firebase.js';
+import { MarkerClusterer } from "@googlemaps/markerclusterer";
 import axios from 'axios';
 import Editor from '@toast-ui/editor';
 import ColorSyntax from '@toast-ui/editor-plugin-color-syntax';
@@ -13,6 +15,7 @@ const errorIndicator = document.getElementById('errorIndicator');
 const csrf = document.querySelector('input[name="_token"]').value;
 const company_id = document.getElementById('company_id').value;
 const api_token = document.getElementById('api_token').value;
+let officeMap, headOfficeEditMap, branchOfficeEditMap, officeMapMarker, headOfficeEditMapMarker, branchOfficeEditMapMarker, infoWindow;
 
 function modalOpen() {
     modal.classList.remove('hidden');
@@ -53,6 +56,125 @@ function errorIndicatorShow(errors) {
 
 function errorIndicatorHide() {
     errorIndicator.classList.add('hidden');
+}
+
+window.addEventListener('load', () => {
+    initMap();
+});
+
+function initMap() {
+    try {
+        loader.load().then(() => {
+            let LatList = [];
+            let LngList = [];
+            const headOffice = new google.maps.LatLng(Laravel.company.head_office_lat, Laravel.company.head_office_lng);
+            const headOfficeMarker = new google.maps.Marker({
+                position: headOffice,
+                title: '本社',
+                animation: google.maps.Animation.DROP,
+            });
+            LatList.push(Laravel.company.head_office_lat);
+            LngList.push(Laravel.company.head_office_lng);
+            headOfficeMarker.addListener('click', () => {
+                if (infoWindow) {
+                    infoWindow.close();
+                }
+                infoWindow = new google.maps.InfoWindow({
+                    content: '<div class="flex flex-col justify-start gap-2"><div class="flex items-center h-5 text-xs text-white bg-[#6787C4] px-4 rounded">本社</div><div>' + Laravel.company.head_office_address + '</div></div>',
+                    disableAutoPan: true,
+                });
+                infoWindow.open(officeMap, headOfficeMarker);
+            });
+            let branchOffices = [];
+            let branchOfficeMarkers = [];
+            let offices = [];
+            let officeMarkers = [];
+            offices.push(headOffice);
+            officeMarkers.push(headOfficeMarker);
+            if (Laravel.branch_offices !== null) {
+                Laravel.branch_offices.forEach((data) => {
+                    branchOffices.push(new google.maps.LatLng(data.office_lat, data.office_lng));
+                    let branchOfficeMarker = new google.maps.Marker({
+                        position: new google.maps.LatLng(data.office_lat, data.office_lng),
+                        title: data.office_name,
+                        animation: google.maps.Animation.DROP,
+                    });
+                    branchOfficeMarker.addListener('click', () => {
+                        if (infoWindow) {
+                            infoWindow.close();
+                        }
+                        infoWindow = new google.maps.InfoWindow({
+                            content: '<div class="flex flex-col justify-start gap-2"><div class="flex items-center h-5 text-xs text-white bg-[#6787C4] px-4 rounded">' + data.office_name + '</div><div>' + data.office_address + '</div></div>',
+                            disableAutoPan: true,
+                        });
+                        infoWindow.open(officeMap, branchOfficeMarker);
+                    });
+                    branchOfficeMarkers.push(branchOfficeMarker);
+                    offices.push(new google.maps.LatLng(data.office_lat, data.office_lng));
+                    officeMarkers.push(branchOfficeMarker);
+                    LatList.push(data.office_lat);
+                    LngList.push(data.office_lng);
+                });
+            }
+            officeMap = new google.maps.Map(document.getElementById('office_map'), {
+                zoom: 16,
+                center: headOffice,
+                mapTypeControl: false,
+                fullscreenControl: false,
+                streetViewControl: false,
+                gestureHandling: 'greedy',
+            });
+            officeMapMarker = new MarkerClusterer({
+                map: officeMap,
+                markers: officeMarkers,
+                gridSize: 50,
+                minimumClusterSize: 2,
+                averageCenter: true,
+            });
+            if (LatList.length === 1 && LngList.length === 1) {
+                officeMap.setCenter(headOffice);
+                officeMap.setZoom(16);
+            }
+            headOfficeEditMap = new google.maps.Map(document.getElementById('head_office_edit_map'), {
+                zoom: 16,
+                center: headOffice,
+                mapTypeControl: false,
+                fullscreenControl: false,
+                streetViewControl: false,
+                gestureHandling: 'greedy',
+            });
+            headOfficeEditMapMarker = new google.maps.Marker({
+                position: headOffice,
+                title: '本社',
+                animation: google.maps.Animation.DROP,
+                map: headOfficeEditMap,
+                draggable: true,
+            });
+            headOfficeEditMapMarker.addListener('dragend', () => {
+                headOfficeEditMap.setCenter(headOfficeEditMapMarker.getPosition());
+            });
+            headOfficeEditMapMarker.addListener('click', () => {
+                if (infoWindow) {
+                    infoWindow.close();
+                }
+                infoWindow = new google.maps.InfoWindow({
+                    content: '<div class="flex flex-col justify-start gap-2"><div class="flex items-center h-5 text-xs text-white bg-[#6787C4] px-4 rounded">本社</div><div>' + Laravel.company.head_office_address + '</div></div>',
+                    disableAutoPan: true,
+                });
+                infoWindow.open(headOfficeEditMap, headOfficeEditMapMarker);
+            });
+            // branchOfficeEditMap = new google.maps.Map(document.getElementById('branch_office_edit_map'), {
+            //     zoom: 16,
+            //     center: headOffice,
+            //     mapTypeControl: false,
+            //     fullscreenControl: false,
+            //     streetViewControl: false,
+            //     gestureHandling: 'greedy',
+            // });
+        });
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 // Viewerの初期化
@@ -409,5 +531,46 @@ document.getElementById('target_btn').addEventListener('click', () => {
             console.log(error);
             const errors = error.response.data.errors;
             errorIndicatorShow(errors);
+        });
+});
+
+document.getElementById('head_office_map_btn').addEventListener('click', () => {
+    const address = document.getElementById('head_office_address_input').value;
+    const geocoder = new google.maps.Geocoder();
+    geocoder.geocode({ address: address }, (results, status) => {
+        if (status === 'OK') {
+            headOfficeEditMap.setCenter(results[0].geometry.location);
+            headOfficeEditMap.setZoom(16);
+            headOfficeEditMapMarker.setPosition(results[0].geometry.location);
+            window.alert('本社の位置情報を変更しました。\n変更を保存する場合は「更新」ボタンを押してください。');
+        } else {
+            console.log('Geocode was not successful for the following reason: ' + status);
+            window.alert('本社の位置情報を変更できませんでした。\n住所を確認してください。');
+        }
+    });
+});
+
+document.getElementById('head_office_address_btn').addEventListener('click', () => {
+    indicatorPost();
+    const address = document.getElementById('head_office_address_input').value;
+    const lat = headOfficeEditMapMarker.getPosition().lat();
+    const lng = headOfficeEditMapMarker.getPosition().lng();
+    const sendData = {
+        head_office_address: address,
+        head_office_lat: lat,
+        head_office_lng: lng,
+        company_id: company_id,
+    };
+    axios.post('/api/head_office_address_edit?api_token=' + api_token, sendData)
+        .then((res) => {
+            console.log(res.data);
+            document.getElementById('head_office_address').innerText = res.data.company.head_office_address;
+            console.log(officeMapMarker);
+            officeMapMarker.markers[0].setPosition(new google.maps.LatLng(res.data.company.head_office_lat, res.data.company.head_office_lng));
+            indicatorSuccess();
+        })
+        .catch((error) => {
+            indicatorError();
+            console.log(error);
         });
 });

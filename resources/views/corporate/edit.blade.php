@@ -182,17 +182,16 @@
                                 <x-elements.category-title>
                                     勤務地
                                 </x-elements.category-title>
-                                <x-elements.category-content id="branch_offices">
-                                    @if($branch_offices && $branch_offices->count() > 0)
-                                        <ul>
+                                <x-elements.category-content id="branch_offices" class="w-full">
+                                    <div id="branch_offices_wrapper" class="flex flex-col gap-2 mb-2">
+                                        <x-elements.office-item title="本社" :address="$company->head_office_address" />
+                                        @if($branch_offices && $branch_offices->count() > 0)
                                             @foreach($branch_offices as $item)
-                                                <li>{{ $item->office_name }}</li>
+                                                <x-elements.office-item :title="$item->office_name" :address="$item->office_address" />
                                             @endforeach
-                                        </ul>
-                                        <div id="office_map"></div>
-                                    @else
-                                        未入力
-                                    @endif
+                                        @endif
+                                    </div>
+                                    <div id="office_map" class="w-full h-56"></div>
                                 </x-elements.category-content>
                             </x-elements.category-wrapper>
                             <x-elements.category-wrapper>
@@ -420,11 +419,41 @@
                     更新
                 </x-elements.button>
             </x-elements.modal-item>
+            <x-elements.modal-item setId="head_office_address_edit" title="本社所在地編集" class="hidden">
+                <div class="w-full">
+                    <x-input-label for="head_office_address_input">本社所在地</x-input-label>
+                    <x-text-input id="head_office_address_input" class="w-full" value="{{ $company->head_office_address }}" placeholder="本社所在地" />
+                    <x-input-label class="text-xs text-red-500">
+                        ※本社所在地は、都道府県からご記入ください。
+                        <br>
+                        マップのピンの座標が実際のページでも表示されます。
+                        <br>
+                        住所を変更したあとは、必ずマップに反映してください。
+                    </x-input-label>
+                </div>
+                <x-elements.button id="head_office_map_btn">
+                    本社所在地をマップに反映
+                </x-elements.button>
+                <div class="w-full">
+                    <div id="head_office_edit_map" class="w-full h-56">
+
+                    </div>
+                    <x-input-label class="text-xs text-red-500">
+                        ※マップのピンはドラッグすることで調整できます。
+                        <br>
+                        本社所在地をマップに反映後、ズレている場合は調整してください。
+                    </x-input-label>
+                </div>
+                <x-elements.button id="head_office_address_btn">
+                    更新
+                </x-elements.button>
+            </x-elements.modal-item>
         </div>
     </div>
     <script>
         window.Laravel = {};
         window.Laravel.company = @json($company);
+        window.Laravel.branch_offices = @json($branch_offices);
         console.log(window.Laravel)
     </script>
     @vite(['resources/js/corporate/corporate-edit.js'])

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BranchOffice;
 use App\Models\Company;
 use App\Models\Industry;
 use App\Models\IndustryView;
@@ -307,6 +308,39 @@ class ApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => '対象者の更新に失敗しました。',
+            ]);
+        }
+    }
+
+    public function headOfficeAddressEdit(Request $request) {
+        $request->validate([
+            'company_id' => 'required',
+            'head_office_address' => 'required',
+            'head_office_lat' => 'required',
+            'head_office_lng' => 'required',
+        ],
+        [
+            'head_office_address.required' => '本社所在地を入力してください。',
+            'head_office_lat.required' => '本社所在地を入力してください。',
+            'head_office_lng.required' => '本社所在地を入力してください。',
+        ]);
+        try {
+            $company = Company::find($request->company_id);
+            $company->head_office_address = $request->head_office_address;
+            $company->head_office_lat = $request->head_office_lat;
+            $company->head_office_lng = $request->head_office_lng;
+            $company->save();
+            $branch_offices = BranchOffice::where('company_id', $request->company_id)->get();
+            return response()->json([
+                'success' => true,
+                'message' => '本社所在地の更新が完了しました。',
+                'company' => $company,
+                'branch_offices' => $branch_offices,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => '本社所在地の更新に失敗しました。',
             ]);
         }
     }

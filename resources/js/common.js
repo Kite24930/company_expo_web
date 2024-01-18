@@ -1,4 +1,5 @@
 import './app.js';
+import { app, analytics } from './firebase.js';
 import '/node_modules/flowbite/dist/flowbite.min.js';
 
 const headerToggleButton = document.getElementById('headerToggleButton');
