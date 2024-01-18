@@ -595,3 +595,22 @@ document.getElementById('established_at_btn').addEventListener('click', () => {
             console.log(error);
         });
 });
+
+document.getElementById('capital_btn').addEventListener('click', () => {
+    indicatorPost();
+    const capital = document.getElementById('capital_input').value;
+    const sendData = {
+        capital: capital,
+        company_id: company_id,
+    };
+    axios.post('/api/capital_edit?api_token=' + api_token, sendData)
+        .then((res) => {
+            console.log(res.data);
+            document.getElementById('capital').innerText = res.data.company.capital + '万円';
+            indicatorSuccess();
+        })
+        .catch((error) => {
+            indicatorError();
+            console.log(error);
+        });
+});

@@ -448,7 +448,7 @@
                     更新
                 </x-elements.button>
             </x-elements.modal-item>
-            <x-elements.modal-item setId="established_at_edit" title="設立年月編集">
+            <x-elements.modal-item setId="established_at_edit" title="設立年月編集" class="hidden">
                 <div class="w-full">
                     <x-input-label for="established_at_input">設立年月</x-input-label>
                     <div class="flex gap-2 items-center">
@@ -464,6 +464,20 @@
                     </x-input-label>
                 </div>
                 <x-elements.button id="established_at_btn">
+                    更新
+                </x-elements.button>
+            </x-elements.modal-item>
+            <x-elements.modal-item setId="capital_edit" title="資本金編集">
+                <div class="w-full">
+                    <x-input-label for="capital_input">資本金</x-input-label>
+                    <div class="flex gap-2 items-center">
+                        <x-text-input id="capital_input" class="w-44" value="{{ $company->capital }}" placeholder="資本金" type="number" />万円
+                    </div>
+                    <x-input-label class="text-xs text-red-500">
+                        ※資本金は、万円単位でご記入ください。
+                    </x-input-label>
+                </div>
+                <x-elements.button id="capital_btn">
                     更新
                 </x-elements.button>
             </x-elements.modal-item>
