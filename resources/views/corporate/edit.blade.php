@@ -146,7 +146,7 @@
                                     @if($company->sales)
                                         {{ __($company->sales.'万円') }}
                                     @else
-                                        未入力
+                                        非公開
                                     @endif
                                 </x-elements.category-content>
                             </x-elements.category-wrapper>
@@ -467,7 +467,7 @@
                     更新
                 </x-elements.button>
             </x-elements.modal-item>
-            <x-elements.modal-item setId="capital_edit" title="資本金編集">
+            <x-elements.modal-item setId="capital_edit" title="資本金編集" class="hidden">
                 <div class="w-full">
                     <x-input-label for="capital_input">資本金</x-input-label>
                     <div class="flex gap-2 items-center">
@@ -478,6 +478,30 @@
                     </x-input-label>
                 </div>
                 <x-elements.button id="capital_btn">
+                    更新
+                </x-elements.button>
+            </x-elements.modal-item>
+            <x-elements.modal-item setId="sales_edit" title="売上金編集" class="">
+                <div class="w-full">
+                    <x-input-label for="sales_input">売上金</x-input-label>
+                    <div class="flex flex-col gap-2 items-start">
+                        @if($company->sales)
+                            <x-elements.checkbox :setValue="$company->id" :setId="__('sales_input_null')" :notation="__('売上金を非公開にする')" class="target-input" />
+                            <div class="flex gap-2 items-center">
+                                <x-text-input id="sales_input" class="w-44" value="{{ $company->sales }}" placeholder="売上金" type="number" />万円
+                            </div>
+                        @else
+                            <x-elements.checkbox :setValue="$company->id" :setId="__('sales_input_null')" :notation="__('売上金を非公開にする')" class="target-input" checked />
+                            <div class="flex gap-2 items-center">
+                                <x-text-input id="sales_input" class="w-44 bg-gray-300" value="{{ $company->sales }}" placeholder="売上金" type="number" disabled />万円
+                            </div>
+                        @endif
+                    </div>
+                    <x-input-label class="text-xs text-red-500">
+                        ※売上金は、万円単位でご記入ください。
+                    </x-input-label>
+                </div>
+                <x-elements.button id="sales_btn">
                     更新
                 </x-elements.button>
             </x-elements.modal-item>

@@ -36,4 +36,5 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/head_office_address_edit', [ApiController::class, 'headOfficeAddressEdit'])->name('api.head_office_address_edit');
     Route::post('/established_at_edit', [ApiController::class, 'establishedAtEdit'])->name('api.established_at_edit');
     Route::post('/capital_edit', [ApiController::class, 'capitalEdit'])->name('api.capital_edit');
+    Route::post('/sales_edit', [ApiController::class, 'salesEdit'])->name('api.sales_edit');
 });

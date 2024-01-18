@@ -614,3 +614,40 @@ document.getElementById('capital_btn').addEventListener('click', () => {
             console.log(error);
         });
 });
+
+document.getElementById('sales_input_null').addEventListener('change', (e) => {
+    const input = document.getElementById('sales_input');
+    if(e.target.checked) {
+        input.disabled = true;
+        input.classList.add('bg-gray-300');
+    } else {
+        input.disabled = false;
+        input.classList.remove('bg-gray-300');
+    }
+});
+
+document.getElementById('sales_btn').addEventListener('click', () => {
+    indicatorPost();
+    let sendData = {
+        company_id: company_id,
+    };
+    if (document.getElementById('sales_input_null').checked) {
+        sendData['sales'] = null;
+    } else {
+        sendData['sales'] = document.getElementById('sales_input').value;
+    }
+    axios.post('/api/sales_edit?api_token=' + api_token, sendData)
+        .then((res) => {
+            console.log(res.data);
+            if (res.data.company.sales === null) {
+                document.getElementById('sales').innerText = '非公開';
+            } else {
+                document.getElementById('sales').innerText = res.data.company.sales + '万円';
+            }
+            indicatorSuccess();
+        })
+        .catch((error) => {
+            indicatorError();
+            console.log(error);
+        });
+});
