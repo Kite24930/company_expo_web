@@ -1,2 +1,9 @@
 @import "dashboard.css";
 @import "../import/company-detail.css";
+
+table {
+    th, td {
+        margin: 0;
+        border: solid 1px #aaa;
+    }
+}

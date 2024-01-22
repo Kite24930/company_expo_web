@@ -494,4 +494,111 @@ class ApiController extends Controller
             ]);
         }
     }
+
+    public function branchInsertHeadOffice(Request $request) {
+        try {
+            $request->validate([
+                'company_id' => 'required',
+            ],
+            [
+                'company_id.required' => '本社所在地を入力してください。',
+            ]);
+            $head_office = Company::find($request->company_id);
+            $office = BranchOffice::create([
+                'company_id' => $request->company_id,
+                'office_name' => '本社',
+                'office_address' => $head_office->head_office_address,
+                'office_lat' => $head_office->head_office_lat,
+                'office_lng' => $head_office->head_office_lng,
+            ]);
+            $branch_offices = BranchOffice::where('company_id', $request->company_id)->get();
+            foreach ($branch_offices as $office) {
+                $doc[] = view('components.elements.branch-office-item', compact('office'))->render();
+            }
+            return response()->json([
+                'success' => true,
+                'message' => '支店所在地の追加が完了しました。',
+                'branch_offices' => $branch_offices,
+                'office' => $office,
+                'doc' => $doc,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => '支店所在地の追加に失敗しました。',
+            ]);
+        }
+    }
+
+    public function branchOfficeDelete($id, $company_id, Request $request) {
+        try {
+            $office = BranchOffice::find($id);
+            $office->delete();
+            $branch_offices = BranchOffice::where('company_id', $company_id)->get();
+            return response()->json([
+                'success' => true,
+                'message' => '支店所在地の削除が完了しました。',
+                'branch_offices' => $branch_offices,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => '支店所在地の削除に失敗しました。',
+            ]);
+        }
+    }
+
+    public function branchOfficeAdd($target, Request $request) {
+        $doc = view('components.elements.branch-office-add-item', compact('target'))->render();
+        return response()->json([
+            'success' => true,
+            'message' => '支店所在地の追加が完了しました。',
+            'doc' => $doc,
+        ]);
+    }
+
+    public function branchOfficeEdit(Request $request) {
+        $request->validate([
+            'company_id' => 'required',
+            'branch_offices' => 'required',
+        ],
+        [
+            'branch_offices.required' => '支店所在地を入力してください。',
+        ]);
+        try {
+            foreach ($request->branch_offices as $item) {
+                if ($item['id'] > 0) {
+                    $office = BranchOffice::find($item['id']);
+                    $office->office_name = $item['office_name'];
+                    $office->office_address = $item['office_address'];
+                    $office->office_lat = $item['office_lat'];
+                    $office->office_lng = $item['office_lng'];
+                    $office->save();
+                } else {
+                    $office = BranchOffice::create([
+                        'company_id' => $request->company_id,
+                        'office_name' => $item['office_name'],
+                        'office_address' => $item['office_address'],
+                        'office_lat' => $item['office_lat'],
+                        'office_lng' => $item['office_lng'],
+                    ]);
+                }
+            }
+            $branch_offices = BranchOffice::where('company_id', $request->company_id)->get();
+            foreach ($branch_offices as $office) {
+                $doc[] = view('components.elements.branch-office-item', compact('office'))->render();
+            }
+            return response()->json([
+                'success' => true,
+                'message' => '支店所在地の更新が完了しました。',
+                'branch_offices' => $branch_offices,
+                'doc' => $doc,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => '支店所在地の更新に失敗しました。',
+            ]);
+        }
+    }
 }

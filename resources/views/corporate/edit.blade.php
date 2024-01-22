@@ -118,8 +118,11 @@
                                 <x-elements.category-title>
                                     本社所在地
                                 </x-elements.category-title>
-                                <x-elements.category-content id="head_office_address">
-                                    {{ $company->head_office_address }}
+                                <x-elements.category-content id="head_office_address_wrapper" class="w-full">
+                                    <div id="head_office_address" class="mb-2">
+                                        {{ $company->head_office_address }}
+                                    </div>
+                                    <div id="head_office_map" class="w-full h-56 border rounded"></div>
                                 </x-elements.category-content>
                             </x-elements.category-wrapper>
                             <x-elements.category-wrapper>
@@ -184,14 +187,13 @@
                                 </x-elements.category-title>
                                 <x-elements.category-content id="branch_offices" class="w-full">
                                     <div id="branch_offices_wrapper" class="flex flex-col gap-2 mb-2">
-                                        <x-elements.office-item title="本社" :address="$company->head_office_address" />
                                         @if($branch_offices && $branch_offices->count() > 0)
                                             @foreach($branch_offices as $item)
                                                 <x-elements.office-item :title="$item->office_name" :address="$item->office_address" />
                                             @endforeach
                                         @endif
                                     </div>
-                                    <div id="office_map" class="w-full h-56"></div>
+                                    <div id="office_map" class="w-full h-56 border rounded"></div>
                                 </x-elements.category-content>
                             </x-elements.category-wrapper>
                             <x-elements.category-wrapper>
@@ -266,7 +268,7 @@
                     Edit now...
                 </div>
             </div>
-            <x-elements.modal-item setId="company_name_edit" title="企業名編集" class="hidden">
+            <x-elements.modal-item setId="company_name_edit" title="企業名編集" class="max-h-[80dvh] overflow-y-auto hidden modal-item">
                 <div class="w-full">
                     <x-input-label for="company_name_input">企業名</x-input-label>
                     <x-text-input id="company_name_input" class="w-full" value="{{ $company->company_name }}" placeholder="企業名" />
@@ -284,7 +286,7 @@
                     更新
                 </x-elements.button>
             </x-elements.modal-item>
-            <x-elements.modal-item setId="company_industry_edit" title="業種変更" class="hidden">
+            <x-elements.modal-item setId="company_industry_edit" title="業種変更" class="max-h-[80dvh] overflow-y-auto hidden modal-item">
                 <div class="w-full">
                     <x-input-label for="company_industry_input">業種</x-input-label>
                     <x-select-input id="company_industry_input" class="w-full">
@@ -304,7 +306,7 @@
                     更新
                 </x-elements.button>
             </x-elements.modal-item>
-            <x-elements.modal-item setId="company_logo_edit" title="企業ロゴ編集" class="hidden">
+            <x-elements.modal-item setId="company_logo_edit" title="企業ロゴ編集" class="max-h-[80dvh] overflow-y-auto hidden modal-item">
                 <div class="w-full">
                     <x-input-label for="company_logo_input_wrapper" class="mb-2">企業ロゴ</x-input-label>
                     <div id="company_logo_input_wrapper" class="p-2 border rounded-lg inline-flex items-center gap-2 hover:bg-gray-300 cursor-pointer">
@@ -321,7 +323,7 @@
                     更新
                 </x-elements.button>
             </x-elements.modal-item>
-            <x-elements.modal-item setId="company_img_edit" title="企業イメージ画像編集" class="hidden">
+            <x-elements.modal-item setId="company_img_edit" title="企業イメージ画像編集" class="max-h-[80dvh] overflow-y-auto hidden modal-item">
                 <div class="w-full">
                     <x-input-label for="company_img_edit_wrapper" class="mb-2">企業イメージ画像</x-input-label>
                     <div id="company_img_edit_wrapper" class="relative">
@@ -340,7 +342,7 @@
                     更新
                 </x-elements.button>
             </x-elements.modal-item>
-            <x-elements.modal-item setId="business_detail_edit" title="事業内容編集" class="hidden">
+            <x-elements.modal-item setId="business_detail_edit" title="事業内容編集" class="max-h-[80dvh] overflow-y-auto hidden modal-item">
                 <div class="w-full">
                     <x-input-label for="business_detail_wrapper" class="mb-2">事業内容</x-input-label>
                     <div id="business_detail_editor"></div>
@@ -355,7 +357,7 @@
                     更新
                 </x-elements.button>
             </x-elements.modal-item>
-            <x-elements.modal-item setId="pr_edit" title="企業PR編集" class="hidden">
+            <x-elements.modal-item setId="pr_edit" title="企業PR編集" class="max-h-[80dvh] overflow-y-auto hidden modal-item">
                 <div class="w-full">
                     <x-input-label for="pr_wrapper" class="mb-2">企業PR</x-input-label>
                     <div id="pr_editor"></div>
@@ -370,7 +372,7 @@
                     更新
                 </x-elements.button>
             </x-elements.modal-item>
-            <x-elements.modal-item setId="occupation_edit" title="募集職種編集" class="hidden">
+            <x-elements.modal-item setId="occupation_edit" title="募集職種編集" class="max-h-[80dvh] overflow-y-auto hidden modal-item">
                 <div class="w-full flex flex-col gap-2">
                     <div id="occupation_insert_point" class="w-full flex flex-col gap-2">
                         @if($occupations && $occupations->count() > 0)
@@ -390,7 +392,7 @@
                     更新
                 </x-elements.button>
             </x-elements.modal-item>
-            <x-elements.modal-item setId="job_detail_edit" title="仕事内容編集" class="hidden">
+            <x-elements.modal-item setId="job_detail_edit" title="仕事内容編集" class="max-h-[80dvh] overflow-y-auto hidden modal-item">
                 <div class="w-full">
                     <x-input-label for="job_detail_wrapper" class="mb-2">募集職種仕事内容</x-input-label>
                     <div id="job_detail_editor"></div>
@@ -405,7 +407,7 @@
                     更新
                 </x-elements.button>
             </x-elements.modal-item>
-            <x-elements.modal-item setId="target_edit" title="対象学生編集" class="hidden">
+            <x-elements.modal-item setId="target_edit" title="対象学生編集" class="max-h-[80dvh] overflow-y-auto hidden modal-item">
                 <div class="w-full flex flex-col items-start gap-2">
                     @foreach($faculties as $faculty)
                         @if(in_array($faculty->id, $target_list))
@@ -419,7 +421,7 @@
                     更新
                 </x-elements.button>
             </x-elements.modal-item>
-            <x-elements.modal-item setId="head_office_address_edit" title="本社所在地編集" class="hidden">
+            <x-elements.modal-item setId="head_office_address_edit" title="本社所在地編集" class="max-h-[80dvh] overflow-y-auto hidden modal-item">
                 <div class="w-full">
                     <x-input-label for="head_office_address_input">本社所在地</x-input-label>
                     <x-text-input id="head_office_address_input" class="w-full" value="{{ $company->head_office_address }}" placeholder="本社所在地" />
@@ -448,7 +450,7 @@
                     更新
                 </x-elements.button>
             </x-elements.modal-item>
-            <x-elements.modal-item setId="established_at_edit" title="設立年月編集" class="hidden">
+            <x-elements.modal-item setId="established_at_edit" title="設立年月編集" class="max-h-[80dvh] overflow-y-auto hidden modal-item">
                 <div class="w-full">
                     <x-input-label for="established_at_input">設立年月</x-input-label>
                     <div class="flex gap-2 items-center">
@@ -467,7 +469,7 @@
                     更新
                 </x-elements.button>
             </x-elements.modal-item>
-            <x-elements.modal-item setId="capital_edit" title="資本金編集" class="hidden">
+            <x-elements.modal-item setId="capital_edit" title="資本金編集" class="max-h-[80dvh] overflow-y-auto hidden modal-item">
                 <div class="w-full">
                     <x-input-label for="capital_input">資本金</x-input-label>
                     <div class="flex gap-2 items-center">
@@ -481,7 +483,7 @@
                     更新
                 </x-elements.button>
             </x-elements.modal-item>
-            <x-elements.modal-item setId="sales_edit" title="売上金編集" class="hidden">
+            <x-elements.modal-item setId="sales_edit" title="売上金編集" class="max-h-[80dvh] overflow-y-auto hidden modal-item">
                 <div class="w-full">
                     <x-input-label for="sales_input">売上金</x-input-label>
                     <div class="flex flex-col gap-2 items-start">
@@ -505,7 +507,7 @@
                     更新
                 </x-elements.button>
             </x-elements.modal-item>
-            <x-elements.modal-item setId="employees_edit" title="従業員数編集" class="hidden">
+            <x-elements.modal-item setId="employees_edit" title="従業員数編集" class="max-h-[80dvh] overflow-y-auto hidden modal-item">
                 <div class="w-full">
                     <x-input-label for="employees_input">従業員数</x-input-label>
                     <div class="flex gap-2 items-center">
@@ -516,7 +518,7 @@
                     更新
                 </x-elements.button>
             </x-elements.modal-item>
-            <x-elements.modal-item setId="mie_univ_ob_og_edit" title="三重大学OB・OG数編集" class="hidden">
+            <x-elements.modal-item setId="mie_univ_ob_og_edit" title="三重大学OB・OG数編集" class="max-h-[80dvh] overflow-y-auto hidden modal-item">
                 <div class="w-full">
                     <x-input-label for="mie_univ_ob_og_input">三重大学OB・OG数</x-input-label>
                     <div class="flex gap-2 items-center">
@@ -527,7 +529,7 @@
                     更新
                 </x-elements.button>
             </x-elements.modal-item>
-            <x-elements.modal-item setId="planned_number_edit" title="採用予定人数編集" class="">
+            <x-elements.modal-item setId="planned_number_edit" title="採用予定人数編集" class="max-h-[80dvh] overflow-y-auto hidden modal-item">
                 <div class="w-full">
                     <x-input-label for="planned_number_input">採用予定人数</x-input-label>
                     <div class="flex flex-col gap-2 items-start">
@@ -545,6 +547,63 @@
                     </div>
                 </div>
                 <x-elements.button id="planned_number_btn">
+                    更新
+                </x-elements.button>
+            </x-elements.modal-item>
+            <x-elements.modal-item setId="branch_offices_edit" title="勤務地編集" class="max-h-[80dvh] overflow-y-auto modal-item">
+                <div class="w-full">
+                    @php $check = true; @endphp
+                    @foreach($branch_offices as $branch_office)
+                        @if($branch_office->office_name === '本社' && $branch_office->office_address === $company->head_office_address)
+                            @php $check = false; @endphp
+                        @endif
+                    @endforeach
+                    @if($check)
+                        <button id="branch_insert_head_office_btn" type="button" class="border rounded bg-blue-100 hover:bg-blue-900 hover:text-white px-2 py-1 my-2">本社を勤務地に追加</button>
+                    @endif
+                    <div class="w-full flex flex-col">
+                        <div class="flex gap-2">
+                            <x-input-label class="text-sm w-44">勤務地名</x-input-label>
+                            <x-input-label class="text-sm">勤務地住所</x-input-label>
+                        </div>
+                        <div id="branch_office_body" class="flex flex-col w-full gap-2">
+                            @foreach($branch_offices as $branch_office)
+                                <x-elements.branch-office-item :office="$branch_office" />
+                            @endforeach
+                            @if(count($branch_offices) === 0)
+                                <x-elements.branch-office-add-item target="0" />
+                            @endif
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <x-elements.add-btn id="branch_office_add" />
+                    </div>
+                    <x-input-label class="text-xs text-red-500">
+                        ※勤務地住所は、都道府県からご記入ください。
+                        <br>
+                        マップのピンの座標が実際のページでも表示されます。
+                        <br>
+                        住所を変更したあとは、必ずマップに反映してください。
+                        <br>
+                        登録済みの勤務地名及び勤務地住所は、変更できません。
+                        <br>
+                        編集したい場合は、一度削除してから追加してください。
+                    </x-input-label>
+                </div>
+                <x-elements.button id="branch_office_map_btn">
+                    勤務地をマップに反映
+                </x-elements.button>
+                <div class="w-full">
+                    <div id="branch_office_edit_map" class="w-full h-56">
+
+                    </div>
+                    <x-input-label class="text-xs text-red-500">
+                        ※マップのピンはドラッグすることで調整できます。
+                        <br>
+                        勤務地をマップに反映後、ズレている場合は調整してください。
+                    </x-input-label>
+                </div>
+                <x-elements.button id="branch_offices_btn">
                     更新
                 </x-elements.button>
             </x-elements.modal-item>

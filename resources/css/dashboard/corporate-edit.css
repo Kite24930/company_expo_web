@@ -1,4 +1,8 @@
 @import "dashboard.css";
 @import "../import/company-detail.css";
+table th, table td {
+  margin: 0;
+  border: solid 1px #aaa;
+}
 
 /*# sourceMappingURL=corporate-edit.css.map */

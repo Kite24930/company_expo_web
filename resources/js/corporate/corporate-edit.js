@@ -15,7 +15,7 @@ const errorIndicator = document.getElementById('errorIndicator');
 const csrf = document.querySelector('input[name="_token"]').value;
 const company_id = document.getElementById('company_id').value;
 const api_token = document.getElementById('api_token').value;
-let officeMap, headOfficeEditMap, branchOfficeEditMap, officeMapMarker, headOfficeEditMapMarker, branchOfficeEditMapMarker, infoWindow;
+let headOfficeMap, officeMap, headOfficeEditMap, branchOfficeEditMap, headOfficeMarker, officeMapMarker, headOfficeEditMapMarker, branchOfficeEditMapMarker, infoWindow;
 
 function modalOpen() {
     modal.classList.remove('hidden');
@@ -68,55 +68,39 @@ function initMap() {
             let LatList = [];
             let LngList = [];
             const headOffice = new google.maps.LatLng(Laravel.company.head_office_lat, Laravel.company.head_office_lng);
-            const headOfficeMarker = new google.maps.Marker({
-                position: headOffice,
-                title: '本社',
-                animation: google.maps.Animation.DROP,
-            });
-            LatList.push(Laravel.company.head_office_lat);
-            LngList.push(Laravel.company.head_office_lng);
-            headOfficeMarker.addListener('click', () => {
-                if (infoWindow) {
-                    infoWindow.close();
-                }
-                infoWindow = new google.maps.InfoWindow({
-                    content: '<div class="flex flex-col justify-start gap-2"><div class="flex items-center h-5 text-xs text-white bg-[#6787C4] px-4 rounded">本社</div><div>' + Laravel.company.head_office_address + '</div></div>',
-                    disableAutoPan: true,
-                });
-                infoWindow.open(officeMap, headOfficeMarker);
-            });
             let branchOffices = [];
             let branchOfficeMarkers = [];
-            let offices = [];
-            let officeMarkers = [];
-            offices.push(headOffice);
-            officeMarkers.push(headOfficeMarker);
             if (Laravel.branch_offices !== null) {
                 Laravel.branch_offices.forEach((data) => {
                     branchOffices.push(new google.maps.LatLng(data.office_lat, data.office_lng));
                     let branchOfficeMarker = new google.maps.Marker({
                         position: new google.maps.LatLng(data.office_lat, data.office_lng),
                         title: data.office_name,
+                        address: data.office_address,
+                        office_id: data.id,
                         animation: google.maps.Animation.DROP,
+                        draggable: true,
+                    });
+                    branchOfficeMarker.addListener('dragend', () => {
+                        document.getElementById('branch_office_lat-' + data.id).value = branchOfficeMarker.getPosition().lat();
+                        document.getElementById('branch_office_lng-' + data.id).value = branchOfficeMarker.getPosition().lng();
                     });
                     branchOfficeMarker.addListener('click', () => {
                         if (infoWindow) {
                             infoWindow.close();
                         }
                         infoWindow = new google.maps.InfoWindow({
-                            content: '<div class="flex flex-col justify-start gap-2"><div class="flex items-center h-5 text-xs text-white bg-[#6787C4] px-4 rounded">' + data.office_name + '</div><div>' + data.office_address + '</div></div>',
+                            content: '<div class="flex flex-col justify-start gap-2"><div><div class="inline-flex items-center h-5 text-xs text-white bg-[#6787C4] px-4 rounded">' + data.office_name + '</div></div><div>' + data.office_address + '</div></div>',
                             disableAutoPan: true,
                         });
                         infoWindow.open(officeMap, branchOfficeMarker);
                     });
                     branchOfficeMarkers.push(branchOfficeMarker);
-                    offices.push(new google.maps.LatLng(data.office_lat, data.office_lng));
-                    officeMarkers.push(branchOfficeMarker);
                     LatList.push(data.office_lat);
                     LngList.push(data.office_lng);
                 });
             }
-            officeMap = new google.maps.Map(document.getElementById('office_map'), {
+            headOfficeMap = new google.maps.Map(document.getElementById('head_office_map'), {
                 zoom: 16,
                 center: headOffice,
                 mapTypeControl: false,
@@ -124,17 +108,22 @@ function initMap() {
                 streetViewControl: false,
                 gestureHandling: 'greedy',
             });
-            officeMapMarker = new MarkerClusterer({
-                map: officeMap,
-                markers: officeMarkers,
-                gridSize: 50,
-                minimumClusterSize: 2,
-                averageCenter: true,
+            headOfficeMarker = new google.maps.Marker({
+                position: headOffice,
+                title: '本社',
+                animation: google.maps.Animation.DROP,
+                map: headOfficeMap,
             });
-            if (LatList.length === 1 && LngList.length === 1) {
-                officeMap.setCenter(headOffice);
-                officeMap.setZoom(16);
-            }
+            headOfficeMarker.addListener('click', () => {
+                if (infoWindow) {
+                    infoWindow.close();
+                }
+                infoWindow = new google.maps.InfoWindow({
+                    content: '<div class="flex flex-col justify-start gap-2"><div><div class="inline-flex items-center h-5 text-xs text-white bg-[#6787C4] px-4 rounded">本社</div></div><div>' + Laravel.company.head_office_address + '</div></div>',
+                    disableAutoPan: true,
+                });
+                infoWindow.open(headOfficeMap, headOfficeMarker);
+            });
             headOfficeEditMap = new google.maps.Map(document.getElementById('head_office_edit_map'), {
                 zoom: 16,
                 center: headOffice,
@@ -158,19 +147,67 @@ function initMap() {
                     infoWindow.close();
                 }
                 infoWindow = new google.maps.InfoWindow({
-                    content: '<div class="flex flex-col justify-start gap-2"><div class="flex items-center h-5 text-xs text-white bg-[#6787C4] px-4 rounded">本社</div><div>' + Laravel.company.head_office_address + '</div></div>',
+                    content: '<div class="flex flex-col justify-start gap-2"><div><div class="inline-flex items-center h-5 text-xs text-white bg-[#6787C4] px-4 rounded">本社</div></div><div>' + Laravel.company.head_office_address + '</div></div>',
                     disableAutoPan: true,
                 });
                 infoWindow.open(headOfficeEditMap, headOfficeEditMapMarker);
             });
-            // branchOfficeEditMap = new google.maps.Map(document.getElementById('branch_office_edit_map'), {
-            //     zoom: 16,
-            //     center: headOffice,
-            //     mapTypeControl: false,
-            //     fullscreenControl: false,
-            //     streetViewControl: false,
-            //     gestureHandling: 'greedy',
-            // });
+            officeMap = new google.maps.Map(document.getElementById('office_map'), {
+                zoom: 16,
+                center: headOffice,
+                mapTypeControl: false,
+                fullscreenControl: false,
+                streetViewControl: false,
+                gestureHandling: 'greedy',
+            });
+            officeMapMarker = new MarkerClusterer({
+                map: officeMap,
+                markers: branchOfficeMarkers,
+                gridSize: 50,
+                minimumClusterSize: 2,
+                averageCenter: true,
+            });
+            if (LatList.length > 1 && LngList.length > 1) {
+                const bounds = new google.maps.LatLngBounds();
+                for (let i = 0; i < LatList.length; i++) {
+                    bounds.extend(new google.maps.LatLng(LatList[i], LngList[i]));
+                }
+                officeMap.fitBounds(bounds);
+                if (officeMap.getZoom() > 16) {
+                    officeMap.setZoom(16);
+                }
+            } else {
+                officeMap.setCenter(headOffice);
+                officeMap.setZoom(16);
+            }
+            branchOfficeEditMap = new google.maps.Map(document.getElementById('branch_office_edit_map'), {
+                zoom: 16,
+                center: headOffice,
+                mapTypeControl: false,
+                fullscreenControl: false,
+                streetViewControl: false,
+                gestureHandling: 'greedy',
+            });
+            branchOfficeEditMapMarker = new MarkerClusterer({
+                map: branchOfficeEditMap,
+                markers: branchOfficeMarkers,
+                gridSize: 50,
+                minimumClusterSize: 2,
+                averageCenter: true,
+            });
+            if (LatList.length > 1 && LngList.length > 1) {
+                const bounds = new google.maps.LatLngBounds();
+                for (let i = 0; i < LatList.length; i++) {
+                    bounds.extend(new google.maps.LatLng(LatList[i], LngList[i]));
+                }
+                branchOfficeEditMap.fitBounds(bounds);
+                if (branchOfficeEditMap.getZoom() > 16) {
+                    branchOfficeEditMap.setZoom(16);
+                }
+            } else {
+                branchOfficeEditMap.setCenter(headOffice);
+                branchOfficeEditMap.setZoom(16);
+            }
         });
     } catch (error) {
         console.log(error);
@@ -565,8 +602,9 @@ document.getElementById('head_office_address_btn').addEventListener('click', () 
         .then((res) => {
             console.log(res.data);
             document.getElementById('head_office_address').innerText = res.data.company.head_office_address;
-            console.log(officeMapMarker);
-            officeMapMarker.markers[0].setPosition(new google.maps.LatLng(res.data.company.head_office_lat, res.data.company.head_office_lng));
+            const headOffice = new google.maps.LatLng(res.data.company.head_office_lat, res.data.company.head_office_lng);
+            headOfficeMarker.setPosition(headOffice);
+            headOfficeMap.setCenter(headOffice);
             indicatorSuccess();
         })
         .catch((error) => {
@@ -720,6 +758,268 @@ document.getElementById('planned_number_btn').addEventListener('click', () => {
             } else {
                 document.getElementById('planned_number').innerText = res.data.company.planned_number + '人程度';
             }
+            indicatorSuccess();
+        })
+        .catch((error) => {
+            indicatorError();
+            console.log(error);
+        });
+});
+
+function branchMapMarkerUpdate(offices) {
+    branchOfficeEditMapMarker.clearMarkers();
+    let branchOfficeMarkers = [];
+    offices.forEach((data) => {
+        let branchOfficeMarker = new google.maps.Marker({
+            position: new google.maps.LatLng(data.office_lat, data.office_lng),
+            title: data.office_name,
+            address: data.office_address,
+            office_id: data.id,
+            animation: google.maps.Animation.DROP,
+            draggable: true,
+        });
+        branchOfficeMarker.addListener('dragend', () => {
+            document.getElementById('branch_office_lat_' + data.id).value = branchOfficeMarker.getPosition().lat();
+            document.getElementById('branch_office_lng_' + data.id).value = branchOfficeMarker.getPosition().lng();
+        });
+        branchOfficeMarker.addListener('click', () => {
+            if (infoWindow) {
+                infoWindow.close();
+            }
+            infoWindow = new google.maps.InfoWindow({
+                content: '<div class="flex flex-col justify-start gap-2"><div><div class="inline-flex items-center h-5 text-xs text-white bg-[#6787C4] px-4 rounded">' + data.office_name + '</div></div><div>' + data.office_address + '</div></div>',
+                disableAutoPan: true,
+            });
+            infoWindow.open(branchOfficeEditMap, branchOfficeMarker);
+        });
+        branchOfficeMarkers.push(branchOfficeMarker);
+    });
+    branchOfficeEditMapMarker.addMarkers(branchOfficeMarkers);
+}
+
+const branchInsertHeadOfficeBtn = document.getElementById('branch_insert_head_office_btn');
+if (branchInsertHeadOfficeBtn) {
+    document.getElementById('branch_insert_head_office_btn').addEventListener('click', () => {
+        const sendData = {
+            company_id: company_id,
+        };
+        axios.post('/api/branch_insert_head_office?api_token=' + api_token, sendData)
+            .then((res) => {
+                console.log(res.data);
+                const parser = new DOMParser();
+                const insertPoint = document.getElementById('branch_office_body');
+                insertPoint.innerHTML = '';
+                res.data.doc.forEach((docData) => {
+                    const doc = parser.parseFromString(docData, 'text/html');
+                    insertPoint.innerHTML += doc.body.innerHTML;
+                });
+                document.querySelectorAll('.branch-office-delete').forEach((el) => {
+                    el.addEventListener('click', () => {
+                        branchOfficeDelete(el);
+                    });
+                });
+                branchMapMarkerUpdate(res.data.branch_offices);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    });
+}
+
+document.querySelectorAll('.branch-office-delete').forEach((el) => {
+    el.addEventListener('click', () => {
+        branchOfficeDelete(el);
+    });
+});
+
+function branchOfficeDelete(target) {
+    const targetId = Number(target.getAttribute('data-id'));
+    if (targetId > 0) {
+        axios.delete('/api/branch_office_delete/' + targetId + '/' + company_id + '?api_token=' + api_token)
+            .then((res) => {
+                console.log(res.data);
+                document.querySelector('.branch-office-item[data-id="' + targetId + '"]').remove();
+                branchMapMarkerUpdate(res.data.branch_offices);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    } else {
+        document.querySelector('.branch-office-item[data-id="' + targetId + '"]').remove();
+        initMap();
+    }
+}
+
+document.getElementById('branch_office_add').addEventListener('click', () => {
+    indicatorPost();
+    let target = 0;
+    while (document.querySelector('.branch-office-item[data-id="' + target + '"]') !== null) {
+        target--;
+    }
+    axios.get('/api/branch_office_add/' + target + '?api_token=' + api_token)
+        .then((res) => {
+            console.log(res.data);
+            const parser = new DOMParser();
+            const insertPoint = document.getElementById('branch_office_body');
+            const doc = parser.parseFromString(res.data.doc, 'text/html');
+            insertPoint.innerHTML += doc.body.innerHTML;
+            document.querySelector('.branch-office-delete[data-id="' + target + '"]').addEventListener('click', (e) => {
+                branchOfficeDelete(e.target);
+            });
+            branchOfficeInputReflection(target);
+            indicatorSuccess();
+        })
+        .catch((error) => {
+            indicatorError();
+            console.log(error);
+        });
+});
+
+function branchOfficeInputReflection(target) {
+    document.getElementById('branch_office_name_input-' + target).addEventListener('keyup', (e) => {
+        e.target.setAttribute('value', e.target.value);
+    });
+    document.getElementById('branch_office_address_input-' + target).addEventListener('keyup', (e) => {
+        e.target.setAttribute('value', e.target.value);
+    });
+}
+
+document.getElementById('branch_office_map_btn').addEventListener('click', () => {
+    let branchOfficeMarkers = [];
+    let LatList = [];
+    let LngList = [];
+    let greenFlag = true;
+    const geocoder = new google.maps.Geocoder();
+    const branchOfficeItem = document.querySelectorAll('.branch-office-item');
+    const branchOfficeItemCount = branchOfficeItem.length;
+    branchOfficeItem.forEach((el) => {
+        const targetId = Number(el.getAttribute('data-id'));
+        const officeName = document.getElementById('branch_office_name_input-' + targetId).value;
+        const address = document.getElementById('branch_office_address_input-' + targetId).value;
+        if (targetId > 0) {
+            const lat = document.getElementById('branch_office_lat-' + targetId).value;
+            const lng = document.getElementById('branch_office_lng-' + targetId).value;
+            LatList.push(lat);
+            LngList.push(lng);
+            const branchOfficeMarker = new google.maps.Marker({
+                position: new google.maps.LatLng(lat, lng),
+                title: document.getElementById('branch_office_name_input-' + targetId).value,
+                address: document.getElementById('branch_office_address_input-' + targetId).value,
+                office_id: targetId,
+                animation: google.maps.Animation.DROP,
+                draggable: true,
+            });
+            branchOfficeMarker.addListener('dragend', () => {
+                document.getElementById('branch_office_lat-' + targetId).value = branchOfficeMarker.getPosition().lat();
+                document.getElementById('branch_office_lng-' + targetId).value = branchOfficeMarker.getPosition().lng();
+            });
+            branchOfficeMarker.addListener('click', () => {
+                if (infoWindow) {
+                    infoWindow.close();
+                }
+                infoWindow = new google.maps.InfoWindow({
+                    content: '<div class="flex flex-col justify-start gap-2"><div><div class="inline-flex items-center h-5 text-xs text-white bg-[#6787C4] px-4 rounded">' + document.getElementById('branch_office_name_input-' + targetId).value + '</div></div><div>' + document.getElementById('branch_office_address_input-' + targetId).value + '</div></div>',
+                    disableAutoPan: true,
+                });
+                infoWindow.open(branchOfficeEditMap, branchOfficeMarker);
+            });
+            branchOfficeMarkers.push(branchOfficeMarker);
+        } else {
+            geocoder.geocode({ address: address }, (results, status) => {
+                if (status === 'OK') {
+                    document.getElementById('branch_office_lat-' + targetId).value = results[0].geometry.location.lat();
+                    document.getElementById('branch_office_lng-' + targetId).value = results[0].geometry.location.lng();
+                    LatList.push(results[0].geometry.location.lat());
+                    LngList.push(results[0].geometry.location.lng());
+                    const branchOfficeMarker = new google.maps.Marker({
+                        position: results[0].geometry.location,
+                        title: document.getElementById('branch_office_name_input-' + targetId).value,
+                        address: document.getElementById('branch_office_address_input-' + targetId).value,
+                        office_id: null,
+                        animation: google.maps.Animation.DROP,
+                        draggable: true,
+                    });
+                    branchOfficeMarker.addListener('dragend', () => {
+                        document.getElementById('branch_office_lat-' + targetId).value = branchOfficeMarker.getPosition().lat();
+                        document.getElementById('branch_office_lng-' + targetId).value = branchOfficeMarker.getPosition().lng();
+                    });
+                    branchOfficeMarker.addListener('click', () => {
+                        if (infoWindow) {
+                            infoWindow.close();
+                        }
+                        infoWindow = new google.maps.InfoWindow({
+                            content: '<div class="flex flex-col justify-start gap-2"><div><div class="inline-flex items-center h-5 text-xs text-white bg-[#6787C4] px-4 rounded">' + document.getElementById('branch_office_name_input-' + targetId).value + '</div></div><div>' + document.getElementById('branch_office_address_input-' + targetId).value + '</div></div>',
+                            disableAutoPan: true,
+                        });
+                        infoWindow.open(branchOfficeEditMap, branchOfficeMarker);
+                    });
+                    branchOfficeMarkers.push(branchOfficeMarker);
+                } else {
+                    console.log('Geocode was not successful for the following reason: ' + status);
+                    window.alert(officeName + 'の検索に失敗しました。\n住所を確認してください。');
+                }
+            });
+        }
+    });
+    let setBranchOfficeEditMarkers = setInterval(() => {
+        if (greenFlag) {
+            if (branchOfficeItemCount === branchOfficeMarkers.length) {
+                branchOfficeEditMapMarker.clearMarkers();
+                branchOfficeEditMapMarker.addMarkers(branchOfficeMarkers);
+                if (LatList.length > 1 && LngList.length > 1) {
+                    const bounds = new google.maps.LatLngBounds();
+                    for (let i = 0; i < LatList.length; i++) {
+                        bounds.extend(new google.maps.LatLng(LatList[i], LngList[i]));
+                    }
+                    branchOfficeEditMap.fitBounds(bounds);
+                    if (branchOfficeEditMap.getZoom() > 16) {
+                        branchOfficeEditMap.setZoom(16);
+                    }
+                } else {
+                    branchOfficeEditMap.setCenter(headOfficeEditMapMarker.getPosition());
+                    branchOfficeEditMap.setZoom(16);
+                }
+                clearInterval(setBranchOfficeEditMarkers);
+            }
+        } else {
+            window.alert('住所の検索に失敗しました。\n住所を確認してください。');
+            clearInterval(setBranchOfficeEditMarkers);
+        }
+    }, 200);
+});
+
+document.getElementById('branch_offices_btn').addEventListener('click', () => {
+    console.log(branchOfficeEditMapMarker.markers);
+    let branchOffices = [];
+    branchOfficeEditMapMarker.markers.forEach((el) => {
+        branchOffices.push({
+            id: el.office_id,
+            office_name: el.title,
+            office_address: el.address,
+            office_lat: el.getPosition().lat(),
+            office_lng: el.getPosition().lng(),
+        });
+    });
+    const sendData = {
+        branch_offices: branchOffices,
+        company_id: company_id,
+    };
+    axios.post('/api/branch_office_edit?api_token=' + api_token, sendData)
+        .then((res) => {
+            console.log(res.data);
+            const parser = new DOMParser();
+            const insertPoint = document.getElementById('branch_office_body');
+            insertPoint.innerHTML = '';
+            res.data.doc.forEach((docData) => {
+                const doc = parser.parseFromString(docData, 'text/html');
+                insertPoint.innerHTML += doc.body.innerHTML;
+            });
+            document.querySelectorAll('.branch-office-delete').forEach((el) => {
+                el.addEventListener('click', () => {
+                    branchOfficeDelete(el);
+                });
+            });
+            branchMapMarkerUpdate(res.data.branch_offices);
             indicatorSuccess();
         })
         .catch((error) => {
