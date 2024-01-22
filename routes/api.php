@@ -44,4 +44,5 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('/branch_office_delete/{id}/{company_id}', [ApiController::class, 'branchOfficeDelete'])->name('api.branch_office_delete');
     Route::get('/branch_office_add/{target}', [ApiController::class, 'branchOfficeAdd'])->name('api.branch_office_add');
     Route::post('/branch_office_edit', [ApiController::class, 'branchOfficeEdit'])->name('api.branch_office_edit');
+    Route::post('/recruit_in_charge_edit', [ApiController::class, 'recruitInChargeEdit'])->name('api.recruit_in_charge_edit');
 });

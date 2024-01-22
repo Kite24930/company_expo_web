@@ -1027,3 +1027,46 @@ document.getElementById('branch_offices_btn').addEventListener('click', () => {
             console.log(error);
         });
 });
+
+document.getElementById('recruit_in_charge_tel_input_null').addEventListener('change', (e) => {
+    const input = document.getElementById('recruit_in_charge_tel_input');
+    if(e.target.checked) {
+        input.disabled = true;
+        input.classList.add('bg-gray-300');
+    } else {
+        input.disabled = false;
+        input.classList.remove('bg-gray-300');
+    }
+});
+
+document.getElementById('recruit_in_charge_btn').addEventListener('click', () => {
+    let tel = null;
+    if (!document.getElementById('recruit_in_charge_tel_input_null').checked) {
+        tel = document.getElementById('recruit_in_charge_tel_input').value;
+    }
+    const sendData = {
+        recruit_department: document.getElementById('recruit_department_input').value,
+        recruit_in_charge_person: document.getElementById('recruit_in_charge_person_input').value,
+        recruit_in_charge_person_ruby: document.getElementById('recruit_in_charge_person_ruby_input').value,
+        recruit_in_charge_tel: tel,
+        recruit_in_charge_email: document.getElementById('recruit_in_charge_email_input').value,
+        company_id: company_id,
+    }
+    axios.post('/api/recruit_in_charge_edit?api_token=' + api_token, sendData)
+        .then((res) => {
+            console.log(res.data);
+            document.getElementById('recruit_department').innerText = res.data.company.recruit_department;
+            document.getElementById('recruit_in_charge_person').innerText = res.data.company.recruit_in_charge_person + '（' + res.data.company.recruit_in_charge_person_ruby + '）';
+            if (res.data.company.recruit_in_charge_tel === null) {
+                document.getElementById('recruit_in_charge_tel').innerText = '非公開';
+            } else {
+                document.getElementById('recruit_in_charge_tel').innerText = res.data.company.recruit_in_charge_tel;
+            }
+            document.getElementById('recruit_in_charge_email').innerText = res.data.company.recruit_in_charge_email;
+            indicatorSuccess();
+        })
+        .catch((error) => {
+            indicatorError();
+            console.log(error);
+        });
+});

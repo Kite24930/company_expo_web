@@ -601,4 +601,41 @@ class ApiController extends Controller
             ]);
         }
     }
+
+    public function recruitInChargeEdit(Request $request) {
+        $request->validate([
+            'company_id' => 'required',
+            'recruit_department' => 'required',
+            'recruit_in_charge_person' => 'required',
+            'recruit_in_charge_person_ruby' => 'required',
+            'recruit_in_charge_tel' => 'nullable',
+            'recruit_in_charge_email' => 'required',
+        ],
+        [
+            'recruit_department.required' => '採用担当部署を入力してください。',
+            'recruit_in_charge_person.required' => '採用担当者を入力してください。',
+            'recruit_in_charge_person_ruby.required' => '採用担当者（ふりがな）を入力してください。',
+            'recruit_in_charge_tel.required' => '採用担当者電話番号を入力してください。',
+            'recruit_in_charge_email.required' => '採用担当者メールアドレスを入力してください。',
+        ]);
+        try {
+            $company = Company::find($request->company_id);
+            $company->recruit_department = $request->recruit_department;
+            $company->recruit_in_charge_person = $request->recruit_in_charge_person;
+            $company->recruit_in_charge_person_ruby = $request->recruit_in_charge_person_ruby;
+            $company->recruit_in_charge_tel = $request->recruit_in_charge_tel;
+            $company->recruit_in_charge_email = $request->recruit_in_charge_email;
+            $company->save();
+            return response()->json([
+                'success' => true,
+                'message' => '採用担当者の更新が完了しました。',
+                'company' => $company,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => '採用担当者の更新に失敗しました。',
+            ]);
+        }
+    }
 }

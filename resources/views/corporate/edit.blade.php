@@ -220,7 +220,7 @@
                                     @if($company->recruit_in_charge_tel)
                                         {{ __($company->recruit_in_charge_tel) }}
                                     @else
-                                        未入力
+                                        非公開
                                     @endif
                                 </x-elements.category-content>
                             </x-elements.category-wrapper>
@@ -277,7 +277,7 @@
                     <x-input-label for="company_name_ruby_input">企業名（ふりがな）</x-input-label>
                     <x-text-input id="company_name_ruby_input" class="w-full" value="{{ $company->company_name_ruby }}" placeholder="企業名（ふりがな）" />
                     <x-input-label class="text-xs text-red-500">
-                        ※検索や並び替えに使用しますので、株式会社等の表記はいりません。
+                        ※検索や並び替えに使用しますので、株式会社等の表記はいりません。ひらがなでご記入ください。
                         <br>
                         例) 株式会社山田 → やまだ
                     </x-input-label>
@@ -550,7 +550,7 @@
                     更新
                 </x-elements.button>
             </x-elements.modal-item>
-            <x-elements.modal-item setId="branch_offices_edit" title="勤務地編集" class="max-h-[80dvh] overflow-y-auto modal-item">
+            <x-elements.modal-item setId="branch_offices_edit" title="勤務地編集" class="max-h-[80dvh] overflow-y-auto modal-item hidden">
                 <div class="w-full">
                     @php $check = true; @endphp
                     @foreach($branch_offices as $branch_office)
@@ -604,6 +604,79 @@
                     </x-input-label>
                 </div>
                 <x-elements.button id="branch_offices_btn">
+                    更新
+                </x-elements.button>
+            </x-elements.modal-item>
+            <x-elements.modal-item setId="recruit_in_charge_edit" title="採用担当編集" class="max-h-[80dvh] overflow-y-auto modal-item hidden">
+                <div class="w-full">
+                    <x-input-label for="recruit_department_input">採用担当部署</x-input-label>
+                    <div class="flex gap-2 items-center">
+                        <x-text-input id="recruit_department_input" class="w-full" value="{{ $company->recruit_department }}" placeholder="採用担当部署" />
+                    </div>
+                </div>
+                <div class="w-full">
+                    <x-input-label for="recruit_in_charge_person_input">採用担当者</x-input-label>
+                    <div class="flex gap-2 items-center">
+                        <x-text-input id="recruit_in_charge_person_input" class="w-full" value="{{ $company->recruit_in_charge_person }}" placeholder="採用担当者" />
+                    </div>
+                </div>
+                <div class="w-full">
+                    <x-input-label for="recruit_in_charge_person_ruby_input">採用担当者（ふりがな）</x-input-label>
+                    <div class="flex gap-2 items-center">
+                        <x-text-input id="recruit_in_charge_person_ruby_input" class="w-full" value="{{ $company->recruit_in_charge_person_ruby }}" placeholder="採用担当者（ふりがな）" />
+                    </div>
+                    <x-input-label class="text-xs text-red-500">
+                        ※ふりがなはひらがなでご入力ください。
+                    </x-input-label>
+                </div>
+                <div class="w-full">
+                    <x-input-label for="recruit_in_charge_tel_input">採用担当電話番号[任意]</x-input-label>
+                    @if($company->recruit_in_charge_tel !== null)
+                        <x-elements.checkbox :setValue="$company->id" :setId="__('recruit_in_charge_tel_input_null')" :notation="__('採用担当電話番号を非表示にする')" class="recruit-in-charge-tel-input" />
+                        <div class="flex gap-2 items-center">
+                            <x-text-input id="recruit_in_charge_tel_input" class="w-full" value="{{ $company->recruit_in_charge_tel }}" placeholder="採用担当電話番号" type="tel" />
+                        </div>
+                    @else
+                        <x-elements.checkbox :setValue="$company->id" :setId="__('recruit_in_charge_tel_input_null')" :notation="__('採用担当電話番号を非表示にする')" class="recruit-in-charge-tel-input" checked />
+                        <div class="flex gap-2 items-center">
+                            <x-text-input id="recruit_in_charge_tel_input" class="w-full bg-gray-300" value="{{ $company->recruit_in_charge_tel }}" placeholder="採用担当電話番号" type="tel" desabled />
+                        </div>
+                    @endif
+                    <x-input-label class="text-xs text-red-500">
+                        ※採用担当電話番号は任意項目です。
+                    </x-input-label>
+                </div>
+                <div class="w-full">
+                    <x-input-label for="recruit_in_charge_email_input">採用担当メールアドレス</x-input-label>
+                    <div class="flex gap-2 items-center">
+                        <x-text-input id="recruit_in_charge_email_input" class="w-full" value="{{ $company->recruit_in_charge_email }}" placeholder="採用担当メールアドレス" type="email" />
+                    </div>
+                </div>
+                <x-elements.button id="recruit_in_charge_btn">
+                    更新
+                </x-elements.button>
+            </x-elements.modal-item>
+            <x-elements.modal-item setId="recruit_in_charge_edit" title="企業Webサイト編集" class="max-h-[80dvh] overflow-y-auto modal-item">
+                <div class="w-full">
+                    <x-input-label for="url_input">企業Webサイト</x-input-label>
+                    @if($company->url !== null)
+                        <x-elements.checkbox :setValue="$company->id" :setId="__('url_input_null')" :notation="__('企業Webサイトを非表示にする')" class="url-input" />
+                        <div class="flex gap-2 items-center">
+                            <x-text-input id="url_input" class="w-full" value="{{ $company->url }}" placeholder="企業Webサイト" type="url" />
+                        </div>
+                    @else
+                        <x-elements.checkbox :setValue="$company->id" :setId="__('url_input_null')" :notation="__('企業Webサイトを非表示にする')" class="url-input" checked />
+                        <div class="flex gap-2 items-center">
+                            <x-text-input id="url_input" class="w-full bg-gray-300" value="{{ $company->url }}" placeholder="企業Webサイト" type="url" desabled />
+                        </div>
+                    @endif
+                    <x-input-label class="text-xs text-red-500">
+                        ※企業Webサイトは任意項目です。
+                        <br>
+                        HPや求人サイトのURLをご記入ください。
+                    </x-input-label>
+                </div>
+                <x-elements.button id="url_btn">
                     更新
                 </x-elements.button>
             </x-elements.modal-item>

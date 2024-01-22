@@ -50,7 +50,7 @@ class CorporateController extends Controller
                 'planned_number' => null,
                 'recruit_department' => '未入力',
                 'recruit_in_charge_person' => '未入力',
-                'recruit_in_charge_person_ruby' => 'ミニュウリョク',
+                'recruit_in_charge_person_ruby' => 'みにゅうりょく',
                 'recruit_in_charge_tel' => null,
                 'recruit_in_charge_email' => '未入力',
             ]);
