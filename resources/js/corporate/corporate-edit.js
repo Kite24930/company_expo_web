@@ -1070,3 +1070,39 @@ document.getElementById('recruit_in_charge_btn').addEventListener('click', () =>
             console.log(error);
         });
 });
+
+document.getElementById('url_input_null').addEventListener('change', (e) => {
+    const input = document.getElementById('url_input');
+    if(e.target.checked) {
+        input.disabled = true;
+        input.classList.add('bg-gray-300');
+    } else {
+        input.disabled = false;
+        input.classList.remove('bg-gray-300');
+    }
+});
+
+document.getElementById('url_btn').addEventListener('click', () => {
+    let url = null;
+    if (!document.getElementById('url_input_null').checked) {
+        url = document.getElementById('url_input').value;
+    }
+    const sendData = {
+        url: url,
+        company_id: company_id,
+    }
+    axios.post('/api/url_edit?api_token=' + api_token, sendData)
+        .then((res) => {
+            console.log(res.data);
+            if (res.data.company.url === null) {
+                document.getElementById('url').innerText = '未入力';
+            } else {
+                document.getElementById('url').innerHTML = '<a href="' + res.data.company.url + '" target="_blank">Webサイトを見る</a>';
+            }
+            indicatorSuccess();
+        })
+        .catch((error) => {
+            indicatorError();
+            console.log(error);
+        });
+});

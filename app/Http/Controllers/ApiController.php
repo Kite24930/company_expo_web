@@ -638,4 +638,29 @@ class ApiController extends Controller
             ]);
         }
     }
+
+    public function urlEdit(Request $request) {
+        $request->validate([
+            'company_id' => 'required',
+            'url' => 'nullable',
+        ],
+        [
+            'url.required' => 'URLを入力してください。',
+        ]);
+        try {
+            $company = Company::find($request->company_id);
+            $company->url = $request->url;
+            $company->save();
+            return response()->json([
+                'success' => true,
+                'message' => 'URLの更新が完了しました。',
+                'company' => $company,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'URLの更新に失敗しました。',
+            ]);
+        }
+    }
 }

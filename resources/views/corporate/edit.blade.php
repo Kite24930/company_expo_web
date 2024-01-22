@@ -656,7 +656,7 @@
                     更新
                 </x-elements.button>
             </x-elements.modal-item>
-            <x-elements.modal-item setId="recruit_in_charge_edit" title="企業Webサイト編集" class="max-h-[80dvh] overflow-y-auto modal-item">
+            <x-elements.modal-item setId="recruit_in_charge_edit" title="企業Webサイト編集" class="max-h-[80dvh] overflow-y-auto modal-item hidden">
                 <div class="w-full">
                     <x-input-label for="url_input">企業Webサイト</x-input-label>
                     @if($company->url !== null)
