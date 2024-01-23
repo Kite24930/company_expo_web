@@ -17,12 +17,17 @@ const company_id = document.getElementById('company_id').value;
 const api_token = document.getElementById('api_token').value;
 let headOfficeMap, officeMap, headOfficeEditMap, branchOfficeEditMap, headOfficeMarker, officeMapMarker, headOfficeEditMapMarker, branchOfficeEditMapMarker, infoWindow;
 
-function modalOpen() {
+function modalOpen(target) {
     modal.classList.remove('hidden');
+    document.querySelectorAll('.modal-item').forEach((el) => {
+        el.classList.add('hidden');
+    });
+    document.getElementById(target).classList.remove('hidden');
 }
 
 function modalClose() {
     modal.classList.add('hidden');
+    window.location.reload();
 }
 document.getElementById('modalClose').addEventListener('click', () => {
     modalClose();
@@ -59,8 +64,17 @@ function errorIndicatorHide() {
 }
 
 window.addEventListener('load', () => {
+    setEditCover();
     initMap();
 });
+
+function setEditCover() {
+    document.querySelectorAll('.edit-cover').forEach((el) => {
+        el.addEventListener('click', () => {
+            modalOpen(el.getAttribute('data-target'));
+        });
+    });
+}
 
 function initMap() {
     try {
@@ -553,6 +567,7 @@ document.getElementById('target_btn').addEventListener('click', () => {
         targets: targets,
         company_id: company_id,
     };
+    console.log(sendData);
     axios.post('/api/target_edit?api_token=' + api_token, sendData)
         .then((res) => {
             console.log(res.data);

@@ -1,5 +1,8 @@
 <x-dashboard.template title="企業情報編集" css="dashboard/corporate-edit.css" :overview="$overview" hide="true">
     <main class="w-full md:pl-80 pt-20 md:pt-4 pb-24 bg-gray-50 flex flex-col items-center full md:pr-2.5">
+        <div class="p-2 bg-blue-200 text-blue-800 text-lg rounded-lg text-left w-full max-w-3xl my-4 border border-gray-800">
+            各項目を編集する場合は、項目上の編みかけ部分をクリックしてください。
+        </div>
         @if($msg)
             <div class="p-2 bg-green-200 text-green-800 text-lg rounded-lg text-left w-full max-w-3xl my-4">
                 {{ $msg }}
@@ -8,7 +11,8 @@
         <div class="w-full md:px-10 flex justify-center">
             <div class="md:bg-white rounded-lg md:border w-full max-w-3xl flex flex-col">
                 <div id="company_header" class="w-full flex justify-start gap-4 p-4">
-                    <div id="company_logo_wrapper" class="w-12 h-12">
+                    <div id="company_logo_wrapper" class="w-12 h-12 relative">
+                        <x-elements.edit-cover target="company_logo_edit" size="24" />
                         @if($company->company_logo)
                             <img id="company_logo" src="{{ asset('storage/company/' . $company->id . '/' . $company->company_logo . '?token=' . Str::random(5)) }}" alt="{{ $company->company_name }}" class="w-full h-full object-cover rounded-full border">
                         @else
@@ -16,10 +20,12 @@
                         @endif
                     </div>
                     <div class="flex flex-col gap-1">
-                        <div id="company_name" class="font-bold">
+                        <div id="company_name" class="font-bold relative">
+                            <x-elements.edit-cover target="company_name_edit" size="24" />
                             {{ $company->company_name }}
                         </div>
-                        <div id="industry_name_head" class="text-xs">
+                        <div id="industry_name_head" class="text-xs relative">
+                            <x-elements.edit-cover target="company_industry_edit" size="15" />
                             @if($industry)
                                 {{ $industry->industry_name }}
                             @else
@@ -33,6 +39,7 @@
                         XX/XX 第○部
                     </div>
                     <div id="company_img_wrapper" class="relative">
+                        <x-elements.edit-cover target="company_img_edit" size="100" />
                         @if($company->company_img)
                             <img id="company_img" src="{{ asset('storage/company/'.$company->id.'/'.$company->company_img.'?token='.Str::random(5)) }}" alt="{{ $company->company_name }}" class="absolute top-0 left-0 bottom-0 right-0 w-full h-full object-cover z-20">
                         @else
@@ -50,7 +57,8 @@
                                 <x-elements.category-title>
                                     業種・業態
                                 </x-elements.category-title>
-                                <x-elements.category-content id="industry_name">
+                                <x-elements.category-content id="industry_name" class="relative">
+                                    <x-elements.edit-cover target="company_industry_edit" size="24" />
                                     @if($industry)
                                         {{ $industry->industry_name }}
                                     @else
@@ -62,7 +70,8 @@
                                 <x-elements.category-title>
                                     事業内容
                                 </x-elements.category-title>
-                                <x-elements.category-content id="business_detail">
+                                <x-elements.category-content id="business_detail" class="relative">
+                                    <x-elements.edit-cover target="business_detail_edit" size="24" />
                                     <div id="business_detail_viewer"></div>
                                 </x-elements.category-content>
                             </x-elements.category-wrapper>
@@ -70,7 +79,8 @@
                                 <x-elements.category-title>
                                     企業PR
                                 </x-elements.category-title>
-                                <x-elements.category-content id="pr">
+                                <x-elements.category-content id="pr" class="relative">
+                                    <x-elements.edit-cover target="pr_edit" size="24" />
                                     <div id="pr_viewer"></div>
                                 </x-elements.category-content>
                             </x-elements.category-wrapper>
@@ -78,7 +88,8 @@
                                 <x-elements.category-title>
                                     募集職種
                                 </x-elements.category-title>
-                                <x-elements.category-content id="occupation">
+                                <x-elements.category-content id="occupation" class="relative">
+                                    <x-elements.edit-cover target="occupation_edit" size="24" />
                                     <ul class="list-disc list-inside">
                                         @if($occupations && $occupations->count() > 0)
                                             @foreach($occupations as $item)
@@ -94,7 +105,8 @@
                                 <x-elements.category-title>
                                     仕事内容
                                 </x-elements.category-title>
-                                <x-elements.category-content id="job_detail">
+                                <x-elements.category-content id="job_detail" class="relative">
+                                    <x-elements.edit-cover target="job_detail_edit" size="24" />
                                     <div id="job_detail_viewer"></div>
                                 </x-elements.category-content>
                             </x-elements.category-wrapper>
@@ -102,7 +114,8 @@
                                 <x-elements.category-title>
                                     対象学生
                                 </x-elements.category-title>
-                                <x-elements.category-content id="faculty">
+                                <x-elements.category-content id="faculty" class="relative">
+                                    <x-elements.edit-cover target="target_edit" size="24" />
                                     <ul class="list-disc list-inside">
                                         @if($target && $target->count() > 0)
                                             @foreach($target as $item)
@@ -118,7 +131,8 @@
                                 <x-elements.category-title>
                                     本社所在地
                                 </x-elements.category-title>
-                                <x-elements.category-content id="head_office_address_wrapper" class="w-full">
+                                <x-elements.category-content id="head_office_address_wrapper" class="w-full relative">
+                                    <x-elements.edit-cover target="head_office_address_edit" size="24" />
                                     <div id="head_office_address" class="mb-2">
                                         {{ $company->head_office_address }}
                                     </div>
@@ -129,7 +143,8 @@
                                 <x-elements.category-title>
                                     設立年月
                                 </x-elements.category-title>
-                                <x-elements.category-content id="established_at">
+                                <x-elements.category-content id="established_at" class="relative">
+                                    <x-elements.edit-cover target="established_at_edit" size="24" />
                                     {{ date('Y年n月', strtotime($company->established_at)) }}
                                 </x-elements.category-content>
                             </x-elements.category-wrapper>
@@ -137,7 +152,8 @@
                                 <x-elements.category-title>
                                     資本金
                                 </x-elements.category-title>
-                                <x-elements.category-content id="capital">
+                                <x-elements.category-content id="capital" class="relative">
+                                    <x-elements.edit-cover target="capital_edit" size="24" />
                                     {{ __($company->capital.'万円') }}
                                 </x-elements.category-content>
                             </x-elements.category-wrapper>
@@ -145,7 +161,8 @@
                                 <x-elements.category-title>
                                     売上金
                                 </x-elements.category-title>
-                                <x-elements.category-content id="sales">
+                                <x-elements.category-content id="sales" class="relative">
+                                    <x-elements.edit-cover target="sales_edit" size="24" />
                                     @if($company->sales)
                                         {{ __($company->sales.'万円') }}
                                     @else
@@ -157,7 +174,8 @@
                                 <x-elements.category-title>
                                     従業員数
                                 </x-elements.category-title>
-                                <x-elements.category-content id="employees">
+                                <x-elements.category-content id="employees" class="relative">
+                                    <x-elements.edit-cover target="employees_edit" size="24" />
                                     {{ __($company->employees.'人') }}
                                 </x-elements.category-content>
                             </x-elements.category-wrapper>
@@ -165,7 +183,8 @@
                                 <x-elements.category-title>
                                     三重大学OB・OG数
                                 </x-elements.category-title>
-                                <x-elements.category-content id="mie_univ_ob_og">
+                                <x-elements.category-content id="mie_univ_ob_og" class="relative">
+                                    <x-elements.edit-cover target="mie_univ_ob_og_edit" size="24" />
                                     {{ __($company->mie_univ_ob_og.'人') }}
                                 </x-elements.category-content>
                             </x-elements.category-wrapper>
@@ -173,7 +192,8 @@
                                 <x-elements.category-title>
                                     採用予定人数
                                 </x-elements.category-title>
-                                <x-elements.category-content id="planned_number">
+                                <x-elements.category-content id="planned_number" class="relative">
+                                    <x-elements.edit-cover target="planned_number_edit" size="24" />
                                     @if($company->planned_number)
                                         {{ __($company->planned_number.'人程度') }}
                                     @else
@@ -185,7 +205,8 @@
                                 <x-elements.category-title>
                                     勤務地
                                 </x-elements.category-title>
-                                <x-elements.category-content id="branch_offices" class="w-full">
+                                <x-elements.category-content id="branch_offices" class="w-full relative">
+                                    <x-elements.edit-cover target="branch_offices_edit" size="24" />
                                     <div id="branch_offices_wrapper" class="flex flex-col gap-2 mb-2">
                                         @if($branch_offices && $branch_offices->count() > 0)
                                             @foreach($branch_offices as $item)
@@ -200,7 +221,8 @@
                                 <x-elements.category-title>
                                     採用担当部署名
                                 </x-elements.category-title>
-                                <x-elements.category-content id="recruit_department">
+                                <x-elements.category-content id="recruit_department" class="relative">
+                                    <x-elements.edit-cover target="recruit_in_charge_edit" size="24" />
                                     {{ __($company->recruit_department) }}
                                 </x-elements.category-content>
                             </x-elements.category-wrapper>
@@ -208,7 +230,8 @@
                                 <x-elements.category-title>
                                     採用担当者
                                 </x-elements.category-title>
-                                <x-elements.category-content id="recruit_in_charge_person">
+                                <x-elements.category-content id="recruit_in_charge_person" class="relative">
+                                    <x-elements.edit-cover target="recruit_in_charge_edit" size="24" />
                                     {{ __($company->recruit_in_charge_person.'('.$company->recruit_in_charge_person_ruby.')') }}
                                 </x-elements.category-content>
                             </x-elements.category-wrapper>
@@ -216,7 +239,8 @@
                                 <x-elements.category-title>
                                     採用担当電話番号
                                 </x-elements.category-title>
-                                <x-elements.category-content id="recruit_in_charge_tel">
+                                <x-elements.category-content id="recruit_in_charge_tel" class="relative">
+                                    <x-elements.edit-cover target="recruit_in_charge_edit" size="24" />
                                     @if($company->recruit_in_charge_tel)
                                         {{ __($company->recruit_in_charge_tel) }}
                                     @else
@@ -228,7 +252,8 @@
                                 <x-elements.category-title>
                                     採用担当メールアドレス
                                 </x-elements.category-title>
-                                <x-elements.category-content id="recruit_in_charge_email">
+                                <x-elements.category-content id="recruit_in_charge_email" class="relative">
+                                    <x-elements.edit-cover target="recruit_in_charge_edit" size="24" />
                                     {{ __($company->recruit_in_charge_email) }}
                                 </x-elements.category-content>
                             </x-elements.category-wrapper>
@@ -236,7 +261,8 @@
                                 <x-elements.category-title>
                                     企業Webサイト
                                 </x-elements.category-title>
-                                <x-elements.category-content id="url">
+                                <x-elements.category-content id="url" class="relative">
+                                    <x-elements.edit-cover target="url_edit" size="24" />
                                     @if($company->url)
                                         <a href="{{ $company->url }}" target="_blank" class="text-blue-500 underline">
                                             Webサイトを見る
@@ -252,7 +278,7 @@
             </div>
         </div>
     </main>
-    <div id="modalWrapper" class="fixed top-0 bottom-0 left-0 right-0 w-full h-full bg-gray-600 bg-opacity-50 z-50 flex justify-center items-center">
+    <div id="modalWrapper" class="fixed top-0 bottom-0 left-0 right-0 w-full h-full bg-gray-600 bg-opacity-50 z-50 justify-center items-center hidden">
         @csrf
         <input id="company_id" type="hidden" value="{{ $company->id }}" class="text-green-500 bg-green-100 text-red-500 bg-red-100">
         <input id="api_token" type="hidden" value="{{ Auth::user()->api_token }}">
@@ -328,7 +354,7 @@
                     <x-input-label for="company_img_edit_wrapper" class="mb-2">企業イメージ画像</x-input-label>
                     <div id="company_img_edit_wrapper" class="relative">
                         @if($company->company_img)
-                            <img id="company_img" src="{{ asset('storage/company/'.$company->id.'/'.$company->company_img.'?token='.Str::random(5)) }}" alt="{{ $company->company_name }}" class="absolute top-0 left-0 bottom-0 right-0 w-full h-full object-cover z-20">
+                            <img id="company_img_preview" src="{{ asset('storage/company/'.$company->id.'/'.$company->company_img.'?token='.Str::random(5)) }}" alt="{{ $company->company_name }}" class="absolute top-0 left-0 bottom-0 right-0 w-full h-full object-cover z-20">
                         @else
                             <img id="company_img_preview" src="{{ __('https://placehold.jp/99cccc/ffffff/800x500.png?text=%E3%82%A4%E3%83%A1%E3%83%BC%E3%82%B8%E7%94%BB%E5%83%8F') }}" alt="イメージ画像" class="absolute top-0 left-0 bottom-0 right-0 w-full h-full object-cover z-20">
                         @endif
@@ -457,7 +483,7 @@
                         <x-text-input id="established_at_year_input" class="w-28" value="{{ date('Y', strtotime($company->established_at)) }}" placeholder="設立年月" type="number" />年
                         <x-select-input id="established_at_month_input">
                             @for($i = 1; $i <= 12; $i++)
-                                <option value="{{ $i }}" @if(date('n', strtotime($company->established_at)) === $i) selected @endif>{{ __($i.'月') }}</option>
+                                <option value="{{ $i }}" @if((int)date('n', strtotime($company->established_at)) === $i) selected @endif>{{ __($i.'月') }}</option>
                             @endfor
                         </x-select-input>
                     </div>
@@ -488,12 +514,12 @@
                     <x-input-label for="sales_input">売上金</x-input-label>
                     <div class="flex flex-col gap-2 items-start">
                         @if($company->sales)
-                            <x-elements.checkbox :setValue="$company->id" :setId="__('sales_input_null')" :notation="__('売上金を非公開にする')" class="target-input" />
+                            <x-elements.checkbox :setValue="$company->id" :setId="__('sales_input_null')" :notation="__('売上金を非公開にする')" class="sales-input" />
                             <div class="flex gap-2 items-center">
                                 <x-text-input id="sales_input" class="w-44" value="{{ $company->sales }}" placeholder="売上金" type="number" />万円
                             </div>
                         @else
-                            <x-elements.checkbox :setValue="$company->id" :setId="__('sales_input_null')" :notation="__('売上金を非公開にする')" class="target-input" checked />
+                            <x-elements.checkbox :setValue="$company->id" :setId="__('sales_input_null')" :notation="__('売上金を非公開にする')" class="sales-input" checked />
                             <div class="flex gap-2 items-center">
                                 <x-text-input id="sales_input" class="w-44 bg-gray-300" value="{{ $company->sales }}" placeholder="売上金" type="number" disabled />万円
                             </div>
@@ -534,12 +560,12 @@
                     <x-input-label for="planned_number_input">採用予定人数</x-input-label>
                     <div class="flex flex-col gap-2 items-start">
                         @if($company->planned_number)
-                            <x-elements.checkbox :setValue="$company->id" :setId="__('planned_number_input_null')" :notation="__('採用予定人数を未定にする')" class="target-input" />
+                            <x-elements.checkbox :setValue="$company->id" :setId="__('planned_number_input_null')" :notation="__('採用予定人数を未定にする')" class="planned-number-input" />
                             <div class="flex gap-2 items-center">
                                 <x-text-input id="planned_number_input" class="w-44" value="{{ $company->planned_number }}" placeholder="採用予定人数" type="number" />人程度
                             </div>
                         @else
-                            <x-elements.checkbox :setValue="$company->id" :setId="__('planned_number_input_null')" :notation="__('採用予定人数を未定にする')" class="target-input" checked />
+                            <x-elements.checkbox :setValue="$company->id" :setId="__('planned_number_input_null')" :notation="__('採用予定人数を未定にする')" class="planned-number-input" checked />
                             <div class="flex gap-2 items-center">
                                 <x-text-input id="planned_number_input" class="w-44 bg-gray-300" value="{{ $company->planned_number }}" placeholder="採用予定人数" type="number" disabled />人程度
                             </div>
@@ -656,7 +682,7 @@
                     更新
                 </x-elements.button>
             </x-elements.modal-item>
-            <x-elements.modal-item setId="recruit_in_charge_edit" title="企業Webサイト編集" class="max-h-[80dvh] overflow-y-auto modal-item hidden">
+            <x-elements.modal-item setId="url_edit" title="企業Webサイト編集" class="max-h-[80dvh] overflow-y-auto modal-item hidden">
                 <div class="w-full">
                     <x-input-label for="url_input">企業Webサイト</x-input-label>
                     @if($company->url !== null)
