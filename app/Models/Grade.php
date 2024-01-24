@@ -11,5 +11,6 @@ class Grade extends Model
 
     protected $fillable = [
         'grade_name',
+        'color'
     ];
 }

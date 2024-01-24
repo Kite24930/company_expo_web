@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('grades', function (Blueprint $table) {
             $table->id();
             $table->string('grade_name')->comment('学年名');
+            $table->string('color')->comment('カラーコード');
             $table->timestamps();
         });
 

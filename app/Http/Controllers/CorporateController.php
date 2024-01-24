@@ -5,21 +5,67 @@ namespace App\Http\Controllers;
 use App\Models\BranchOffice;
 use App\Models\Company;
 use App\Models\Faculty;
+use App\Models\FollowerView;
+use App\Models\Grade;
 use App\Models\Industry;
 use App\Models\IndustryView;
 use App\Models\LayoutView;
 use App\Models\MajorIndustry;
 use App\Models\Occupation;
 use App\Models\Overview;
+use App\Models\StudentView;
 use App\Models\TargetView;
+use App\Models\User;
+use App\Models\VisitorView;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CorporateController extends Controller
 {
     public function CorporateAccount() {
+        $company_id = Company::where('user_id', Auth::user()->id)->first()->id;
+        $faculties = Faculty::all();
+        $faculty_ids = Faculty::pluck('id')->toArray();
+        $grades = Grade::all();
+        foreach ($faculty_ids as $faculty_id) {
+            $students['faculty'][$faculty_id] = StudentView::where('faculty_id', $faculty_id)->count();
+            $followers['faculty'][$faculty_id] = FollowerView::where('student_faculty_id', $faculty_id)->where('company_id', $company_id)->count();
+            $visitors['faculty'][$faculty_id] = VisitorView::where('student_faculty_id', $faculty_id)->where('company_id', $company_id)->count();
+            foreach ($grades as $grade) {
+                $students[$faculty_id][$grade->id] = StudentView::where('faculty_id', $faculty_id)->where('grade_id', $grade->id)->count();
+                $followers[$faculty_id][$grade->id] = FollowerView::where('student_faculty_id', $faculty_id)->where('company_id', $company_id)->where('student_grade_id', $grade->id)->count();
+                $visitors[$faculty_id][$grade->id] = VisitorView::where('student_faculty_id', $faculty_id)->where('company_id', $company_id)->where('student_grade_id', $grade->id)->count();
+            }
+        }
+        foreach ($grades as $grade) {
+            $students['grade'][$grade->id] = StudentView::where('grade_id', $grade->id)->count();
+            $followers['grade'][$grade->id] = FollowerView::where('student_grade_id', $grade->id)->where('company_id', $company_id)->count();
+            $visitors['grade'][$grade->id] = VisitorView::where('student_grade_id', $grade->id)->where('company_id', $company_id)->count();
+        }
+        $student_count['all'] = StudentView::count();
+        $follower_count['all'] = FollowerView::where('company_id', $company_id)->count();
+        $visitor_count['all'] = VisitorView::where('company_id', $company_id)->count();
+        foreach ($faculties as $faculty) {
+            $student_count['faculty'][$faculty->id] = StudentView::where('faculty_id', $faculty->id)->count();
+            $follower_count['faculty'][$faculty->id] = FollowerView::where('student_faculty_id', $faculty->id)->where('company_id', $company_id)->count();
+            $visitor_count['faculty'][$faculty->id] = VisitorView::where('student_faculty_id', $faculty->id)->where('company_id', $company_id)->count();
+        }
+        foreach ($grades as $grade) {
+            $student_count['grade'][$grade->id] = StudentView::where('grade_id', $grade->id)->count();
+            $follower_count['grade'][$grade->id] = FollowerView::where('company_id', $company_id)->where('student_grade_id', $grade->id)->count();
+            $visitor_count['grade'][$grade->id] = VisitorView::where('company_id', $company_id)->where('student_grade_id', $grade->id)->count();
+        }
         $data = [
             'overview' => Overview::find(1),
+            'account' => User::find(Auth::user()->id),
+            'faculties' => $faculties,
+            'grades' => $grades,
+            'students' => $students,
+            'followers' => $followers,
+            'visitors' => $visitors,
+            'student_count' => $student_count,
+            'follower_count' => $follower_count,
+            'visitor_count' => $visitor_count,
         ];
         return view('corporate.account', $data);
     }

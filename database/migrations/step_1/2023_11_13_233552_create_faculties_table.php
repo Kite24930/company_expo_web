@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('faculties', function (Blueprint $table) {
             $table->id();
             $table->string('faculty_name')->comment('学部名');
+            $table->string('color')->comment('カラーコード');
             $table->timestamps();
         });
 

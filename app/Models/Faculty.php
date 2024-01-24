@@ -10,6 +10,7 @@ class Faculty extends Model
     use HasFactory;
 
     protected $fillable = [
-        'faculty',
+        'faculty_name',
+        'color'
     ];
 }
