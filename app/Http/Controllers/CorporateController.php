@@ -153,8 +153,15 @@ class CorporateController extends Controller
     }
 
     public function CorporateFollowers() {
+        $company_id = Company::where('user_id', Auth::user()->id)->first()->id;
+        $followers = FollowerView::where('company_id', $company_id)->get();
+        $faculties = Faculty::all();
+        $grades = Grade::all();
         $data = [
-
+            'overview' => Overview::find(1),
+            'followers' => $followers,
+            'faculties' => $faculties,
+            'grades' => $grades,
         ];
         return view('corporate.followers', $data);
     }

@@ -35,7 +35,7 @@
 @can('access to company')
     <x-dashboard.menu-item route="company.show">
         <x-symbols.account class="mr-2"/>
-        アカウント情報
+        マイページTOP
     </x-dashboard.menu-item>
     <x-dashboard.menu-item route="company.edit">
         <x-symbols.setting class="mr-2"/>
@@ -49,10 +49,10 @@
         <x-symbols.visitor class="mr-2"/>
         ビジター一覧
     </x-dashboard.menu-item>
-    <x-dashboard.menu-item route="company.advertisement">
-        <x-symbols.ad class="mr-2"/>
-        広告設定
-    </x-dashboard.menu-item>
+{{--    <x-dashboard.menu-item route="company.advertisement">--}}
+{{--        <x-symbols.ad class="mr-2"/>--}}
+{{--        広告設定--}}
+{{--    </x-dashboard.menu-item>--}}
 @endcan
 @can('access to student')
     <x-dashboard.menu-item route="student.show">
