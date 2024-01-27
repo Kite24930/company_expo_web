@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 class AuthController extends Controller
 {
     public function dashboard() {
+        if (Auth()->user()->first_login === 0) {
+            return redirect()->route('profile.first-login');
+        }
         if (Auth()->user()->getRoleNames()[0] == 'student') {
             return redirect()->route('student.show');
         } else if (Auth()->user()->getRoleNames()[0] == 'company') {

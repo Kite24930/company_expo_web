@@ -1,7 +1,7 @@
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
-            {{ __('パスワードの更新') }}
+            {{ __('初期パスワード編集') }}
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
@@ -9,7 +9,7 @@
         </p>
     </header>
 
-    <form method="post" action="{{ route('password.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('profile.first-login-update') }}" class="mt-6 space-y-6">
         @csrf
         @method('put')
 
