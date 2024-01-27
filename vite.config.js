@@ -34,6 +34,7 @@ export default defineConfig({
                 corporateEdit: 'resources/js/corporate/corporate-edit.js',
                 corporateEditStyles: 'resources/css/dashboard/corporate-edit.css',
                 followers: 'resources/js/corporate/followers.js',
+                visitors: 'resources/js/corporate/visitors.js',
             },
         },
     }

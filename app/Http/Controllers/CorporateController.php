@@ -167,8 +167,15 @@ class CorporateController extends Controller
     }
 
     public function CorporateVisitors() {
+        $company_id = Company::where('user_id', Auth::user()->id)->first()->id;
+        $visitors = VisitorView::where('company_id', $company_id)->get();
+        $faculties = Faculty::all();
+        $grades = Grade::all();
         $data = [
-
+            'overview' => Overview::find(1),
+            'visitors' => $visitors,
+            'faculties' => $faculties,
+            'grades' => $grades,
         ];
         return view('corporate.visitors', $data);
     }
