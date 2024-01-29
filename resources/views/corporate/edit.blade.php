@@ -1,5 +1,5 @@
 <x-dashboard.template title="企業情報編集" css="dashboard/corporate-edit.css" :overview="$overview" hide="true">
-    <main class="w-full md:pl-80 pt-20 md:pt-4 pb-24 bg-gray-50 flex flex-col items-center full md:pr-2.5">
+    <main class="w-full min-h-screen md:pl-80 pt-20 md:pt-4 pb-24 bg-gray-50 flex flex-col items-center full md:pr-2.5">
         <div class="p-2 bg-blue-200 text-blue-800 text-lg rounded-lg text-left w-full max-w-3xl my-4 border border-gray-800">
             各項目を編集する場合は、項目上の編みかけ部分をクリックしてください。
         </div>

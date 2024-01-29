@@ -57,7 +57,7 @@
 @can('access to student')
     <x-dashboard.menu-item route="student.show">
         <x-symbols.account class="mr-2"/>
-        アカウント情報
+        マイページTOP
     </x-dashboard.menu-item>
     <x-dashboard.menu-item route="student.edit">
         <x-symbols.setting class="mr-2"/>

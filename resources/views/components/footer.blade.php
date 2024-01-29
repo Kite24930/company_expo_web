@@ -1,4 +1,4 @@
-<div class="fixed z-50 w-full h-16 -translate-x-1/2 bg-white border border-gray-200 rounded-full md:rounded bottom-4 md:bottom-0 left-1/2">
+<div class="fixed z-50 md:w-full w-[95%] h-16 -translate-x-1/2 bg-white border border-gray-200 rounded-full md:rounded bottom-4 md:bottom-0 left-1/2">
     <div class="grid h-full grid-cols-5 mx-auto">
         <a href="{{ route('index') }}" type="button" class="inline-flex flex-col items-center justify-center px-2 rounded-s-full hover:bg-gray-50 group">
             <x-symbols.home />

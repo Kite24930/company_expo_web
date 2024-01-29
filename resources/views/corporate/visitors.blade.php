@@ -1,5 +1,5 @@
 <x-dashboard.template title="ビジター一覧" css="dashboard/corporate.css" :overview="$overview" hide="true">
-    <main class="w-full md:pl-80 pt-20 md:pt-4 pb-24 bg-gray-50 flex flex-col items-center full md:pr-2.5">
+    <main class="w-full min-h-screen md:pl-80 pt-20 md:pt-4 pb-24 bg-gray-50 flex flex-col items-center full md:pr-2.5">
         <div class="w-full px-6 max-w-5xl">
             <h1 class="text-3xl">ビジター一覧</h1>
             <div class="text-sm pl-4">

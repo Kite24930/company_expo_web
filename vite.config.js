@@ -36,6 +36,7 @@ export default defineConfig({
                 followers: 'resources/js/corporate/followers.js',
                 visitors: 'resources/js/corporate/visitors.js',
                 student: 'resources/js/student/student.js',
+                studentStyles: 'resources/css/dashboard/student.css',
             },
         },
     }

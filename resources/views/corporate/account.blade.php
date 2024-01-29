@@ -1,5 +1,5 @@
 <x-dashboard.template title="Dashboard" css="dashboard/corporate.css" :overview="$overview">
-    <main class="w-full md:pl-80 pt-20 md:pt-4 pb-24 bg-gray-50 flex flex-col items-center md:pr-2.5 gap-6">
+    <main class="w-full min-h-screen md:pl-80 pt-20 md:pt-4 pb-24 bg-gray-50 flex flex-col items-center md:pr-2.5 gap-6">
         <div class="w-full px-6 max-w-5xl">
             <h1 class="text-3xl text-center">アカウント情報</h1>
             <div class="flex flex-col w-full bg-white border-gray-800 border rounded-lg p-4 gap-4">
