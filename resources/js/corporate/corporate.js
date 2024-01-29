@@ -1,4 +1,4 @@
-import '../common';
+c
 import Chart from 'chart.js/auto';
 
 let facultyLabels = [];

@@ -13,7 +13,17 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\CorporateController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
+
+if (app()->isLocal()) {
+    Route::get('/forgot-password-email', function () {
+        $user = new User([
+            'email' => 'user@example.com',
+        ]);
+        return (new App\Notifications\ResetPasswordNotification('token'))->toMail($user);
+    });
+}
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
@@ -68,6 +78,8 @@ Route::middleware('auth')->group(function () {
                 ->name('logout');
 
     Route::group(['permission:student'], function () {
+        Route::get('/student/initial-setting', [StudentController::class, 'StudentInitialSetting'])->name('student.initial-setting');
+        Route::post('/student/initial-setting', [StudentController::class, 'StudentInitialSettingPost'])->name('student.initial-setting.post');
         Route::get('/student/account', [StudentController::class, 'StudentAccount'])->name('student.show');
         Route::get('/student/account/edit', [StudentController::class, 'StudentAccountEdit'])->name('student.edit');
         Route::post('/student/account/edit', [StudentController::class, 'StudentAccountPost'])->name('student.store');
