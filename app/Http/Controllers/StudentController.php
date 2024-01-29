@@ -99,7 +99,42 @@ class StudentController extends Controller
     }
 
     public function StudentAccountPost(Request $request) {
+        $request->validate([
+            'email' => 'required|email',
+            'faculty_id' => 'required',
+            'grade_id' => 'required',
+            'address' => 'required',
+            'birthplace' => 'required',
+            'follow_disclosure' => 'nullable',
+        ],
+        [
+            'email.required' => 'メールアドレスを入力してください。',
+            'email.email' => 'メールアドレスの形式が正しくありません。',
+            'faculty_id.required' => '学部を選択してください。',
+            'grade_id.required' => '学年を選択してください。',
+            'address.required' => '住所を入力してください。',
+            'birthplace.required' => '出身地を入力してください。',
+        ]);
 
+        try {
+            if ($request->follow_disclosure === null) {
+                $follow_disclosure = 0;
+            } else {
+                $follow_disclosure = 1;
+            }
+            $student = Student::where('user_id', auth()->user()->id)->first();
+            $student->email = $request->email;
+            $student->faculty_id = $request->faculty_id;
+            $student->grade_id = $request->grade_id;
+            $student->address = $request->address;
+            $student->birthplace = $request->birthplace;
+            $student->follow_disclosure = $follow_disclosure;
+            $student->save();
+
+            return redirect()->back()->with('success', 'アカウント情報を更新しました。');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'アカウント情報の更新に失敗しました。');
+        }
     }
 
     public function StudentFollowed() {
