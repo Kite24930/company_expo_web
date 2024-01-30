@@ -37,6 +37,7 @@ export default defineConfig({
                 visitors: 'resources/js/corporate/visitors.js',
                 student: 'resources/js/student/student.js',
                 studentStyles: 'resources/css/dashboard/student.css',
+                admission: 'resources/js/student/admission.js',
             },
         },
     }

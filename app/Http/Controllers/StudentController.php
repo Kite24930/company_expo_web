@@ -9,6 +9,10 @@ use App\Models\Overview;
 use App\Models\Student;
 use App\Models\StudentView;
 use App\Providers\RouteServiceProvider;
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
+use Endroid\QrCode\ErrorCorrectionLevel;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -202,6 +206,18 @@ class StudentController extends Controller
         } else {
             $is_admission = false;
         }
+        $qr_data = [
+            'user_id' => encrypt(auth()->user()->id),
+            'issue_date' => date('Y-m-d'),
+            'token' => encrypt(auth()->user()->api_token),
+        ];
+        $qr_code = QrCode::create(json_encode($qr_data))
+            ->setEncoding(new Encoding('UTF-8'))
+            ->setErrorCorrectionLevel(ErrorCorrectionLevel::Low)
+            ->setSize(500)
+            ->setMargin(0);
+        $writer = new PngWriter();
+        $result = $writer->write($qr_code);
         $data = [
             'overview' => Overview::find(1),
             'user' => auth()->user(),
@@ -209,6 +225,7 @@ class StudentController extends Controller
             'is_admission' => $is_admission,
             'faculties' => Faculty::all(),
             'grades' => Grade::all(),
+            'qr_code' => $result->getDataUri(),
         ];
         return view('student.admission', $data);
     }
