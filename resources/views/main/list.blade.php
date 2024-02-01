@@ -1,4 +1,5 @@
 <x-template title="企業一覧" css="dashboard/student.css" :overview="$overview" :isAdmission="$is_admission">
+    <div class="hidden flex items-center justify-between w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow fixed bottom-20 left-4 z-50 toast inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 bg-blue-100 rounded-lg text-sm ms-3 font-normal ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 w-3 h-3"></div>
     <main class="w-full min-h-screen flex flex-col items-center gap-4 px-2">
         <div id="move_page_top" class="fixed bottom-20 right-4 w-12 h-12 bg-white bg-opacity-50 flex justify-center items-center rounded-full cursor-pointer z-50">
             <x-symbols.arrow-up />
@@ -246,7 +247,7 @@
                                             </div>
                                         @else
                                             @foreach($layout[$date->date][$period->period] as $company)
-                                                <div class="flex flex-col items-center relative w-full max-w-[300px]">
+                                                <div class="flex flex-col items-center relative w-full max-w-[300px] shadow">
                                                     <div class="company_img_wrapper relative w-full">
                                                         @if($company->company_img === null)
                                                             <img src="{{ asset('storage/company/default.jpg') }}" alt="{{ $company->company_name }}" class="absolute top-0 left-0 bottom-0 right-0 w-full h-full object-cover rounded-t-lg">
@@ -264,7 +265,7 @@
                                                                     <div class="p-1 px-2.5 rounded-full bg-[#637381] text-white text-xs">{{ mb_substr($target->faculty_name, 0, 1) }}</div>
                                                                 @endforeach
                                                             </div>
-                                                            <button type="button" class="follow-btn h-8 w-8 rounded-full flex justify-center items-center @guest not-login @endguest">
+                                                            <button type="button" class="follow-btn h-8 w-8 rounded-full flex justify-center items-center @guest not-login @endguest" data-target="{{ $company->company_id }}">
                                                                 @auth
                                                                     @if(in_array($company->company_id, $follows))
                                                                         <x-symbols.bookmark-fill class="w-full h-full" />
@@ -336,6 +337,13 @@
         window.Laravel.industries = @json($industries);
         window.Laravel.prefectures = @json($prefectures);
         window.Laravel.search = @json($search);
+        @auth
+            window.Laravel.follows = @json($follows);
+            window.Laravel.visitors = @json($visitors);
+            window.Laravel.is_admission = @json($is_admission);
+            window.Laravel.student = @json($student);
+            window.Laravel.user = @json($user);
+        @endauth
         console.log(window.Laravel)
     </script>
     @vite(['resources/js/company-list.js'])

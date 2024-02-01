@@ -1,4 +1,5 @@
 import './common';
+import { notLogin, followCompany } from './module/follow';
 
 document.getElementById('move_page_top').addEventListener('click', () => {
     window.scrollTo({
@@ -135,4 +136,14 @@ document.querySelectorAll('.all-cancel').forEach((allCancel) => {
             checkbox.checked = false;
         });
     });
+});
+
+document.querySelectorAll('.follow-btn').forEach((followBtn) => {
+    if (followBtn.classList.contains('not-login')) {
+        followBtn.addEventListener('click', notLogin);
+    } else {
+        followBtn.addEventListener('click', () => {
+            followCompany(followBtn, Laravel.user.api_token);
+        });
+    }
 });

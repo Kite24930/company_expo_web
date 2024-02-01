@@ -46,4 +46,5 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/branch_office_edit', [ApiController::class, 'branchOfficeEdit'])->name('api.branch_office_edit');
     Route::post('/recruit_in_charge_edit', [ApiController::class, 'recruitInChargeEdit'])->name('api.recruit_in_charge_edit');
     Route::post('/url_edit', [ApiController::class, 'urlEdit'])->name('api.url_edit');
+    Route::post('/follow/company', [ApiController::class, 'follow'])->name('api.follow');
 });

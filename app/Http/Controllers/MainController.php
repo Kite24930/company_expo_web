@@ -15,6 +15,7 @@ use App\Models\MajorIndustry;
 use App\Models\Occupation;
 use App\Models\Overview;
 use App\Models\Period;
+use App\Models\StudentView;
 use App\Models\TargetView;
 use Illuminate\Http\Request;
 
@@ -194,6 +195,8 @@ class MainController extends Controller
             } else {
                 $data['is_admission'] = false;
             }
+            $data['student'] = StudentView::where('user_id', auth()->user()->id)->first();
+            $data['user'] = auth()->user();
         } else {
             $data['is_admission'] = false;
         }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BranchOffice;
 use App\Models\Company;
+use App\Models\Follower;
 use App\Models\Industry;
 use App\Models\IndustryView;
 use App\Models\Occupation;
@@ -660,6 +661,47 @@ class ApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'URLの更新に失敗しました。',
+            ]);
+        }
+    }
+
+    public function follow(Request $request) {
+        $request->validate([
+            'company_id' => 'required',
+            'student_id' => 'required',
+        ],
+        [
+            'company_id.required' => '企業IDを入力してください。',
+            'student_id.required' => '学生IDを入力してください。',
+        ]);
+        try {
+            $is_follow = Follower::where('company_id', $request->company_id)->where('student_id', $request->student_id)->first();
+            if ($is_follow) {
+                $is_follow->delete();
+                return response()->json([
+                    'success' => true,
+                    'follow' => 'unfollow',
+                    'symbol' => view('components.symbols.bookmark', ['class' => 'w-full h-full'])->render(),
+                    'toast' => view('components.elements.unfollow-toast')->render(),
+                    'message' => 'フォロー解除が完了しました。',
+                ]);
+            } else {
+                Follower::create([
+                    'company_id' => $request->company_id,
+                    'student_id' => $request->student_id,
+                ]);
+                return response()->json([
+                    'success' => true,
+                    'follow' => 'follow',
+                    'symbol' => view('components.symbols.bookmark-fill', ['class' => 'w-full h-full'])->render(),
+                    'toast' => view('components.elements.follow-toast')->render(),
+                    'message' => 'フォローが完了しました。',
+                ]);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'フォローに失敗しました。',
             ]);
         }
     }
