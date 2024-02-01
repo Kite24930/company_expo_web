@@ -1,5 +1,6 @@
 @import "bootstrap-icons/font/bootstrap-icons.min.css";
 @import "@toast-ui/editor/dist/toastui-editor-viewer.css";
+@import "../import/company-detail.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -90,6 +91,11 @@ div.tui-colorpicker-clearfix {
 
 .tui-colorpicker-svg-huebar {
   height: 120px;
+}
+
+.tab-item[aria-selected=true] {
+  background-color: #6787C4;
+  color: white;
 }
 
 /*# sourceMappingURL=student.css.map */

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Admission;
 use App\Models\Faculty;
+use App\Models\FollowerView;
 use App\Models\Grade;
 use App\Models\Overview;
 use App\Models\Student;
@@ -148,8 +149,10 @@ class StudentController extends Controller
         } else {
             $is_admission = false;
         }
+        $followed = FollowerView::where('student_id', auth()->user()->id)->get();
         $data = [
             'overview' => Overview::find(1),
+            'followed' => $followed,
             'user' => auth()->user(),
             'student' => StudentView::where('user_id', auth()->user()->id)->first(),
             'is_admission' => $is_admission,

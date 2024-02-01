@@ -17,8 +17,11 @@
     <x-dashboard.header :overview="$overview" />
 @endif
 {{ $slot }}
-<x-footer :isAdmission="$isAdmission">
-
-</x-footer>
+@if(isset($isAdmission))
+    <x-footer :isAdmission="$isAdmission" />
+@else
+    <x-footer :isAdmission="false" />
+@endif
+<x-info :overview="$overview" />
 </body>
 </html>

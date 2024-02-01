@@ -61,5 +61,21 @@
                 <span class="text-xs">設定</span>
             </a>
         @endcan
+        @guest
+            <a href="{{ route('student.admission') }}" type="button" class="inline-flex flex-col items-center justify-center px-2 hover:bg-gray-50 group">
+                <div class="bg-[#6787C4] rounded-full flex justify-center items-center w-8 h-8">
+                    <x-symbols.qr-enter />
+                </div>
+                <span class="text-xs">QR表示</span>
+            </a>
+            <a href="{{ route('student.followed') }}" type="button" class="inline-flex flex-col items-center justify-center px-2 hover:bg-gray-50 group">
+                <x-symbols.followed />
+                <span class="text-xs">フォロー中</span>
+            </a>
+            <a href="{{ route('student.show') }}" type="button" class="inline-flex flex-col items-center justify-center px-2 rounded-e-full hover:bg-gray-50 group">
+                <x-symbols.account />
+                <span class="text-xs">ログイン</span>
+            </a>
+        @endguest
     </div>
 </div>

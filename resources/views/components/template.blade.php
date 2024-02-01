@@ -13,9 +13,11 @@
 <body class="bg-gray-50">
 <x-header :overview="$overview" />
 {{ $slot }}
-<x-footer :isAdmission="$isAdmission">
-
-</x-footer>
-<x-info :overview="$overview"></x-info>
+@if(isset($isAdmission))
+    <x-footer :isAdmission="$isAdmission" />
+@else
+    <x-footer :isAdmission="false" />
+@endif
+<x-info :overview="$overview" />
 </body>
 </html>

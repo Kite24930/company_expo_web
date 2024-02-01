@@ -113,3 +113,10 @@ div {
 .tui-colorpicker-svg-huebar {
     height: 120px;
 }
+
+.tab-item {
+    &[aria-selected="true"] {
+        background-color: #6787C4;
+        color: white;
+    }
+}

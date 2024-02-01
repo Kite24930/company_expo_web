@@ -23,7 +23,7 @@
                     @csrf
                     <div class="flex items-center">
                         @if($company->company_logo)
-                            <img src="{{ asset('storage/' . $company->company_logo) }}" alt="{{ $company->company_name }}" class="w-8 h-8 rounded-full mr-2" />
+                            <img src="{{ asset('storage/company/' . $company->company_id . '/' . $company->company_logo) }}" alt="{{ $company->company_name }}" class="w-8 h-8 rounded-full mr-2" />
                         @else
                             <x-symbols.company class="mr-2" />
                         @endif
@@ -76,7 +76,7 @@
                     @csrf
                     <div class="flex items-center">
                         @if($company->company_logo)
-                            <img src="{{ asset('storage/' . $company->company_logo) }}" alt="{{ $company->company_name }}" class="w-8 h-8 rounded-full mr-2" />
+                            <img src="{{ asset('storage/company/' . $company->id . '/' . $company->company_logo) }}" alt="{{ $company->company_name }}" class="w-8 h-8 rounded-full mr-2" />
                         @else
                             <x-symbols.company class="mr-2" />
                         @endif
