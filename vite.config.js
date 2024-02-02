@@ -38,6 +38,8 @@ export default defineConfig({
                 student: 'resources/js/student/student.js',
                 studentStyles: 'resources/css/dashboard/student.css',
                 admission: 'resources/js/student/admission.js',
+                mainStyles: 'resources/css/main.css',
+                index: 'resources/js/index.js',
                 companyList: 'resources/js/company-list.js',
             },
         },

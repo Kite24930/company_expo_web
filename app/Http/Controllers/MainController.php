@@ -71,18 +71,45 @@ class MainController extends Controller
         '沖縄県',
     ];
 
+    public $weekdays = [
+        '日',
+        '月',
+        '火',
+        '水',
+        '木',
+        '金',
+        '土',
+    ];
+
     public function Index() {
+        $major_industries = MajorIndustry::all();
+        foreach ($major_industries as $major_industry) {
+            $industries[] = [
+                'id' => $major_industry->id,
+                'name' => $major_industry->major_class_name,
+                'industries' => implode(',', IndustryView::where('major_class_id', $major_industry->id)->pluck('industry_id')->toArray()),
+            ];
+        }
         $data = [
             'overview' => Overview::find(1),
             'dates' => Date::all(),
             'periods' => Period::all(),
-            'layout_views' => LayoutView::all(),
-            'major_industries' => MajorIndustry::all(),
-            'advertisements' => Advertisement::all(),
+            'industries' => $industries,
+            'weekdays' => $this->weekdays,
         ];
         if (Auth()->check()) {
-            $data['follower_views'] = FollowerView::where('student_user_id', Auth()->user()->id)->get();
-            $data['visitor_views'] = FollowerView::where('student_user_id', Auth()->user()->id)->get();
+            $data['follows'] = FollowerView::where('student_user_id', Auth()->user()->id)->pluck('company_id')->toArray();
+            $data['visitors'] = FollowerView::where('student_user_id', Auth()->user()->id)->pluck('company_id')->toArray();
+            $admission = Admission::where('user_id', auth()->user()->id)->where('date', date('Y-m-d'))->first();
+            if ($admission) {
+                $data['is_admission'] = true;
+            } else {
+                $data['is_admission'] = false;
+            }
+            $data['student'] = StudentView::where('user_id', auth()->user()->id)->first();
+            $data['user'] = auth()->user();
+        } else {
+            $data['is_admission'] = false;
         }
         return view('main.index', $data);
     }

@@ -1,4 +1,4 @@
-<x-template title="企業一覧" css="dashboard/student.css" :overview="$overview" :isAdmission="$is_admission">
+<x-template title="企業一覧" css="main.css" :overview="$overview" :isAdmission="$is_admission">
     <div class="hidden flex items-center justify-between w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow fixed bottom-20 left-4 z-50 toast inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 bg-blue-100 rounded-lg text-sm ms-3 font-normal ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 w-3 h-3"></div>
     <main class="w-full min-h-screen flex flex-col items-center gap-4 px-2">
         <div id="move_page_top" class="fixed bottom-20 right-4 w-12 h-12 bg-white bg-opacity-50 flex justify-center items-center rounded-full cursor-pointer z-50">
@@ -216,23 +216,23 @@
             </div>
             <div class="flex-1 p-4 border-t border-r border-l rounded-lg">
                 <div class="w-full">
-                    <ul class="text-sm flex flex-wrap -mb-px font-medium text-center gap-2 sticky top-20" id="date_tab" data-tabs-toggle="#period_tab" role="tablist">
+                    <ul class="text-sm flex flex-wrap -mb-px font-medium text-center sticky top-20" id="date_tab" data-tabs-toggle="#period_tab" role="tablist">
                         @foreach($dates as $index => $date)
                             <li class="flex-1" role="presentation">
-                                <button class="inline-block px-4 py-2 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 w-full tab-item border" id="{{ __('date_tab_'.$date->id) }}" data-tabs-target="{{ __('#by_date_'.$date->id) }}" type="button" role="tab" aria-controls="{{ __('by_date_'.$date->id) }}" aria-selected="{{ $index === 0 ? 1 : 0 }}">
+                                <button class="inline-block px-4 py-2 border-b-2 hover:text-gray-600 hover:border-gray-300 w-full tab-item border border-gray-200 @if($index === 0) rounded-tl-lg @elseif($index === count($dates) - 1) rounded-tr-lg @endif" id="{{ __('date_tab_'.$date->id) }}" data-tabs-target="{{ __('#by_date_'.$date->id) }}" type="button" role="tab" aria-controls="{{ __('by_date_'.$date->id) }}" aria-selected="{{ $index === 0 ? 1 : 0 }}">
                                     {{ date('n-j(D)', strtotime($date->date)) }}
                                 </button>
                             </li>
                         @endforeach
                     </ul>
                 </div>
-                <div id="period_tab" class="border rounded-b-lg p-2">
+                <div id="period_tab" class="border rounded-b-lg">
                     @foreach($dates as $index => $date)
                         <div id="{{ __('by_date_'.$date->id) }}">
-                            <ul class="text-xs flex flex-wrap -mb-px font-medium text-center gap-2" id="{{ __('period_tab_'.$date->id) }}" data-tabs-toggle="{{ __('period_inner_tab_'.$date->id) }}" role="tablist">
+                            <ul class="text-sm flex flex-wrap -mb-px font-medium text-center" id="{{ __('period_tab_'.$date->id) }}" data-tabs-toggle="{{ __('period_inner_tab_'.$date->id) }}" role="tablist">
                                 @foreach($periods as $i => $period)
                                     <li class="flex-1" role="presentation">
-                                        <button class="inline-block px-4 py-2 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 w-full tab-item border" id="{{ __('period_tab_'.$date->id.'_'.$period->id) }}" data-tabs-target="{{ __('#by_period_'.$date->id.'_'.$period->id) }}" type="button" role="tab" aria-controls="{{ __('by_period_'.$date->id.'_'.$period->id) }}" aria-selected="{{ $i === 0 ? 1 : 0 }}">
+                                        <button class="inline-block px-4 py-2 border-b-2 hover:text-gray-600 hover:border-gray-300 w-full tab-item border-b border-gray-200" id="{{ __('period_tab_'.$date->id.'_'.$period->id) }}" data-tabs-target="{{ __('#by_period_'.$date->id.'_'.$period->id) }}" type="button" role="tab" aria-controls="{{ __('by_period_'.$date->id.'_'.$period->id) }}" aria-selected="{{ $i === 0 ? 1 : 0 }}">
                                             {{ $period->period }}
                                         </button>
                                     </li>
@@ -247,7 +247,7 @@
                                             </div>
                                         @else
                                             @foreach($layout[$date->date][$period->period] as $company)
-                                                <div class="flex flex-col items-center relative w-full max-w-[300px] shadow">
+                                                <div class="flex flex-col items-center relative w-full max-w-[300px] rounded-lg shadow">
                                                     <div class="company_img_wrapper relative w-full">
                                                         @if($company->company_img === null)
                                                             <img src="{{ asset('storage/company/default.jpg') }}" alt="{{ $company->company_name }}" class="absolute top-0 left-0 bottom-0 right-0 w-full h-full object-cover rounded-t-lg">
@@ -258,52 +258,54 @@
                                                             {{ __('No. '.$company->booth_number) }}
                                                         </div>
                                                     </div>
-                                                    <div class="w-full rounded-b-lg border py-4 px-2 flex flex-col gap-2">
-                                                        <div class="flex justify-between">
-                                                            <div class="flex gap-2 items-center flex-1 flex-wrap">
-                                                                @foreach($targets[$company->company_id] as $target)
-                                                                    <div class="p-1 px-2.5 rounded-full bg-[#637381] text-white text-xs">{{ mb_substr($target->faculty_name, 0, 1) }}</div>
-                                                                @endforeach
-                                                            </div>
-                                                            <button type="button" class="follow-btn h-8 w-8 rounded-full flex justify-center items-center @guest not-login @endguest" data-target="{{ $company->company_id }}">
-                                                                @auth
-                                                                    @if(in_array($company->company_id, $follows))
-                                                                        <x-symbols.bookmark-fill class="w-full h-full" />
-                                                                    @else
+                                                    <div class="w-full rounded-b-lg border py-4 px-2 flex flex-col gap-2 flex-1 justify-between">
+                                                        <div class="flex flex-col gap-2">
+                                                            <div class="flex justify-between">
+                                                                <div class="flex gap-2 items-center flex-1 flex-wrap">
+                                                                    @foreach($targets[$company->company_id] as $target)
+                                                                        <div class="p-1 px-2.5 rounded-full bg-[#637381] text-white text-xs">{{ mb_substr($target->faculty_name, 0, 1) }}</div>
+                                                                    @endforeach
+                                                                </div>
+                                                                <button type="button" class="follow-btn h-8 w-8 rounded-full flex justify-center items-center @guest not-login @endguest" data-target="{{ $company->company_id }}">
+                                                                    @auth
+                                                                        @if(in_array($company->company_id, $follows))
+                                                                            <x-symbols.bookmark-fill class="w-full h-full" />
+                                                                        @else
+                                                                            <x-symbols.bookmark class="w-full h-full" />
+                                                                        @endif
+                                                                    @endauth
+                                                                    @guest
                                                                         <x-symbols.bookmark class="w-full h-full" />
-                                                                    @endif
-                                                                @endauth
-                                                                @guest
-                                                                    <x-symbols.bookmark class="w-full h-full" />
-                                                                @endguest
-                                                            </button>
-                                                        </div>
-                                                        <div class="flex items-center gap-2">
-                                                            @if($company->company_logo)
-                                                                <img src="{{ asset('storage/company/'.$company->company_id.'/'.$company->company_logo) }}" alt="{{ $company->company_name }}" class="w-9 h-9 object-cover rounded-full border">
-                                                            @else
-                                                                <div class="w-9 h-9 flex justify-center items-center border rounded-full">
-                                                                    <x-symbols.company class="" />
-                                                                </div>
-                                                            @endif
-                                                            <div class="flex flex-col gap-1">
-                                                                <div class="font-bold">
-                                                                    {{ $company->company_name }}
-                                                                </div>
-                                                                <div class="text-xs">
-                                                                    {{ $company->industry_name }}
+                                                                    @endguest
+                                                                </button>
+                                                            </div>
+                                                            <div class="flex items-center gap-2">
+                                                                @if($company->company_logo)
+                                                                    <img src="{{ asset('storage/company/'.$company->company_id.'/'.$company->company_logo) }}" alt="{{ $company->company_name }}" class="w-9 h-9 object-cover rounded-full border">
+                                                                @else
+                                                                    <div class="w-9 h-9 flex justify-center items-center border rounded-full">
+                                                                        <x-symbols.company class="" />
+                                                                    </div>
+                                                                @endif
+                                                                <div class="flex flex-col gap-1">
+                                                                    <div class="font-bold">
+                                                                        {{ $company->company_name }}
+                                                                    </div>
+                                                                    <div class="text-xs">
+                                                                        {{ $company->industry_name }}
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div>
-                                                            <div class="py-0.5 px-2.5 text-xs font-semibold border border-gray-500 inline-block">募集職種</div>
-                                                            <div class="flex ml-4 flex-wrap gap-x-4 gap-y-1 pt-2">
-                                                                @foreach($occupations[$company->company_id] as $occupation)
-                                                                    <span class="text-xs">
+                                                            <div>
+                                                                <div class="py-0.5 px-2.5 text-xs font-semibold border border-gray-500 inline-block">募集職種</div>
+                                                                <div class="flex ml-4 flex-wrap gap-x-4 gap-y-1 pt-2">
+                                                                    @foreach($occupations[$company->company_id] as $occupation)
+                                                                        <span class="text-xs">
                                                                         ・
                                                                         {{ $occupation->recruit_occupation }}
                                                                     </span>
-                                                                @endforeach
+                                                                    @endforeach
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="flex justify-center">
