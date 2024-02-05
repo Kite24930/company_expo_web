@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Admission;
 use App\Models\Advertisement;
 use App\Models\BranchOffice;
-use App\Models\CompanyView;
+use App\Models\Company;
 use App\Models\Date;
 use App\Models\Faculty;
+use App\Models\Follower;
 use App\Models\FollowerView;
 use App\Models\IndustryView;
 use App\Models\LayoutView;
@@ -232,13 +233,21 @@ class MainController extends Controller
 
     public function CompanyDetail($id) {
         $data = [
-            'company_views' => CompanyView::find($id),
+            'overview' => Overview::find(1),
+            'company' => LayoutView::where('company_id', $id)->first(),
             'branch_offices' => BranchOffice::where('company_id', $id)->get(),
-            'target_views' => TargetView::where('company_id', $id)->get(),
+            'target' => TargetView::where('company_id', $id)->get(),
+            'occupations' => Occupation::where('company_id', $id)->get(),
         ];
         if (Auth()->check()) {
-            $data['follower_views'] = FollowerView::where('student_user_id', Auth()->user()->id)->get();
-            $data['visitor_views'] = FollowerView::where('student_user_id', Auth()->user()->id)->get();
+            $is_followed = FollowerView::where('student_user_id', Auth()->user()->id)->where('company_id', $id)->first();
+            if ($is_followed) {
+                $data['is_followed'] = true;
+            } else {
+                $data['is_followed'] = false;
+            }
+            $data['student'] = StudentView::where('user_id', auth()->user()->id)->first();
+            $data['user'] = auth()->user();
             $admission = Admission::where('user_id', auth()->user()->id)->where('date', date('Y-m-d'))->first();
             if ($admission) {
                 $data['is_admission'] = true;
@@ -248,7 +257,7 @@ class MainController extends Controller
         } else {
             $data['is_admission'] = false;
         }
-        return view('main.list', $data);
+        return view('main.detail', $data);
     }
 
     public function CompanySearch() {

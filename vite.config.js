@@ -41,6 +41,7 @@ export default defineConfig({
                 mainStyles: 'resources/css/main.css',
                 index: 'resources/js/index.js',
                 companyList: 'resources/js/company-list.js',
+                companyDetail: 'resources/js/company-detail.js',
             },
         },
     }

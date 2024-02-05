@@ -16,6 +16,10 @@
   color: #E2592D;
 }
 
+.text-title {
+  color: #6787C4;
+}
+
 .editor .toastui-editor-tooltip .text {
   color: white;
 }
@@ -35,6 +39,9 @@
   right: 0 !important;
 }
 
+header {
+  z-index: 45;
+}
 @media (min-width: 767px) {
   header.hide {
     left: -310px;
@@ -86,6 +93,21 @@ div.tui-colorpicker-clearfix {
 
 .tui-colorpicker-svg-huebar {
   height: 120px;
+}
+
+.tab-item[aria-selected=true] {
+  background-color: #1A73B7;
+  color: white;
+}
+.tab-item[aria-selected=true]:hover {
+  color: white;
+}
+.tab-item[aria-selected=false] {
+  background-color: #F5F5F5;
+  color: #1A73B7;
+}
+.tab-item[aria-selected=false]:hover {
+  color: #1A73B7;
 }
 
 @media (min-width: 768px) {

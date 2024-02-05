@@ -6,7 +6,11 @@ function notLogin() {
 }
 
 function followCompany(el, apiToken) {
-    const companyId = el.getAttribute('data-target');
+    let companyId = el.getAttribute('data-target');
+    while (companyId === null) {
+        el = el.parentElement;
+        companyId = el.getAttribute('data-target');
+    }
     const sendData = {
         company_id: companyId,
         student_id: Laravel.student.id,

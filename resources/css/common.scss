@@ -53,6 +53,7 @@
 }
 
 header {
+    z-index: 45;
     &.hide {
         @media (min-width: 767px) {
             left: -310px;

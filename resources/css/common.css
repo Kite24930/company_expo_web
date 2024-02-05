@@ -39,6 +39,9 @@
   right: 0 !important;
 }
 
+header {
+  z-index: 45;
+}
 @media (min-width: 767px) {
   header.hide {
     left: -310px;
