@@ -8,6 +8,7 @@ use App\Models\Follower;
 use App\Models\Industry;
 use App\Models\IndustryView;
 use App\Models\Occupation;
+use App\Models\Student;
 use App\Models\Target;
 use App\Models\TargetView;
 use Illuminate\Http\Request;
@@ -702,6 +703,33 @@ class ApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'フォローに失敗しました。',
+            ]);
+        }
+    }
+
+    public function followDisclosure (Request $request) {
+        $request->validate([
+            'disclosure' => 'required',
+            'student_id' => 'required',
+        ],
+        [
+            'disclosure.required' => '同意を選択してください。',
+            'student_id.required' => '学生IDを入力してください。',
+        ]);
+
+        try {
+            $user = Student::find($request->student_id);
+            $user->follow_disclosure = $request->disclosure;
+            $user->save();
+            return response()->json([
+                'success' => true,
+                'message' => 'フォロー企業への情報開示設定を変更しました。',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'フォロー企業への情報開示設定の変更に失敗しました。',
+                'error' => $e->getMessage(),
             ]);
         }
     }

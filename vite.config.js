@@ -42,6 +42,7 @@ export default defineConfig({
                 index: 'resources/js/index.js',
                 companyList: 'resources/js/company-list.js',
                 companyDetail: 'resources/js/company-detail.js',
+                follow: 'resources/js/follow.js',
             },
         },
     }
