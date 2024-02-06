@@ -1,6 +1,6 @@
 import './common.js';
 import axios from 'axios';
-import {followCompany, notLogin} from "./module/follow.js";
+import { followCompany } from "./module/follow.js";
 
 document.getElementById('follow_disclosure').addEventListener('change', (e) => {
     const disclosure = e.target.checked;

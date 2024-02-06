@@ -43,6 +43,7 @@ export default defineConfig({
                 companyList: 'resources/js/company-list.js',
                 companyDetail: 'resources/js/company-detail.js',
                 follow: 'resources/js/follow.js',
+                visitor: 'resources/js/visit.js',
             },
         },
     }

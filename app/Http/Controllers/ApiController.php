@@ -11,6 +11,7 @@ use App\Models\Occupation;
 use App\Models\Student;
 use App\Models\Target;
 use App\Models\TargetView;
+use App\Models\Visitor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -729,6 +730,35 @@ class ApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'フォロー企業への情報開示設定の変更に失敗しました。',
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function visitDisclosure (Request $request) {
+        $request->validate([
+            'disclosure' => 'required',
+            'student_id' => 'required',
+            'company_id' => 'required',
+        ],
+        [
+            'disclosure.required' => '同意を選択してください。',
+            'student_id.required' => '学生IDを入力してください。',
+            'company_id.required' => '企業IDを入力してください。',
+        ]);
+
+        try {
+            $visit = Visitor::where('company_id', $request->company_id)->where('student_id', $request->student_id)->first();
+            $visit->disclosure = $request->disclosure;
+            $visit->save();
+            return response()->json([
+                'success' => true,
+                'message' => '訪問企業への情報開示設定を変更しました。',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => '訪問企業への情報開示設定の変更に失敗しました。',
                 'error' => $e->getMessage(),
             ]);
         }

@@ -11,6 +11,7 @@ use App\Models\Overview;
 use App\Models\Student;
 use App\Models\StudentView;
 use App\Models\TargetView;
+use App\Models\VisitorView;
 use App\Providers\RouteServiceProvider;
 use Endroid\QrCode\Encoding\Encoding;
 use Endroid\QrCode\QrCode;
@@ -151,11 +152,10 @@ class StudentController extends Controller
         } else {
             $is_admission = false;
         }
-        $followed = FollowerView::where('student_user_id', auth()->user()->id)->pluck('company_id')->toArray();
-        $layout = LayoutView::whereIn('company_id', $followed)->orderBy('distribution_id')->get();
+        $followed = FollowerView::where('student_user_id', auth()->user()->id)->orderBy('distribution_id')->get();
         $data = [
             'overview' => Overview::find(1),
-            'companies' => $layout,
+            'companies' => $followed,
             'user' => auth()->user(),
             'student' => StudentView::where('user_id', auth()->user()->id)->first(),
             'is_admission' => $is_admission,
@@ -172,8 +172,10 @@ class StudentController extends Controller
         } else {
             $is_admission = false;
         }
+        $visited = VisitorView::where('student_user_id', auth()->user()->id)->orderBy('distribution_id')->get();
         $data = [
             'overview' => Overview::find(1),
+            'companies' => $visited,
             'user' => auth()->user(),
             'student' => StudentView::where('user_id', auth()->user()->id)->first(),
             'is_admission' => $is_admission,
