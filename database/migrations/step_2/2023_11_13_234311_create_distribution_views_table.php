@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::statement('create or replace view distribution_views as select row_number() over(order by date asc, period_start asc, booth_number asc) as id, x.date as date, y.period as period, y.period_start as period_start, y.period_end as period_end, z.booth_number as booth_number from dates as x cross join periods as y cross join booths as z');
+        DB::statement('set @rownum = 0;create or replace view distribution_views as select @rownum:=@rownum+1 as id, x.date as date, y.period as period, y.period_start as period_start, y.period_end as period_end, z.booth_number as booth_number from dates as x cross join periods as y cross join booths as z');
     }
 
     /**
