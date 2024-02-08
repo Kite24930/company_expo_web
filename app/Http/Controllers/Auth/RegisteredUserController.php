@@ -58,6 +58,7 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'api_token' => Str::random(25),
+            'token' => Str::random(25),
         ]);
         $user->assignRole('student');
 

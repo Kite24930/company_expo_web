@@ -221,6 +221,7 @@ class AdminController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($password),
+                'api_token' => Str::random(25),
                 'token' => Str::random(25),
                 'first_login' => 0,
             ]);
