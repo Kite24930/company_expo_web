@@ -11,6 +11,9 @@ class Layout extends Model
 
     protected $fillable = [
         'distribution_id',
+        'date_id',
+        'period_id',
+        'booth_id',
         'company_id',
     ];
 }

@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('layouts', function (Blueprint $table) {
             $table->integer('distribution_id')->unsigned()->primary();
-            $table->integer('company_id')->unsigned();
+            $table->foreignId('date_id')->constrained('dates');
+            $table->foreignId('period_id')->constrained('periods');
+            $table->foreignId('booth_id')->constrained('booths');
+            $table->integer('company_id')->unsigned()->nullable();
             $table->timestamps();
         });
     }
