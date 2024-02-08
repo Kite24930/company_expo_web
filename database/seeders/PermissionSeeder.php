@@ -37,6 +37,7 @@ class PermissionSeeder extends Seeder
         $adminUser->email = 'main@mie-projectm.com';
         $adminUser->password = bcrypt('projectm0701');
         $adminUser->token = Str::random(25);
+        $adminUser->api_token = Str::random(25);
         $adminUser->save();
 
         // Link User and Role
