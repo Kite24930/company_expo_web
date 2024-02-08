@@ -13,7 +13,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('booths', function (Blueprint $table) {
-            $table->integer('booth_number')->unsigned()->primary()->comment('ブース番号');
+            $table->id();
+            $table->integer('booth_number')->unsigned()->comment('ブース番号');
             $table->timestamps();
         });
 
