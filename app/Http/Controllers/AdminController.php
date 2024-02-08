@@ -26,6 +26,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 class AdminController extends Controller
@@ -47,6 +48,7 @@ class AdminController extends Controller
             $overview->update([
                 'target' => $request->target,
                 'title' => $request->title,
+                'remarks' => $request->remarks,
                 'description' => $request->description,
                 'place' => $request->place,
                 'period_change_status' => $period_change_status,
@@ -125,13 +127,38 @@ class AdminController extends Controller
 
     public function AdminDistributionBoothPost(Request $request) {
         try {
+            Schema::disableForeignKeyConstraints();
             Booth::truncate();
+            Schema::enableForeignKeyConstraints();
             for($i = 1; $i <= $request->booth_max_number; $i++) {
                 Booth::create([
                     'booth_number' => $i,
                 ]);
             }
             return redirect()->back()->with('success', 'ブースの更新が完了しました');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function AdminDistributionLayoutPost (Request $request) {
+        try {
+            Layout::truncate();
+            $date = Date::all();
+            $period = Period::all();
+            $booth = Booth::all();
+            foreach ($date as $d) {
+                foreach ($period as $p) {
+                    foreach ($booth as $b) {
+                        Layout::create([
+                            'date_id' => $d->id,
+                            'period_id' => $p->id,
+                            'booth_id' => $b->id,
+                        ]);
+                    }
+                }
+            }
+            return redirect()->back()->with('success', 'レイアウトテーブルの生成が完了しました');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -232,7 +259,7 @@ class AdminController extends Controller
 
             $contact = 'contact@mie-projectm.com';
 
-            $body = $request->name."様%0D%0A%0D%0A平素より大変お世話になっております。運営を担当しております株式会社プロジェクトMです。%0D%0Aこの度は".$overview->title."にお申し込みいただきまして誠にありがとうございます。%0D%0Aお手続きよりお時間をいただきまして、ありがとうございました。%0D%0A%0D%0A企業アカウントの発行が完了致しました。%0D%0A%0D%0A以下のURLからログインしてください。%0D%0A".$overview->url."/login/%0D%0A%0D%0Aアカウント情報のメールアドレスはこのお送りしているメールアドレスをご使用ください。%0D%0Aパスワード：".$password."%0D%0A※初回ログイン時に任意のパスワードに変更する必要があります。%0D%0A%0D%0A%0D%0Aご不明な点等ありましたら、お手数をおかけいたしますが、下記の問い合わせ先もしくは弊社の担当までご連絡ください。%0D%0A%0D%0A今後ともどうぞよろしくお願い致します。%0D%0A%0D%0A※このメールに心当たりがない場合は、お手数ですが破棄してください。%0D%0A%0D%0A問い合わせ先%0D%0A株式会社プロジェクトM%0D%0AEmail：".$contact;
+            $body = $request->name."様%0D%0A%0D%0A平素より大変お世話になっております。運営を担当しております株式会社プロジェクトMです。%0D%0Aこの度は".$overview->title."にお申し込みいただきまして誠にありがとうございます。%0D%0Aお手続きよりお時間をいただきまして、ありがとうございました。%0D%0A%0D%0A企業アカウントの発行が完了致しました。%0D%0A%0D%0A以下のURLからログインしてください。%0D%0A".route('index')."/login/%0D%0A%0D%0Aアカウント情報のメールアドレスはこのお送りしているメールアドレスをご使用ください。%0D%0Aパスワード：".$password."%0D%0A※初回ログイン時に任意のパスワードに変更する必要があります。%0D%0A%0D%0A%0D%0Aご不明な点等ありましたら、お手数をおかけいたしますが、下記の問い合わせ先もしくは弊社の担当までご連絡ください。%0D%0A%0D%0A今後ともどうぞよろしくお願い致します。%0D%0A%0D%0A※このメールに心当たりがない場合は、お手数ですが破棄してください。%0D%0A%0D%0A問い合わせ先%0D%0A株式会社プロジェクトM%0D%0AEmail：".$contact;
 
             $data = [
                 'overview' => $overview,
@@ -247,10 +274,11 @@ class AdminController extends Controller
 
     public function AdminCompanyList() {
         $company_users = Company::pluck('user_id')->toArray();
-        $layout_views = LayoutView::pluck('company_id')->toArray();
+        $layout_views = LayoutView::whereNotNull('company_id')->pluck('company_id')->toArray();
+        $unregisted = LayoutView::whereNull('company_id')->pluck('distribution_id')->toArray();
         $data = [
             'overview' => Overview::find(1),
-            'layouts' => LayoutView::all(),
+            'layouts' => LayoutView::whereNotNull('company_id')->get(),
             'companies' => Company::whereNotIn('id', $layout_views)->get(),
             'company_users' => User::role('company')->whereNotIn('id', $company_users)->get(),
             'distribution_views' => DistributionView::all(),
@@ -260,13 +288,10 @@ class AdminController extends Controller
 
     public function AdminCompanyLayoutPost($id, Request $request) {
         try {
-            if ($request->distribution_id == 0) {
-                Layout::where('company_id', $id)->delete();
+            if ($request->distribution_id === 0) {
+                Layout::where('company_id', $id)->update(['company_id' => null]);
             } else {
-                Layout::updateOrCreate(
-                    ['company_id' => $id],
-                    ['distribution_id' => $request->distribution_id]
-                );
+                Layout::where('id', $request->distribution_id)->update(['company_id' => $id]);
             }
             return redirect()->back()->with('success', '企業アカウントのレイアウトの更新が完了しました');
         } catch (\Exception $e) {

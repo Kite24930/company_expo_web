@@ -14,13 +14,13 @@ class TestDataSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($i = 0; $i < 34; $i++) {
-            $studentUser = User::factory()->create();
-            $studentUser->assignRole('student');
-            $student = Student::factory()->user($studentUser->id, $studentUser->email)->create();
-//            $companyUser = User::factory()->create();
-//            $companyUser->assignRole('company');
-//            $company = Company::factory()->user($companyUser->id, $companyUser->email)->create();
+        for ($i = 0; $i < 42; $i++) {
+//            $studentUser = User::factory()->create();
+//            $studentUser->assignRole('student');
+//            $student = Student::factory()->user($studentUser->id, $studentUser->email)->create();
+            $companyUser = User::factory()->create();
+            $companyUser->assignRole('company');
+            $company = Company::factory()->user($companyUser->id, $companyUser->email)->create();
         }
     }
 }

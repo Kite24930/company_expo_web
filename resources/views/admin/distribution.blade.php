@@ -72,6 +72,16 @@
             </div>
             <x-dashboard.submit-button>最大ブース数 更新</x-dashboard.submit-button>
         </form>
+        <form id="sendForm" method="POST" action="{{ route('admin.layout.post') }}" class="flex flex-col items-start m-auto gap-3 px-4 mt-6">
+            @csrf
+            <div class="rounded-2xl bg-white border px-4 py-6 flex flex-col gap-2">
+                <div class="flex items-center gap-3">
+                    レイアウトテーブル生成
+                    <div class="inline-block px-2 py-1 text-xs rounded bg-required text-white">必須</div>
+                </div>
+                <x-dashboard.submit-button>レイアウトテーブル 更新</x-dashboard.submit-button>
+            </div>
+        </form>
     </main>
     <script>
         window.Laravel = {};

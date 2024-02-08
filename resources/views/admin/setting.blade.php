@@ -20,6 +20,7 @@
             @csrf
             <x-dashboard.text-card title="イベント対象者" required :value="$overview->target" setId="target" class="max-w-xl" />
             <x-dashboard.text-card title="イベント名" required :value="$overview->title" setId="title" class="max-w-xl" />
+            <x-dashboard.remark title="remarks" required :value="$overview->remarks" setId="remarks" class="max-w-md" />
             <x-dashboard.md-box title="補足・備考" required :value="$overview->description" class="w-full" setId="description" />
             <x-dashboard.text-card title="開催場所" required :value="$overview->place" setId="place" class="max-w-xl" />
             <x-dashboard.toggle title="ピリオド企業切り替わりあり" required :value="$overview->period_change_status" setId="period_change_status" class="max-w-xl" description="ピリオド切り替わり時に企業の入れ替えがあるかどうか" leftText="切り替わりなし" rightText="切り替わりあり" />

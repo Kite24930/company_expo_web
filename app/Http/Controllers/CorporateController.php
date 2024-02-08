@@ -23,7 +23,11 @@ use Illuminate\Support\Facades\Auth;
 class CorporateController extends Controller
 {
     public function CorporateAccount() {
-        $company_id = Company::where('user_id', Auth::user()->id)->first()->id;
+        $company_id = Company::where('user_id', Auth::user()->id)->first();
+        if ($company_id === null) {
+            return redirect()->route('company.edit');
+        }
+        $company_id = $company_id->id;
         $faculties = Faculty::all();
         $faculty_ids = Faculty::pluck('id')->toArray();
         $grades = Grade::all();

@@ -27,6 +27,7 @@ class UserFactory extends Factory
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
             'api_token' => Str::random(25),
+            'token' => Str::random(25),
             'created_at' => now(),
             'updated_at' => now(),
         ];

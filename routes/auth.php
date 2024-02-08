@@ -109,6 +109,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/admin/distribution/period/post', [AdminController::class, 'AdminDistributionPeriodPost'])->name('admin.period.post');
         Route::delete('admin/distribution/period/delete/{id}', [AdminController::class, 'AdminDistributionPeriodDelete'])->name('admin.period.delete');
         Route::post('/admin/distribution/booth/post', [AdminController::class, 'AdminDistributionBoothPost'])->name('admin.booth.post');
+        Route::post('/admin/distribution/layout/post', [AdminController::class, 'AdminDistributionLayoutPost'])->name('admin.layout.post');
         Route::get('/admin/advertisement/setting', [AdminController::class, 'AdminAdvertisementSetting'])->name('admin.advertisement.setting');
         Route::post('/admin/advertisement/setting', [AdminController::class, 'AdminAdvertisementSettingPost'])->name('admin.advertisement.setting.post');
         Route::get('/admin/advertisement/company/{id}', [AdminController::class, 'AdminAdvertisementEdit'])->name('admin.advertisement.edit');
