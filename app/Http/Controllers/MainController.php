@@ -275,6 +275,9 @@ class MainController extends Controller
     }
 
     public function PrivacyPolicy() {
+        $data = [
+            'overview' => Overview::find(1),
+        ];
         if (Auth()->check()) {
             $data['follower_views'] = FollowerView::where('student_user_id', Auth()->user()->id)->get();
             $data['visitor_views'] = FollowerView::where('student_user_id', Auth()->user()->id)->get();
@@ -291,6 +294,9 @@ class MainController extends Controller
     }
 
     public function TermsOfUse() {
+        $data = [
+            'overview' => Overview::find(1),
+        ];
         if (Auth()->check()) {
             $data['follower_views'] = FollowerView::where('student_user_id', Auth()->user()->id)->get();
             $data['visitor_views'] = FollowerView::where('student_user_id', Auth()->user()->id)->get();

@@ -1,4 +1,4 @@
-<x-template title="企業一覧" css="main.css" :overview="$overview" :isAdmission="$is_admission">
+<x-template :title="$overview->title" css="main.css" :overview="$overview" :isAdmission="$is_admission">
     <main class="w-full min-h-screen flex flex-col items-center gap-4 px-2">
         <div class="w-full py-10 bg-[#F4F7FF] overflow-hidden relative">
             <div id="background_clip_1" class="absolute -right-[60%] bottom-0 h-full bg-[#e4eafb] z-[3] w-full -skew-x-12">
