@@ -27,6 +27,8 @@
         "flowbite": "^2.1.1",
         "jsqr": "^1.4.0",
         "laravel-echo": "^1.15.3",
+        "pagedjs": "^0.4.3",
+        "pagedjs-cli": "^0.4.3",
         "pusher-js": "^8.4.0-rc2",
         "qr-code-styling": "^1.6.0-rc.1",
         "sass": "^1.70.0",

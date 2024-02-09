@@ -1,0 +1,10 @@
+@import "app.css";
+@page {
+  size: 420mm 297mm;
+  bleed: 0mm;
+  margin: 0;
+  font-family: "BIZ UDPGothic", sans-serif;
+  border-collapse: collapse;
+}
+
+/*# sourceMappingURL=qr-issue.css.map */

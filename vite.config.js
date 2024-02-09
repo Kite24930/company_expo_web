@@ -44,6 +44,8 @@ export default defineConfig({
                 companyDetail: 'resources/js/company-detail.js',
                 follow: 'resources/js/follow.js',
                 visitor: 'resources/js/visit.js',
+                qrIssue: 'resources/js/qr-issue.js',
+                qrIssueStyles: 'resources/css/qr-issue.css',
             },
         },
     }

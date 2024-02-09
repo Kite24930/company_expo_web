@@ -22,6 +22,10 @@ use App\Models\Student;
 use App\Models\StudentView;
 use App\Models\TargetView;
 use App\Models\User;
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\ErrorCorrectionLevel;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -326,8 +330,25 @@ class AdminController extends Controller
     }
 
     public function AdminQrIssue() {
+        $layouts = LayoutView::whereNotNull('company_id')->get();
+        foreach ($layouts as $layout) {
+            $qr_data = [
+                'company_id' => $layout->company_id,
+                'distribution_id' => $layout->distribution_id,
+                'date_id' => $layout->date_id,
+                'period_id' => $layout->period_id,
+                'booth_id' => $layout->booth_id,
+            ];
+            $qr_code = QrCode::create(json_encode($qr_data))
+                ->setEncoding(new Encoding('UTF-8'))
+                ->setErrorCorrectionLevel(ErrorCorrectionLevel::Low)
+                ->setSize(500)
+                ->setMargin(0);
+            $writer = new PngWriter();
+            $layout->qr = $writer->write($qr_code)->getDataUri();
+        }
         $data = [
-
+            'layouts' => $layouts,
         ];
         return view('admin.qr-issue', $data);
     }
