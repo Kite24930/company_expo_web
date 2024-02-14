@@ -355,7 +355,7 @@ class AdminController extends Controller
 
     public function AdminAdmission() {
         $data = [
-
+            'overview' => Overview::find(1),
         ];
         return view('admin.admission', $data);
     }

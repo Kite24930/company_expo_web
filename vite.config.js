@@ -46,6 +46,7 @@ export default defineConfig({
                 visitor: 'resources/js/visit.js',
                 qrIssue: 'resources/js/qr-issue.js',
                 qrIssueStyles: 'resources/css/qr-issue.css',
+                adminAdmission: 'resources/js/dashboard/admin-admission.js',
             },
         },
     }
