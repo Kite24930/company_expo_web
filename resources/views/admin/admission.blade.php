@@ -17,7 +17,9 @@
     </div>
     <div class="w-full p-6 flex-1 flex flex-col justify-center items-center gap-2">
         <div id="msg">Unable to access video stream.</div>
-        <canvas id="canvas" class="w-full max-w-lg flex-1 bg-gray-500 rounded-3xl"></canvas>
+        <div class="w-full max-w-xl flex-1">
+            <canvas id="canvas" class="w-full h-full bg-gray-500 rounded-3xl"></canvas>
+        </div>
         <button id="reading" type="button" class="text-2xl font-semibold">Reading Start</button>
     </div>
 @vite(['resources/js/dashboard/admin-admission.js'])
