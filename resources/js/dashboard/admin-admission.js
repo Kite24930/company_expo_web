@@ -35,7 +35,7 @@ function qrCodeReading() {
             });
             if (code) {
                 msg.innerHTML = code.data;
-                console.log(code.data);
+                console.log(code.data.parse());
                 video.pause();
                 video.srcObject.getTracks().forEach(track => track.stop());
                 drawRect(code.location);
