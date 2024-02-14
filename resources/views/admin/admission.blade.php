@@ -17,7 +17,7 @@
     </div>
     <div class="w-full p-6 flex-1 flex flex-col justify-center items-center gap-2">
         <div id="msg">Unable to access video stream.</div>
-        <div class="w-full max-w-xl flex-1">
+        <div class="w-full max-w-xl flex-1 flex items-center">
             <canvas id="canvas" class="w-full h-full bg-gray-500 rounded-3xl"></canvas>
         </div>
         <button id="reading" type="button" class="text-2xl font-semibold">Reading Start</button>
