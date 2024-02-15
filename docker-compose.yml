@@ -1,17 +1,21 @@
 services:
     laravel.test:
         build:
-            context: ./vendor/laravel/sail/runtimes/8.2
+            context: ./infra/sail
             dockerfile: Dockerfile
             args:
                 WWWGROUP: '${WWWGROUP}'
         image: sail-8.2/app
         extra_hosts:
             - 'host.docker.internal:host-gateway'
-        ports:
-            - '${APP_PORT:-80}:80'
-            - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
-            - '6001:6001'
+#        ports:
+#            - target: 443
+#              published: '${WEB_PUBLISHED_PORT:-443}'
+#              protocol: tcp
+#              mode: host
+#            - '${APP_PORT:-80}:80'
+#            - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
+#            - '6001:6001'
         environment:
             WWWUSER: '${WWWUSER}'
             LARAVEL_SAIL: 1
@@ -28,6 +32,20 @@ services:
             - meilisearch
             - mailpit
             - selenium
+    nginx:
+        build:
+            context: ./infra/docker/nginx
+            dockerfile: Dockerfile
+        ports:
+            - "${WEB_PUBLISHED_PORT:-443}:443"
+        volumes:
+            - '.:/var/www/html'
+            - './infra/docker/nginx/localhost.pem:/etc/nginx/ssl/localhost.pem'
+            - './infra/docker/nginx/localhost-key.pem:/etc/nginx/ssl/localhost-key.pem'
+        depends_on:
+            - laravel.test
+        networks:
+            - sail
     mysql:
         image: 'mysql/mysql-server:8.0'
         ports:

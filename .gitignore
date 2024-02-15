@@ -17,4 +17,6 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-/nginx
+/infra/docker/nginx
+/docker
+/infra
