@@ -353,6 +353,30 @@ class AdminController extends Controller
         return view('admin.qr-issue', $data);
     }
 
+    public function AdminQrIssueSmall() {
+        $layouts = LayoutView::whereNotNull('company_id')->get();
+        foreach ($layouts as $layout) {
+            $qr_data = [
+                'company_id' => $layout->company_id,
+                'distribution_id' => $layout->distribution_id,
+                'date_id' => $layout->date_id,
+                'period_id' => $layout->period_id,
+                'booth_id' => $layout->booth_id,
+            ];
+            $qr_code = QrCode::create(json_encode($qr_data))
+                ->setEncoding(new Encoding('UTF-8'))
+                ->setErrorCorrectionLevel(ErrorCorrectionLevel::Low)
+                ->setSize(500)
+                ->setMargin(0);
+            $writer = new PngWriter();
+            $layout->qr = $writer->write($qr_code)->getDataUri();
+        }
+        $data = [
+            'layouts' => $layouts,
+        ];
+        return view('admin.qr-issue-small', $data);
+    }
+
     public function AdminAdmission() {
         $data = [
             'overview' => Overview::find(1),

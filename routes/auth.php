@@ -124,6 +124,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin/company/edit/{user_id}', [AdminController::class, 'AdminCompanyEdit'])->name('admin.company.edit');
         Route::post('/admin/company/edit/{user_id}', [AdminController::class, 'AdminCompanyEditPost'])->name('admin.company.edit.post');
         Route::get('/admin/qr/issue', [AdminController::class, 'AdminQrIssue'])->name('admin.qr.issue');
+        Route::get('/admin/qr/issue/small', [AdminController::class, 'AdminQrIssueSmall'])->name('admin.qr.issue.small');
         Route::get('/admin/admission', [AdminController::class, 'AdminAdmission'])->name('admin.admission');
         Route::post('/admin/admission', [AdminController::class, 'AdminAdmissionPost'])->name('admin.admission');
     });
