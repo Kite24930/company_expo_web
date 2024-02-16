@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admission;
 use App\Models\BranchOffice;
 use App\Models\Company;
 use App\Models\Follower;
@@ -9,8 +10,10 @@ use App\Models\Industry;
 use App\Models\IndustryView;
 use App\Models\Occupation;
 use App\Models\Student;
+use App\Models\StudentView;
 use App\Models\Target;
 use App\Models\TargetView;
+use App\Models\User;
 use App\Models\Visitor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -759,6 +762,92 @@ class ApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => '訪問企業への情報開示設定の変更に失敗しました。',
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function admissionStudentVerification(Request $request) {
+        $request->validate([
+            'user_id' => 'required',
+            'token' => 'required',
+            'issue_date' => 'required',
+        ],
+        [
+            'student_id.required' => '学生IDを入力してください。',
+            'token.required' => 'トークンを入力してください。',
+            'issue_date.required' => '発行日を入力してください。',
+        ]);
+
+        try {
+            $user_id = decrypt($request->user_id);
+            $token = decrypt($request->token);
+            if ($request->issue_date === date('Y-m-d')) {
+                $student = StudentView::where('user_id', $user_id)->first();
+                $admission = Admission::where('user_id', $user_id)->where('date', date('Y-m-d'))->first();
+                $user = User::find($user_id);
+                if ($user->api_token === $token && !$admission) {
+                    $admission = Admission::create([
+                        'user_id' => $user_id,
+                        'date' => date('Y-m-d'),
+                    ]);
+                    return response()->json([
+                        'success' => true,
+                        'message' => '入場処理が完了しました。',
+                        'student' => $student,
+                        'admission' => $admission,
+                    ]);
+                } else {
+                    return response()->json([
+                        'success' => false,
+                        'message' => '入場処理に失敗しました。',
+                        'error' => 'トークンが一致しないか、すでに入場済みです。',
+                        'user_id' => $user_id,
+                        'token' => $token,
+                        'admission' => $admission,
+                        'date' => $request->issue_date,
+                        'student' => $student,
+                        'user' => $user,
+                    ]);
+                }
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => '入場処理に失敗しました。',
+                    'error' => '発行日が一致しません。',
+                    'date' => $request->issue_date,
+                ]);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => '入場処理中にエラーが発生しました。',
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function admissionStudentDelete(Request $request)
+    {
+        $request->validate([
+            'admission_id' => 'required'
+        ],
+            [
+                'admission_id.required' => '入場IDを入力してください。',
+            ]);
+
+        try {
+            $admission = Admission::find($request->admission_id);
+            $admission->delete();
+            return response()->json([
+                'success' => true,
+                'message' => '入場取消処理が完了しました。',
+                'admission' => $admission,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => '入場取消処理に失敗しました。',
                 'error' => $e->getMessage(),
             ]);
         }

@@ -8,6 +8,7 @@
         window.Laravel = {};
         window.Laravel.user = @json($user);
         window.Laravel.qr_code = @json($qr_code);
+        window.Laravel.route = @json(route('index'));
         console.log(window.Laravel)
     </script>
     @vite(['resources/js/student/admission.js'])

@@ -2,8 +2,16 @@ import '../app.js';
 import { app, analytics } from '../firebase.js';
 import '/node_modules/flowbite/dist/flowbite.min.js';
 import jsQR from 'jsqr';
+import { Modal } from 'flowbite';
+import { io } from "socket.io-client";
 
 document.getElementById('reading').addEventListener('click', qrCodeReading);
+
+const socket = io("https://pm-socket.com");
+
+socket.on('connect', (res) => {
+    console.log('connected');
+});
 
 function qrCodeReading() {
     let video = document.createElement('video');
@@ -34,11 +42,31 @@ function qrCodeReading() {
                 inversionAttempts: "dontInvert",
             });
             if (code) {
-                msg.innerHTML = code.data;
-                console.log(JSON.parse(code.data));
+                msg.innerHTML = 'QRコードの読み込みが完了しました。';
+                const sendData = JSON.parse(code.data);
+                console.log(sendData);
                 video.pause();
                 video.srcObject.getTracks().forEach(track => track.stop());
                 drawRect(code.location);
+                axios.post('/api/admission/student/verification?api_token=' + Laravel.user.api_token, sendData)
+                    .then((res) => {
+                        console.log(res);
+                        if (res.data.success) {
+                            modal.show();
+                            document.getElementById('student_name').innerHTML = res.data.student.student_name;
+                            document.getElementById('student_faculty').innerHTML = res.data.student.faculty_name;
+                            document.getElementById('student_grade').innerHTML = res.data.student.grade_name;
+                            document.getElementById('delete_admission').setAttribute('data-id', res.data.admission.id);
+                            document.getElementById('commit').setAttribute('data-id', res.data.admission.user_id);
+                            modal.show();
+                        } else {
+                            window.alert(res.data.message);
+                        }
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                        window.alert('入場処理中にエラーが発生しました。');
+                    });
             } else {
                 msg.interHTML = 'QRコードが見つかりませんでした。';
                 setTimeout(startTick, 10)
@@ -62,3 +90,45 @@ function qrCodeReading() {
         ctx.stroke();
     }
 }
+
+const targetEl = document.getElementById('result');
+
+const options = {
+    placement: 'center',
+    backdrop: 'dynamic',
+    closable: true,
+    onHide: () => {
+        console.log('hidden');
+    },
+    onShow: () => {
+        console.log('shown');
+    },
+}
+
+const modal = new Modal(targetEl, options);
+
+document.getElementById('commit').addEventListener('click', (e) => {
+    socket.emit('link', { id: e.target.getAttribute('data-id') });
+    window.location.reload();
+});
+
+document.getElementById('delete_admission').addEventListener('click', (e) => {
+    const sendData = {
+        admission_id: e.target.getAttribute('data-id')
+    };
+    axios.delete('/api/admission/student/delete?api_token=' + Laravel.user.api_token, {data: sendData})
+        .then((res) => {
+            console.log(res);
+            if (res.data.success) {
+                modal.hide();
+                window.alert('入場処理が取り消されました。');
+                window.location.reload();
+            } else {
+                window.alert(res.data.message);
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+            window.alert('入場処理取消中にエラーが発生しました。');
+        });
+});

@@ -1,5 +1,6 @@
 import '../common';
 import axios from 'axios';
+import { io } from "socket.io-client";
 
 const userId = Laravel.user.id;
 const qrEl = document.getElementById('qr');
@@ -13,16 +14,16 @@ window.addEventListener('load', () => {
     if (qrEl) {
         qrEl.src = qrCode;
     }
-
-    setInterval(admissionCheck, 500)
 });
 
-function admissionCheck() {
-    // axios.post('/api/admission/check?api_token=' + apiToken, sendData)
-    //     .then((res) => {
-    //         console.log(res.data);
-    //     })
-    //     .catch((err) => {
-    //         console.log(err);
-    //     })
-}
+const socket = io("https://pm-socket.com");
+
+socket.emit('register', userId);
+socket.on('connect', (res) => {
+    console.log('connected');
+});
+socket.on('linkTo' + userId, (msg) => {
+    console.log(msg);
+    window.alert('入場処理が完了しました。\nTOPページに戻ります。');
+    window.location.href = Laravel.route;
+});
