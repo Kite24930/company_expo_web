@@ -712,6 +712,7 @@
         window.Laravel = {};
         window.Laravel.company = @json($company);
         window.Laravel.branch_offices = @json($branch_offices);
+        window.Laravel.route = @json(route('index'));
         console.log(window.Laravel)
     </script>
     @vite(['resources/js/corporate/corporate-edit.js'])

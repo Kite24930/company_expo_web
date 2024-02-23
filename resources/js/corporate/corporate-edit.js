@@ -303,7 +303,7 @@ document.getElementById('company_name_btn').addEventListener('click', () => {
         company_name_ruby: document.getElementById('company_name_ruby_input').value,
         company_id: company_id,
     };
-    axios.post('/api/company_name_edit?api_token=' + api_token, sendData)
+    axios.post('/' + Laravel.route + '/api/company_name_edit?api_token=' + api_token, sendData)
         .then((res) => {
             if (res.data.success) {
                 document.getElementById('company_name').innerText = res.data.company_name;
@@ -326,7 +326,7 @@ document.getElementById('company_industry_btn').addEventListener('click', () => 
         industry_id: document.getElementById('company_industry_input').value,
         company_id: company_id,
     };
-    axios.post('/api/company_industry_edit?api_token=' + api_token, sendData)
+    axios.post('/' + Laravel.route + '/api/company_industry_edit?api_token=' + api_token, sendData)
         .then((res) => {
             if (res.data.success) {
                 document.getElementById('industry_name_head').innerText = res.data.industry.industry_name;
@@ -369,7 +369,7 @@ document.getElementById('company_logo_btn').addEventListener('click', () => {
     sendData.append('company_logo', fileEl.files[0]);
     sendData.append('company_id', company_id);
     sendData.append('_token', csrf);
-    axios.post('/api/company_logo_edit?api_token=' + api_token, sendData)
+    axios.post('/' + Laravel.route + '/api/company_logo_edit?api_token=' + api_token, sendData)
         .then((res) => {
             if (res.data.success) {
                 document.getElementById('company_logo').src = '/storage/company/' + res.data.company.id + '/' + res.data.company.company_logo + '?token=' + new Date().getTime();
@@ -411,7 +411,7 @@ document.getElementById('company_img_btn').addEventListener('click', () => {
     sendData.append('company_img', fileEl.files[0]);
     sendData.append('company_id', company_id);
     sendData.append('_token', csrf);
-    axios.post('/api/company_img_edit?api_token=' + api_token, sendData)
+    axios.post('/' + Laravel.route + '/api/company_img_edit?api_token=' + api_token, sendData)
         .then((res) => {
             if (res.data.success) {
                 document.getElementById('company_img').src = '/storage/company/' + res.data.company.id + '/' + res.data.company.company_img + '?token=' + new Date().getTime();
@@ -431,7 +431,7 @@ function toastUiEdit(target) {
         company_id: company_id,
     };
     sendData[target.id] = target.editor.getMarkdown();
-    axios.post('/api/' + target.id + '_edit?api_token=' + api_token, sendData)
+    axios.post('/' + Laravel.route + '/api/' + target.id + '_edit?api_token=' + api_token, sendData)
         .then((res) => {
             if (res.data.success) {
                 target.viewer.setMarkdown(res.data.company[target.id]);
@@ -452,7 +452,7 @@ document.getElementById('occupation-add').addEventListener('click', () => {
     while (document.querySelector('.occupation-input[data-id="' + targetId + '"]') !== null) {
         targetId--;
     }
-    axios.get('/api/occupation_item_add?api_token=' + api_token + '&company_id=' + company_id + '&id=' + targetId)
+    axios.get('/' + Laravel.route + '/api/occupation_item_add?api_token=' + api_token + '&company_id=' + company_id + '&id=' + targetId)
         .then((res) => {
             console.log(res.data);
             const parser = new DOMParser();
@@ -490,7 +490,7 @@ document.querySelectorAll('.occupation-delete').forEach((el) => {
 function occupationDelete(target) {
     const targetId = Number(target.getAttribute('data-id'));
     if (targetId > 0) {
-        axios.delete('/api/occupation_item_delete/' + targetId + '?api_token=' + api_token)
+        axios.delete('/' + Laravel.route + '/api/occupation_item_delete/' + targetId + '?api_token=' + api_token)
             .then((res) => {
                 console.log(res.data);
                 document.querySelector('.occupation-item[data-id="' + targetId + '"]').remove();
@@ -518,7 +518,7 @@ document.getElementById('occupation_btn').addEventListener('click', () => {
         company_id: company_id,
     };
     console.log(sendData);
-    axios.post('/api/occupation_edit?api_token=' + api_token, sendData)
+    axios.post('/' + Laravel.route + '/api/occupation_edit?api_token=' + api_token, sendData)
         .then((res) => {
             console.log(res.data);
             const occupation = document.querySelector('#occupation ul');
@@ -568,7 +568,7 @@ document.getElementById('target_btn').addEventListener('click', () => {
         company_id: company_id,
     };
     console.log(sendData);
-    axios.post('/api/target_edit?api_token=' + api_token, sendData)
+    axios.post('/' + Laravel.route + '/api/target_edit?api_token=' + api_token, sendData)
         .then((res) => {
             console.log(res.data);
             const target = document.querySelector('#faculty ul');
@@ -613,7 +613,7 @@ document.getElementById('head_office_address_btn').addEventListener('click', () 
         head_office_lng: lng,
         company_id: company_id,
     };
-    axios.post('/api/head_office_address_edit?api_token=' + api_token, sendData)
+    axios.post('/' + Laravel.route + '/api/head_office_address_edit?api_token=' + api_token, sendData)
         .then((res) => {
             console.log(res.data);
             document.getElementById('head_office_address').innerText = res.data.company.head_office_address;
@@ -636,7 +636,7 @@ document.getElementById('established_at_btn').addEventListener('click', () => {
         established_at: establishedAtYear + '-' + ('00' + establishedAtMonth).slice(-2) + '-01',
         company_id: company_id,
     };
-    axios.post('/api/established_at_edit?api_token=' + api_token, sendData)
+    axios.post('/' + Laravel.route + '/api/established_at_edit?api_token=' + api_token, sendData)
         .then((res) => {
             console.log(res.data);
             const establishedAt = new Date(res.data.company.established_at);
@@ -656,7 +656,7 @@ document.getElementById('capital_btn').addEventListener('click', () => {
         capital: capital,
         company_id: company_id,
     };
-    axios.post('/api/capital_edit?api_token=' + api_token, sendData)
+    axios.post('/' + Laravel.route + '/api/capital_edit?api_token=' + api_token, sendData)
         .then((res) => {
             console.log(res.data);
             document.getElementById('capital').innerText = res.data.company.capital + '万円';
@@ -689,7 +689,7 @@ document.getElementById('sales_btn').addEventListener('click', () => {
     } else {
         sendData['sales'] = document.getElementById('sales_input').value;
     }
-    axios.post('/api/sales_edit?api_token=' + api_token, sendData)
+    axios.post('/' + Laravel.route + '/api/sales_edit?api_token=' + api_token, sendData)
         .then((res) => {
             console.log(res.data);
             if (res.data.company.sales === null) {
@@ -712,7 +712,7 @@ document.getElementById('employees_btn').addEventListener('click', () => {
         employees: employees,
         company_id: company_id,
     };
-    axios.post('/api/employees_edit?api_token=' + api_token, sendData)
+    axios.post('/' + Laravel.route + '/api/employees_edit?api_token=' + api_token, sendData)
         .then((res) => {
             console.log(res.data);
             document.getElementById('employees').innerText = res.data.company.employees + '人';
@@ -731,7 +731,7 @@ document.getElementById('mie_univ_ob_og_btn').addEventListener('click', () => {
         mie_univ_ob_og: mieUnivObOg,
         company_id: company_id,
     };
-    axios.post('/api/mie_univ_ob_og_edit?api_token=' + api_token, sendData)
+    axios.post('/' + Laravel.route + '/api/mie_univ_ob_og_edit?api_token=' + api_token, sendData)
         .then((res) => {
             console.log(res.data);
             document.getElementById('mie_univ_ob_og').innerText = res.data.company.mie_univ_ob_og + '人';
@@ -764,7 +764,7 @@ document.getElementById('planned_number_btn').addEventListener('click', () => {
     } else {
         sendData['planned_number'] = document.getElementById('planned_number_input').value;
     }
-    axios.post('/api/planned_number_edit?api_token=' + api_token, sendData)
+    axios.post('/' + Laravel.route + '/api/planned_number_edit?api_token=' + api_token, sendData)
         .then((res) => {
             console.log(res.data);
             if (res.data.company.planned_number === null) {
@@ -818,7 +818,7 @@ if (branchInsertHeadOfficeBtn) {
         const sendData = {
             company_id: company_id,
         };
-        axios.post('/api/branch_insert_head_office?api_token=' + api_token, sendData)
+        axios.post('/' + Laravel.route + '/api/branch_insert_head_office?api_token=' + api_token, sendData)
             .then((res) => {
                 console.log(res.data);
                 const parser = new DOMParser();
@@ -850,7 +850,7 @@ document.querySelectorAll('.branch-office-delete').forEach((el) => {
 function branchOfficeDelete(target) {
     const targetId = Number(target.getAttribute('data-id'));
     if (targetId > 0) {
-        axios.delete('/api/branch_office_delete/' + targetId + '/' + company_id + '?api_token=' + api_token)
+        axios.delete('/' + Laravel.route + '/api/branch_office_delete/' + targetId + '/' + company_id + '?api_token=' + api_token)
             .then((res) => {
                 console.log(res.data);
                 document.querySelector('.branch-office-item[data-id="' + targetId + '"]').remove();
@@ -871,7 +871,7 @@ document.getElementById('branch_office_add').addEventListener('click', () => {
     while (document.querySelector('.branch-office-item[data-id="' + target + '"]') !== null) {
         target--;
     }
-    axios.get('/api/branch_office_add/' + target + '?api_token=' + api_token)
+    axios.get('/' + Laravel.route + '/api/branch_office_add/' + target + '?api_token=' + api_token)
         .then((res) => {
             console.log(res.data);
             const parser = new DOMParser();
@@ -1019,7 +1019,7 @@ document.getElementById('branch_offices_btn').addEventListener('click', () => {
         branch_offices: branchOffices,
         company_id: company_id,
     };
-    axios.post('/api/branch_office_edit?api_token=' + api_token, sendData)
+    axios.post('/' + Laravel.route + '/api/branch_office_edit?api_token=' + api_token, sendData)
         .then((res) => {
             console.log(res.data);
             const parser = new DOMParser();
@@ -1067,7 +1067,7 @@ document.getElementById('recruit_in_charge_btn').addEventListener('click', () =>
         recruit_in_charge_email: document.getElementById('recruit_in_charge_email_input').value,
         company_id: company_id,
     }
-    axios.post('/api/recruit_in_charge_edit?api_token=' + api_token, sendData)
+    axios.post('/' + Laravel.route + '/api/recruit_in_charge_edit?api_token=' + api_token, sendData)
         .then((res) => {
             console.log(res.data);
             document.getElementById('recruit_department').innerText = res.data.company.recruit_department;
@@ -1106,7 +1106,7 @@ document.getElementById('url_btn').addEventListener('click', () => {
         url: url,
         company_id: company_id,
     }
-    axios.post('/api/url_edit?api_token=' + api_token, sendData)
+    axios.post('/' + Laravel.route + '/api/url_edit?api_token=' + api_token, sendData)
         .then((res) => {
             console.log(res.data);
             if (res.data.company.url === null) {
