@@ -134,7 +134,7 @@
                                     資本金
                                 </x-elements.category-title>
                                 <x-elements.category-content id="capital" class="relative">
-                                    {{ __($company->capital.'万円') }}
+                                    {{ __(\App\Helpers\CurrencyHelper::formatCurrency($company->capital).'円') }}
                                 </x-elements.category-content>
                             </x-elements.category-wrapper>
                             <x-elements.category-wrapper>
@@ -143,7 +143,7 @@
                                 </x-elements.category-title>
                                 <x-elements.category-content id="sales" class="relative">
                                     @if($company->sales)
-                                        {{ __($company->sales.'万円') }}
+                                        {{ __(\App\Helpers\CurrencyHelper::formatCurrency($company->sales).'円') }}
                                     @else
                                         非公開
                                     @endif

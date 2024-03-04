@@ -71,6 +71,9 @@ class StudentController extends Controller
     }
 
     public function StudentAccount() {
+        if (!auth()->user()->hasRole('student')) {
+            return redirect()->route('dashboard');
+        }
         $admission = Admission::where('user_id', auth()->user()->id)->where('date', date('Y-m-d'))->first();
         if ($admission) {
             $is_admission = true;
