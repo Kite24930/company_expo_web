@@ -33,6 +33,7 @@ export default defineConfig({
                 corporateStyles: 'resources/css/dashboard/corporate.css',
                 corporateEdit: 'resources/js/corporate/corporate-edit.js',
                 corporateEditStyles: 'resources/css/dashboard/corporate-edit.css',
+                corporateOneWordPr: 'resources/js/corporate/corporate-one-word.js',
                 followers: 'resources/js/corporate/followers.js',
                 visitors: 'resources/js/corporate/visitors.js',
                 student: 'resources/js/student/student.js',

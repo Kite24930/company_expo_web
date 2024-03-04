@@ -45,6 +45,10 @@
         <x-symbols.setting class="mr-2"/>
         企業情報編集
     </x-dashboard.menu-item>
+    <x-dashboard.menu-item route="company.one_word_pr">
+        <x-symbols.tag class="mr-2"/>
+        ひとことPR編集
+    </x-dashboard.menu-item>
     <x-dashboard.menu-item route="company.followers">
         <x-symbols.followed class="mr-2"/>
         フォロワー一覧

@@ -14,6 +14,7 @@ use App\Models\IndustryView;
 use App\Models\LayoutView;
 use App\Models\MajorIndustry;
 use App\Models\Occupation;
+use App\Models\OneWordPr;
 use App\Models\Overview;
 use App\Models\Period;
 use App\Models\StudentView;
@@ -188,6 +189,7 @@ class MainController extends Controller
                     $branch_offices[$company->company_id] = BranchOffice::where('company_id', $company->company_id)->get();
                     $targets[$company->company_id] = TargetView::where('company_id', $company->company_id)->get();
                     $occupations[$company->company_id] = Occupation::where('company_id', $company->company_id)->get();
+                    $one_word_pr[$company->company_id] = OneWordPr::where('company_id', $company->company_id)->first();
                 }
             }
         }
@@ -207,6 +209,7 @@ class MainController extends Controller
             'branch_offices' => $branch_offices,
             'targets' => $targets,
             'occupations' => $occupations,
+            'one_word_pr' => $one_word_pr,
             'dates' => Date::all(),
             'periods' => Period::all(),
             'faculties' => Faculty::all(),

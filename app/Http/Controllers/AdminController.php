@@ -292,7 +292,7 @@ class AdminController extends Controller
 
     public function AdminCompanyLayoutPost($id, Request $request) {
         try {
-            if ($request->distribution_id === 0) {
+            if ($request->distribution_id == 0) {
                 Layout::where('company_id', $id)->update(['company_id' => null]);
             } else {
                 Layout::where('id', $request->distribution_id)->update(['company_id' => $id]);

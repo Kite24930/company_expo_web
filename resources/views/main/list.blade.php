@@ -240,7 +240,7 @@
                             </ul>
                             <div id="{{ __('period_inner_tab_'.$date->id) }}" class="border rounded-b-lg overflow-y-auto">
                                 @foreach($periods as $i => $period)
-                                    <div id="{{ __('by_period_'.$date->id.'_'.$period->id) }}" class="flex flex-wrap p-4 justify-center gap-4">
+                                    <div id="{{ __('by_period_'.$date->id.'_'.$period->id) }}" class="flex flex-wrap p-4 justify-center gap-x-4 gap-y-6">
                                         @if(count($layout[$date->date][$period->period]) === 0)
                                             <div class="w-full text-center">
                                                 <p>該当する企業がありません。</p>
@@ -248,7 +248,12 @@
                                         @else
                                             @foreach($layout[$date->date][$period->period] as $company)
                                                 <div class="flex flex-col items-center relative w-full max-w-[300px] rounded-lg shadow">
-                                                    <div class="company_img_wrapper relative w-full">
+                                                    @if($one_word_pr[$company->company_id])
+                                                        <div class="text-xs py-1 px-2 rounded absolute top-0 -left-2 z-20 -rotate-12 text-center" style="{{ __('background-color: '.$one_word_pr[$company->company_id]->background_color.'; color: '.$one_word_pr[$company->company_id]->text_color) }}">
+                                                            {!! nl2br(e($one_word_pr[$company->company_id]->one_word_pr)) !!}
+                                                        </div>
+                                                    @endif
+                                                    <div class="company_img_wrapper relative w-full z-10">
                                                         @if($company->company_img === null)
                                                             <img src="{{ asset('storage/company/default.jpg') }}" alt="{{ $company->company_name }}" class="absolute top-0 left-0 bottom-0 right-0 w-full h-full object-cover rounded-t-lg">
                                                         @else

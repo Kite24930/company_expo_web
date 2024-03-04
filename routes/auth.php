@@ -94,6 +94,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/corporate', [CorporateController::class, 'CorporateAccount'])->name('company.show');
         Route::get('/corporate/edit', [CorporateController::class, 'CorporateAccountEdit'])->name('company.edit');
         Route::post('/corporate/edit', [CorporateController::class, 'CorporateAccountEditPost'])->name('company.store');
+        Route::get('/corporate/one_word_pr', [CorporateController::class, 'CorporateOneWordPr'])->name('company.one_word_pr');
+        Route::post('/corporate/one_word_pr', [CorporateController::class, 'CorporateOneWordPrPost'])->name('company.one_word_pr.post');
+        Route::delete('/corporate/one_word_pr', [CorporateController::class, 'CorporateOneWordPrDelete'])->name('company.one_word_pr.delete');
         Route::get('/corporate/followers', [CorporateController::class, 'CorporateFollowers'])->name('company.followers');
         Route::get('/corporate/visitors', [CorporateController::class, 'CorporateVisitors'])->name('company.visitors');
         Route::get('/corporate/advertisement', [CorporateController::class, 'CorporateAdvertisement'])->name('company.advertisement');
