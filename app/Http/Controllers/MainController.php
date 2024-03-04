@@ -255,6 +255,7 @@ class MainController extends Controller
                 $data['is_admission'] = false;
             }
         } else {
+            $data['is_followed'] = null;
             $data['is_admission'] = false;
         }
         return view('main.detail', $data);

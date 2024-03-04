@@ -161,7 +161,11 @@ for(const key in toastUiTarget) {
 }
 
 document.getElementById('follow_btn').addEventListener('click', (e) => {
-    if (e.target.classList.contains('not-login')) {
+    let followBtn = e.target;
+    while (followBtn.tagName !== 'BUTTON') {
+        followBtn = followBtn.parentNode;
+    }
+    if (followBtn.classList.contains('not-login')) {
         notLogin();
     } else {
         followCompany(e.target, Laravel.user.api_token);
