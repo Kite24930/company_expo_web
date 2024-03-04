@@ -16,7 +16,7 @@ class CurrencyHelper
         $num = $value;
         while ($num >= 1 && $index < count($units)) {
             $formatNum[] = mb_substr((string)$num, -4).$units[$index];
-            $num /= $unit;
+            $num = intdiv($num, $unit);
             $index++;
         }
 
