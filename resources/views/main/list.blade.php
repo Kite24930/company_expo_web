@@ -269,7 +269,7 @@
                                                                 <div class="flex gap-2 items-center flex-1 flex-wrap">
                                                                     @foreach($targets[$company->company_id] as $target)
                                                                         <div class="p-1 px-2.5 rounded-full bg-[#637381] text-white text-xs">
-                                                                            @if($target->faculty_id < 6)
+                                                                            @if($target->faculty_id < 6 || $target->faculty_id === 11)
                                                                                 {{ mb_substr($target->faculty_name, 0, 1) }}
                                                                                 @else
                                                                                 {{ mb_substr($target->faculty_name, 0, 1).'院' }}
