@@ -202,6 +202,9 @@ class MainController extends Controller
         if (!isset($occupations)) {
             $occupations = null;
         }
+        if (!isset($one_word_pr)) {
+            $one_word_pr = null;
+        }
         $data = [
             'overview' => Overview::find(1),
             'filter' => $filter,
