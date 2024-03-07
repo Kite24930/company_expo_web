@@ -249,7 +249,7 @@
                                             @foreach($layout[$date->date][$period->period] as $company)
                                                 <div class="flex flex-col items-center relative w-full max-w-[300px] rounded-lg shadow">
                                                     @if($one_word_pr[$company->company_id])
-                                                        <div class="text-xs py-1 px-2 rounded absolute top-0 -left-2 z-20 -rotate-12 text-center" style="{{ __('background-color: '.$one_word_pr[$company->company_id]->background_color.'; color: '.$one_word_pr[$company->company_id]->text_color) }}">
+                                                        <div class="text-xs py-1 px-2 rounded absolute top-0 -left-2 z-20 -rotate-12 text-center shadow-lg" style="{{ __('background-color: '.$one_word_pr[$company->company_id]->background_color.'; color: '.$one_word_pr[$company->company_id]->text_color) }}">
                                                             {!! nl2br(e($one_word_pr[$company->company_id]->one_word_pr)) !!}
                                                         </div>
                                                     @endif
