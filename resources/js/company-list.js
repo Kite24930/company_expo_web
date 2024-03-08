@@ -1,6 +1,11 @@
 import './common';
 import { notLogin, followCompany } from './module/follow';
 
+let path_name = '/' + window.location.pathname.split('/')[1];
+if(process.env.NODE_ENV === 'local') {
+    path_name = '';
+}
+
 document.getElementById('move_page_top').addEventListener('click', () => {
     window.scrollTo({
         top: 0,
@@ -11,9 +16,9 @@ document.getElementById('move_page_top').addEventListener('click', () => {
 document.getElementById('search_btn').addEventListener('click', () => {
     const searchWord = document.getElementById('search').value;
     if (searchWord && searchWord.length > 0) {
-        window.location.href = `/company/list?keyword=${searchWord}`;
+        window.location.href = path_name + `/company/list?keyword=${searchWord}`;
     } else {
-        window.location.href = '/company/list';
+        window.location.href = path_name + '/company/list';
     }
 });
 
