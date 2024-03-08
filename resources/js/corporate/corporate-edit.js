@@ -15,7 +15,10 @@ const errorIndicator = document.getElementById('errorIndicator');
 const csrf = document.querySelector('input[name="_token"]').value;
 const company_id = document.getElementById('company_id').value;
 const api_token = document.getElementById('api_token').value;
-const path_name = '/' + window.location.pathname.split('/')[1];
+let path_name = '/' + window.location.pathname.split('/')[1];
+if(process.env.NODE_ENV === 'local') {
+    path_name = '';
+}
 let headOfficeMap, officeMap, headOfficeEditMap, branchOfficeEditMap, headOfficeMarker, officeMapMarker, headOfficeEditMapMarker, branchOfficeEditMapMarker, infoWindow;
 
 function modalOpen(target) {
