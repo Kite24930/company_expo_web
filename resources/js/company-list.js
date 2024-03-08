@@ -37,7 +37,7 @@ const mieUnivObOgType = document.getElementById('search_mie_univ_ob_og_type');
 const branchOffice = document.querySelectorAll('.search-branch-office');
 
 document.getElementById('reset_btn').addEventListener('click', () => {
-    window.location.href = '/company/list';
+    window.location.href = path_name + '/company/list';
 });
 
 document.getElementById('detailed_search_btn').addEventListener('click', () => {
@@ -117,9 +117,9 @@ document.getElementById('detailed_search_btn').addEventListener('click', () => {
         passingVal += `branch_office=${branchOfficeVal}`;
     }
     if (passingVal.length > 1) {
-        window.location.href = `/company/list${passingVal}`;
+        window.location.href = path_name + `/company/list${passingVal}`;
     } else {
-        window.location.href = '/company/list';
+        window.location.href = path_name + '/company/list';
     }
 });
 
