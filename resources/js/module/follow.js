@@ -1,6 +1,13 @@
 import axios from 'axios';
 import { initFlowbite } from "flowbite";
 
+let path_name = '/' + window.location.pathname.split('/')[1];
+if(window.location.hostname === 'localhost') {
+    path_name = '';
+}
+console.log(window.location.hostname);
+console.log(path_name);
+
 function notLogin() {
     window.alert('フォロー機能を利用するには、ログインしてください');
 }
@@ -15,7 +22,7 @@ function followCompany(el, apiToken) {
         company_id: companyId,
         student_id: Laravel.student.id,
     };
-    axios.post('/api/follow/company?api_token=' + apiToken, sendData)
+    axios.post(path_name + '/api/follow/company?api_token=' + apiToken, sendData)
         .then((res) => {
             if (res.data.success) {
                 const parser = new DOMParser();

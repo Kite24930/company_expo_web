@@ -51,4 +51,5 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/visit/disclosure', [ApiController::class, 'visitDisclosure'])->name('api.visit.disclosure');
     Route::post('/admission/student/verification', [ApiController::class, 'admissionStudentVerification'])->name('api.admission.student.verification');
     Route::delete('/admission/student/delete', [ApiController::class, 'admissionStudentDelete'])->name('api.admission.student.delete');
+    Route::post('/company-visit/student/verification', [ApiController::class, 'companyVisitStudentVerification'])->name('api.company-visit.student.verification');
 });

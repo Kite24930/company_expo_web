@@ -8,6 +8,7 @@ use App\Models\Company;
 use App\Models\Follower;
 use App\Models\Industry;
 use App\Models\IndustryView;
+use App\Models\LayoutView;
 use App\Models\Occupation;
 use App\Models\Student;
 use App\Models\StudentView;
@@ -15,6 +16,7 @@ use App\Models\Target;
 use App\Models\TargetView;
 use App\Models\User;
 use App\Models\Visitor;
+use App\Models\VisitorView;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -848,6 +850,33 @@ class ApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => '入場取消処理に失敗しました。',
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function companyVisitStudentVerification(Request $request)
+    {
+        $request->validate([
+            'company_id' => 'required',
+            ],
+            [
+                'company_id.required' => '企業IDを入力してください。',
+            ]);
+
+        try {
+            $company = LayoutView::where('company_id', $request->company_id)->first();
+            $visitor = VisitorView::where('company_id', $request->company_id)->where('student_user_id', $request->user_id)->get();
+            return response()->json([
+                'success' => true,
+                'message' => '訪問企業情報の取得が完了しました。',
+                'company' => $company,
+                'visitor' => $visitor,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => '企業情報の取得に失敗しました。',
                 'error' => $e->getMessage(),
             ]);
         }

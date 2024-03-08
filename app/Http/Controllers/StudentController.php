@@ -11,6 +11,7 @@ use App\Models\Overview;
 use App\Models\Student;
 use App\Models\StudentView;
 use App\Models\TargetView;
+use App\Models\Visitor;
 use App\Models\VisitorView;
 use App\Providers\RouteServiceProvider;
 use Endroid\QrCode\Encoding\Encoding;
@@ -207,7 +208,34 @@ class StudentController extends Controller
     }
 
     public function StudentQrPost(Request $request) {
+        $request->validate([
+            'company_id' => 'required',
+            'disclosure' => 'required',
+        ],
+        [
+            'company_id.required' => '企業IDが見つかりません。',
+            'disclosure.required' => '情報開示設定を選択してください。',
+        ]);
 
+        try {
+            $student = Student::where('user_id', auth()->user()->id)->first();
+            $visitor = Visitor::create([
+                'student_id' => $student->id,
+                'company_id' => $request->company_id,
+                'disclosure' => $request->disclosure,
+            ]);
+            $company = LayoutView::where('company_id', $request->company_id)->first();
+            $msg = $company->company_name . 'の訪問を登録しました。';
+            if ($request->disclosure === '1') {
+                $msg .= "\n学生情報を公開を許可しました。";
+            } else {
+                $msg .= "\n学生情報を公開を拒否しました。";
+            }
+            $msg .= "\n情報開示設定はマイページの訪問企業一覧より変更できます。";
+            return redirect()->back()->with('success', $msg);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     public function StudentAdmission() {

@@ -1,9 +1,7 @@
-import '../app.js';
-import { app, analytics } from '../firebase.js';
-import '/node_modules/flowbite/dist/flowbite.min.js';
+import '../common';
+import axios from 'axios';
 import jsQR from 'jsqr';
 import { Modal } from 'flowbite';
-import { io } from "socket.io-client";
 
 let path_name = '/' + window.location.pathname.split('/')[1];
 if(window.location.hostname === 'localhost') {
@@ -13,12 +11,8 @@ console.log(window.location.hostname);
 console.log(path_name);
 
 document.getElementById('reading').addEventListener('click', qrCodeReading);
-
-const socket = io("https://pm-socket.com");
-
-socket.on('connect', (res) => {
-    console.log('connected');
-});
+const company_name = document.getElementById('company_name');
+const company_id = document.getElementById('company_id');
 
 function qrCodeReading() {
     let video = document.createElement('video');
@@ -50,33 +44,30 @@ function qrCodeReading() {
             });
             if (code) {
                 msg.innerHTML = 'QRコードの読み込みが完了しました。';
-                const sendData = JSON.parse(code.data);
+                let sendData = JSON.parse(code.data);
+                sendData.user_id = Laravel.user.id;
                 console.log(sendData);
                 video.pause();
                 video.srcObject.getTracks().forEach(track => track.stop());
                 drawRect(code.location);
-                axios.post(path_name + '/api/admission/student/verification?api_token=' + Laravel.user.api_token, sendData)
+                axios.post(path_name + '/api/company-visit/student/verification?api_token=' + Laravel.user.api_token, sendData)
                     .then((res) => {
                         console.log(res);
-                        if (res.data.success) {
-                            modal.show();
-                            document.getElementById('student_name').innerHTML = res.data.student.student_name;
-                            document.getElementById('student_faculty').innerHTML = res.data.student.faculty_name;
-                            document.getElementById('student_grade').innerHTML = res.data.student.grade_name;
-                            document.getElementById('delete_admission').setAttribute('data-id', res.data.admission.id);
-                            document.getElementById('commit').setAttribute('data-id', res.data.admission.user_id);
-                            modal.show();
+                        if (res.data.visitor.length > 0) {
+                            window.alert('すでに訪問登録されている企業です。');
                         } else {
-                            window.alert(res.data.message);
+                            company_name.innerText = res.data.company.company_name;
+                            company_id.value = res.data.company.company_id;
+                            modal.show();
                         }
                     })
                     .catch((err) => {
                         console.error(err);
-                        window.alert('入場処理中にエラーが発生しました。');
+                        window.alert('QRコードの読み込みに失敗しました。');
                     });
             } else {
-                msg.interHTML = 'QRコードが見つかりませんでした。';
-                setTimeout(startTick, 10)
+                msg.innerHTML = 'QRコードが見つかりませんでした。';
+                setTimeout(startTick, 10);
             }
         }
     }
@@ -114,28 +105,19 @@ const options = {
 
 const modal = new Modal(targetEl, options);
 
-document.getElementById('commit').addEventListener('click', (e) => {
-    socket.emit('link', { id: e.target.getAttribute('data-id') });
-    window.location.reload();
-});
-
-document.getElementById('delete_admission').addEventListener('click', (e) => {
-    const sendData = {
-        admission_id: e.target.getAttribute('data-id')
-    };
-    axios.delete(path_name + '/api/admission/student/delete?api_token=' + Laravel.user.api_token, {data: sendData})
-        .then((res) => {
-            console.log(res);
-            if (res.data.success) {
-                modal.hide();
-                window.alert('入場処理が取り消されました。');
-                window.location.reload();
-            } else {
-                window.alert(res.data.message);
+const disclosure = document.querySelectorAll('.disclosure');
+const submitBtn = document.getElementById('submit_btn');
+disclosure.forEach((el) => {
+    el.addEventListener('click', () => {
+        disclosure.forEach((el) => {
+            el.parentNode.classList.remove('bg-blue-800', 'text-white');
+            if (el.checked) {
+                el.parentNode.classList.add('bg-blue-800', 'text-white');
             }
-        })
-        .catch((err) => {
-            console.error(err);
-            window.alert('入場処理取消中にエラーが発生しました。');
         });
+        if (submitBtn.disabled) {
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('bg-gray-200', 'hover:bg-gray-200');
+        }
+    });
 });

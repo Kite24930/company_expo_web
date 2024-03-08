@@ -49,6 +49,7 @@ export default defineConfig({
                 qrIssueStyles: 'resources/css/qr-issue.css',
                 qrIssueSmallStyles: 'resources/css/qr-issue-small.css',
                 adminAdmission: 'resources/js/dashboard/admin-admission.js',
+                qrRead: 'resources/js/student/qr-read.js',
             },
         },
     }
