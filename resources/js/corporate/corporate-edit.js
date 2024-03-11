@@ -196,6 +196,9 @@ function initMap() {
                 if (officeMap.getZoom() > 16) {
                     officeMap.setZoom(16);
                 }
+            } else if (LatList.length === 1 && LngList.length === 1) {
+                officeMap.setCenter(branchOffices[0]);
+                officeMap.setZoom(16);
             } else {
                 officeMap.setCenter(headOffice);
                 officeMap.setZoom(16);

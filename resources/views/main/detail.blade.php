@@ -177,21 +177,21 @@
                                     @endif
                                 </x-elements.category-content>
                             </x-elements.category-wrapper>
-                            <x-elements.category-wrapper>
-                                <x-elements.category-title>
-                                    勤務地
-                                </x-elements.category-title>
-                                <x-elements.category-content id="branch_offices" class="w-full relative">
-                                    <div id="branch_offices_wrapper" class="flex flex-col gap-2 mb-2">
-                                        @if($branch_offices && $branch_offices->count() > 0)
+                            @if($branch_offices && $branch_offices->count() > 0)
+                                <x-elements.category-wrapper>
+                                    <x-elements.category-title>
+                                        勤務地
+                                    </x-elements.category-title>
+                                    <x-elements.category-content id="branch_offices" class="w-full relative">
+                                        <div id="branch_offices_wrapper" class="flex flex-col gap-2 mb-2">
                                             @foreach($branch_offices as $item)
                                                 <x-elements.office-item :title="$item->office_name" :address="$item->office_address" />
                                             @endforeach
-                                        @endif
-                                    </div>
-                                    <div id="office_map" class="w-full h-56 border rounded"></div>
-                                </x-elements.category-content>
-                            </x-elements.category-wrapper>
+                                        </div>
+                                        <div id="office_map" class="w-full h-56 border rounded"></div>
+                                    </x-elements.category-content>
+                                </x-elements.category-wrapper>
+                            @endif
                             <x-elements.category-wrapper>
                                 <x-elements.category-title>
                                     採用担当部署名
