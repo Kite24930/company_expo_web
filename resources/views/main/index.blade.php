@@ -151,7 +151,7 @@
                         </div>
                     </div>
                 @endif
-                <div class="max-w-sm px-4">
+                <div class="max-w-xs md:px-4">
                     <div class="text-base font-semibold text-[#2EA7EB]">オンライン開催について</div>
                     <div class="text-sm text-gray-500">
                         本イベントはオンラインでも開催されます。
