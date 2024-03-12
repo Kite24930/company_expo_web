@@ -126,7 +126,7 @@
             <div class="flex flex-col md:flex-row items-center md:justify-center gap-6 mb-6">
                 @if(date('Y-m-d') == '2024-03-27' || date('Y-m-d') == '2024-03-28')
                     <a href="https://zoom.us/j/91505849191?pwd=bnBuMkhqN0tnd2JTc1NzUnZ5bFoxdz09" class="relative max-w-xs shadow">
-                        <img src="{{ asset('storage/zoom.jpg') }}" alt="参加企業一覧" class="relative z-10 rounded-lg">
+                        <img src="{{ asset('storage/zoom.jpg') }}" alt="オンライン開催" class="relative z-10 rounded-lg">
                         <div class="absolute top-0 left-0 rounded-lg w-full h-full company-list z-20"></div>
                         <div class="absolute bottom-6 left-6 z-30 flex flex-col gap-2">
                             <div class="font-semibold text-white text-xl">Zoomに接続</div>
@@ -139,7 +139,7 @@
                     </a>
                 @else
                     <div class="relative max-w-xs shadow">
-                        <img src="{{ asset('storage/zoom.jpg') }}" alt="参加企業一覧" class="relative z-10 rounded-lg">
+                        <img src="{{ asset('storage/zoom.jpg') }}" alt="オンライン開催" class="relative z-10 rounded-lg">
                         <div class="absolute top-0 left-0 rounded-lg w-full h-full company-list z-20"></div>
                         <div class="absolute bottom-6 left-6 z-30 flex flex-col gap-2">
                             <div class="font-semibold text-white text-xl">Zoomに接続</div>
