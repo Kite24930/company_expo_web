@@ -225,7 +225,23 @@
                 </div>
             </a>
         </div>
-        <div class="w-full flex flex-col items-center py-6">
+        <div class="w-full flex flex-col items-center pt-6">
+            <div class="flex flex-col items-center">
+                <h6 class="text-xs text-gray-400 font-semibold">Floor Map</h6>
+                <h2 class="font-semibold text-xl">会場マップ</h2>
+            </div>
+            <div class="flex flex-col gap-2 items-center">
+                <div class="text-sm text-gray-500">
+                    会場マップをご覧いただけます。
+                    <br>
+                    会場内のブースレイアウトを確認し、効率的な企業訪問を行いましょう。
+                    <br>
+                    会場マップはクリックorタップで拡大表示できます。
+                </div>
+                <img src="{{ asset('storage/layout/floormap.jpg') }}" alt="1日目第一部ブースレイアウト" id="floor_map" class="w-full max-w-sm shadow rounded-lg">
+            </div>
+        </div>
+        <div id="industries_list" class="w-full flex flex-col items-center py-6">
             <div class="flex flex-col items-center">
                 <h6 class="text-xs text-gray-400 font-semibold">Search by Industry</h6>
                 <h2 class="font-semibold text-xl">業種から企業を探す</h2>

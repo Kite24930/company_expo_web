@@ -1,5 +1,7 @@
 import './common.js';
 import { Accordion } from "flowbite";
+import 'viewerjs/dist/viewer.min.css';
+import Viewer from 'viewerjs';
 
 const accordionEl = document.getElementById('time_table');
 
@@ -37,3 +39,5 @@ const options = {
 }
 
 const accordion = new Accordion(accordionEl, accordionItems, options);
+
+const viewer = new Viewer(document.getElementById('floor_map'));
