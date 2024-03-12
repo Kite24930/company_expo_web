@@ -7,8 +7,25 @@
         <form action="{{ route('student.store') }}" method="POST" class="bg-white shadow-sm px-6 py-4 flex gap-4 flex-col rounded-lg border w-full max-w-xl">
             @csrf
             <div>
-                <div class="py-2.5 font-semibold text-sm">ユーザー名</div>
+                <div class="py-2.5 font-semibold text-sm">氏名</div>
                 <x-text-input class="w-full text-sm bg-gray-200" id="student_name" name="student_name" :value="$student->student_name" disabled />
+                <x-input-label class="text-red-500 text-xs">※氏名は変更できません。</x-input-label>
+                <x-input-error :messages="$errors->get('student_name')" class="mt-2" />
+            </div>
+            <div>
+                <div class="py-2.5 font-semibold text-sm">性別</div>
+                @switch($student->gender)
+                    @case(0)
+                        <x-text-input class="w-full text-sm bg-gray-200" id="gender" name="gender" value="男性" disabled />
+                        @break
+                    @case(1)
+                        <x-text-input class="w-full text-sm bg-gray-200" id="gender" name="gender" value="女性" disabled />
+                        @break
+                    @case(2)
+                        <x-text-input class="w-full text-sm bg-gray-200" id="gender" name="gender" value="非回答" disabled />
+                        @break
+                @endswitch
+                <x-input-label class="text-red-500 text-xs">※性別は変更できません。</x-input-label>
                 <x-input-error :messages="$errors->get('student_name')" class="mt-2" />
             </div>
             <div>

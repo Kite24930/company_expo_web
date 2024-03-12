@@ -1,5 +1,8 @@
 <x-dashboard.template title="Dashboard" css="dashboard/student.css" :overview="$overview" :isAdmission="$is_admission">
     <main class="w-full min-h-screen md:pl-80 pt-20 md:pt-4 pb-24 bg-gray-50 flex flex-col items-center md:pr-2.5 gap-4 px-2">
+        <x-auth-session-status class="mb-4" :status="session('status')" />
+        <x-auth-session-status class="mb-4" :status="session('success')" />
+        <x-auth-session-status class="mb-4" :status="session('error')" />
         <h1 class="text-title md:text-2xl text-base">ユーザー情報</h1>
         <div class="bg-white shadow-sm px-6 py-4 flex gap-4 flex-col rounded-lg border w-full max-w-xl">
             <div>

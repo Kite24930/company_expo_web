@@ -65,7 +65,7 @@ class StudentController extends Controller
                 'follow_disclosure' => $request->follow_disclosure,
             ]);
 
-            return redirect(RouteServiceProvider::HOME)->with('success', '初期設定が完了しました。');
+            return redirect()->route('student.show')->with('success', '初期設定が完了しました。');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', '初期設定に失敗しました。');
         }
@@ -81,10 +81,14 @@ class StudentController extends Controller
         } else {
             $is_admission = false;
         }
+        $student = StudentView::where('user_id', auth()->user()->id)->first();
+        if (!$student) {
+            return redirect()->route('student.initial-setting');
+        }
         $data = [
             'overview' => Overview::find(1),
             'user' => auth()->user(),
-            'student' => StudentView::where('user_id', auth()->user()->id)->first(),
+            'student' => $student,
             'is_admission' => $is_admission,
             'faculties' => Faculty::all(),
             'grades' => Grade::all(),
@@ -99,10 +103,14 @@ class StudentController extends Controller
         } else {
             $is_admission = false;
         }
+        $student = StudentView::where('user_id', auth()->user()->id)->first();
+        if (!$student) {
+            return redirect()->route('student.initial-setting');
+        }
         $data = [
             'overview' => Overview::find(1),
             'user' => auth()->user(),
-            'student' => StudentView::where('user_id', auth()->user()->id)->first(),
+            'student' => $student,
             'is_admission' => $is_admission,
             'faculties' => Faculty::all(),
             'grades' => Grade::all(),
@@ -157,11 +165,15 @@ class StudentController extends Controller
             $is_admission = false;
         }
         $followed = FollowerView::where('student_user_id', auth()->user()->id)->orderBy('distribution_id')->get();
+        $student = StudentView::where('user_id', auth()->user()->id)->first();
+        if (!$student) {
+            return redirect()->route('student.initial-setting');
+        }
         $data = [
             'overview' => Overview::find(1),
             'companies' => $followed,
             'user' => auth()->user(),
-            'student' => StudentView::where('user_id', auth()->user()->id)->first(),
+            'student' => $student,
             'is_admission' => $is_admission,
             'faculties' => Faculty::all(),
             'grades' => Grade::all(),
@@ -177,11 +189,15 @@ class StudentController extends Controller
             $is_admission = false;
         }
         $visited = VisitorView::where('student_user_id', auth()->user()->id)->orderBy('distribution_id')->get();
+        $student = StudentView::where('user_id', auth()->user()->id)->first();
+        if (!$student) {
+            return redirect()->route('student.initial-setting');
+        }
         $data = [
             'overview' => Overview::find(1),
             'companies' => $visited,
             'user' => auth()->user(),
-            'student' => StudentView::where('user_id', auth()->user()->id)->first(),
+            'student' => $student,
             'is_admission' => $is_admission,
             'faculties' => Faculty::all(),
             'grades' => Grade::all(),
@@ -196,10 +212,14 @@ class StudentController extends Controller
         } else {
             $is_admission = false;
         }
+        $student = StudentView::where('user_id', auth()->user()->id)->first();
+        if (!$student) {
+            return redirect()->route('student.initial-setting');
+        }
         $data = [
             'overview' => Overview::find(1),
             'user' => auth()->user(),
-            'student' => StudentView::where('user_id', auth()->user()->id)->first(),
+            'student' => $student,
             'is_admission' => $is_admission,
             'faculties' => Faculty::all(),
             'grades' => Grade::all(),
@@ -257,10 +277,14 @@ class StudentController extends Controller
             ->setMargin(0);
         $writer = new PngWriter();
         $result = $writer->write($qr_code);
+        $student = StudentView::where('user_id', auth()->user()->id)->first();
+        if (!$student) {
+            return redirect()->route('student.initial-setting');
+        }
         $data = [
             'overview' => Overview::find(1),
             'user' => auth()->user(),
-            'student' => StudentView::where('user_id', auth()->user()->id)->first(),
+            'student' => $student,
             'is_admission' => $is_admission,
             'faculties' => Faculty::all(),
             'grades' => Grade::all(),

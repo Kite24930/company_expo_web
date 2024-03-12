@@ -20,7 +20,7 @@
 
                 <!-- gender -->
                 <div class="mt-4">
-                    <x-input-label for="gender" :value="__('生物')" />
+                    <x-input-label for="gender" :value="__('性別')" />
                     <x-select-input id="gender" name="gender" class="block mt-1 w-full" required>
                         <option class="hidden">性別を選択してください</option>
                         <option value="0">男性</option>
