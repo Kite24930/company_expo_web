@@ -118,12 +118,95 @@
                 </div>
             </div>
         </div>
+        <div id="online" class="w-full flex flex-col items-center pt-6">
+            <div class="flex flex-col items-center">
+                <h6 class="text-xs text-gray-400 font-semibold">Online</h6>
+                <h2 class="font-semibold text-xl">オンライン開催</h2>
+            </div>
+            <div class="flex flex-col md:flex-row items-center md:justify-center gap-6 mb-6">
+                @if(date('Y-m-d') == '2024-03-27' || date('Y-m-d') == '2024-03-28')
+                    <a href="https://zoom.us/j/91505849191?pwd=bnBuMkhqN0tnd2JTc1NzUnZ5bFoxdz09" class="relative max-w-xs shadow">
+                        <img src="{{ asset('storage/zoom.jpg') }}" alt="参加企業一覧" class="relative z-10 rounded-lg">
+                        <div class="absolute top-0 left-0 rounded-lg w-full h-full company-list z-20"></div>
+                        <div class="absolute bottom-6 left-6 z-30 flex flex-col gap-2">
+                            <div class="font-semibold text-white text-xl">Zoomに接続</div>
+                            <div class="text-white text-sm">
+                                本イベントはオンラインでも開催されます。
+                                <br>
+                                このボタンからZoomに接続してください。
+                            </div>
+                        </div>
+                    </a>
+                @else
+                    <div class="relative max-w-xs shadow">
+                        <img src="{{ asset('storage/zoom.jpg') }}" alt="参加企業一覧" class="relative z-10 rounded-lg">
+                        <div class="absolute top-0 left-0 rounded-lg w-full h-full company-list z-20"></div>
+                        <div class="absolute bottom-6 left-6 z-30 flex flex-col gap-2">
+                            <div class="font-semibold text-white text-xl">Zoomに接続</div>
+                            <div class="text-white text-sm">
+                                本イベントはオンラインでも開催されます。
+                                <br>
+                                このボタンは開催日のみ有効になります。
+                            </div>
+                        </div>
+                    </div>
+                @endif
+                <div class="max-w-sm px-4">
+                    <div class="text-base font-semibold text-[#2EA7EB]">オンライン開催について</div>
+                    <div class="text-sm text-gray-500">
+                        本イベントはオンラインでも開催されます。
+                        <br>
+                        オンライン開催では、三翠ホールで開催中の企業説明会に参加している企業が約2分程度のプレゼンテーションを順次行います。
+                        <br>
+                        詳細はタイムテーブルをご確認ください。
+                        @if(date('Y-m-d') == '2024-03-27' || date('Y-m-d') == '2024-03-28')
+                            <br>
+                            ボタンもしくは下記リンクよりZoomに接続できます。
+                        @endif
+                    </div>
+                    <div class="text-xs text-red-500">
+                        ※一部企業はオンライン開催には参加いたしません。
+                    </div>
+                    @if(date('Y-m-d') == '2024-03-27' || date('Y-m-d') == '2024-03-28')
+                        <div class="text-xs py-2">
+                            <a href="https://zoom.us/j/91505849191?pwd=bnBuMkhqN0tnd2JTc1NzUnZ5bFoxdz09" class="underline bg-blue-500 text-white hover:bg-blue-700 p-2 rounded">
+                                Zoomに接続
+                            </a>
+                        </div>
+                    @endif
+                </div>
+            </div>
+            <div id="time_table" class="w-full max-w-xl rounded-lg shadow">
+                <h2 id="period_1_head">
+                    <button type="button" class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-lg focus:ring-4 focus:ring-gray-200" aria-expanded="false" aria-controls="period_1_body">
+                        <span class="text-sm">3/27(Wed) タイムテーブル</span>
+                        <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
+                        </svg>
+                    </button>
+                </h2>
+                <div id="period_1_body" class="hidden p-4" aria-labelledby="period_1_head">
+                    準備中
+                </div>
+                <h2 id="period_2_head">
+                    <button type="button" class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-b-lg focus:ring-4 focus:ring-gray-200" aria-expanded="false" aria-controls="period_2_body">
+                        <span class="text-sm">3/28(Thu) タイムテーブル</span>
+                        <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
+                        </svg>
+                    </button>
+                </h2>
+                <div id="period_2_body" class="hidden p-4" aria-labelledby="period_1_head">
+                    準備中
+                </div>
+            </div>
+        </div>
         <div class="w-full flex flex-col items-center pt-6">
             <div class="flex flex-col items-center">
                 <h6 class="text-xs text-gray-400 font-semibold">Company List</h6>
                 <h2 class="font-semibold text-xl">参加企業</h2>
             </div>
-            <a href="{{ route('company.list') }}" class="relative max-w-sm">
+            <a href="{{ route('company.list') }}" class="relative max-w-sm shadow">
                 <img src="{{ asset('storage/company_list.jpg') }}" alt="参加企業一覧" class="relative z-10 rounded-lg">
                 <div class="absolute top-0 left-0 rounded-lg w-full h-full company-list z-20"></div>
                 <div class="absolute bottom-6 left-6 z-30 flex flex-col gap-2">
