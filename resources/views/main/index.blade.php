@@ -136,6 +136,9 @@
                                 このボタンからZoomに接続してください。
                             </div>
                         </div>
+                        <div class="absolute top-2 right-2 font-medium text-xs text-white z-30">
+                            <img src="{{ asset('storage/click.png') }}" alt="Click" class="w-20 h-20 object-contain rotate-12">
+                        </div>
                     </a>
                 @else
                     <div class="relative max-w-xs shadow">
@@ -216,6 +219,9 @@
                         <br>
                         あなたの希望に合った企業を見つけよう！
                     </div>
+                </div>
+                <div class="absolute top-2 right-2 font-medium text-xs text-white z-30">
+                    <img src="{{ asset('storage/click.png') }}" alt="Click" class="w-20 h-20 object-contain rotate-12">
                 </div>
             </a>
         </div>
