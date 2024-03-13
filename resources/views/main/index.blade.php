@@ -204,6 +204,39 @@
                 </div>
             </div>
         </div>
+        <div id="employment_consultation" class="w-full flex flex-col items-center pt-6">
+            <div class="flex flex-col items-center">
+                <h6 class="text-xs text-gray-400 font-semibold">Employment Consultation</h6>
+                <h2 class="font-semibold text-xl">就職相談</h2>
+            </div>
+            <div class="flex flex-col md:flex-row items-center md:justify-center gap-6 mb-6">
+                <div class="max-w-xs md:px-4">
+                    <div class="text-base font-semibold text-[#2EA7EB]">就職相談ブースについて</div>
+                    <div class="text-sm text-gray-500">
+                        会場には就職相談ブースが設置されます。
+                        <br>
+                        企業説明会の合間に、就職相談ブースにて、企業の選考についての相談や、就職活動についての相談を受け付けます。
+                        <br>
+                        どんな相談でも受け付けますので、お気軽にご相談ください。
+                    </div>
+                    <div class="text-xs text-red-500">
+                        ※会場での受付となりますので、混雑時はお待ちいただく場合がございます。
+                    </div>
+                </div>
+                <div class="relative max-w-xs shadow">
+                    <img src="{{ asset('storage/consultation.jpg') }}" alt="就職相談" class="relative z-10 rounded-lg">
+                    <div class="absolute top-0 left-0 rounded-lg w-full h-full company-list z-20"></div>
+                    <div class="absolute bottom-6 left-6 z-30 flex flex-col gap-2">
+                        <div class="font-semibold text-white text-xl">就職相談</div>
+                        <div class="text-white text-sm">
+                            どんな相談内容でもOK！
+                            <br>
+                            お気軽にご相談ください。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="w-full flex flex-col items-center pt-6">
             <div class="flex flex-col items-center">
                 <h6 class="text-xs text-gray-400 font-semibold">Company List</h6>
