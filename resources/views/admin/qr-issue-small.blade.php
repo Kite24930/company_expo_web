@@ -25,7 +25,7 @@
                 </div>
             </div>
         </div>
-        <div class="text-2xl flex justify-center items-center border p-4 rounded-lg shadow bg-white">
+        <div class="text-xl flex justify-center items-center border p-4 rounded-lg shadow bg-white">
             {{ $layout->company_name }}
         </div>
         <div class="flex flex-col items-center gap-2">
