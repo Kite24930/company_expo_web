@@ -25,7 +25,9 @@
                 </div>
             </div>
         </div>
-        <div class="text-3xl flex justify-center items-center border p-4 rounded-lg shadow bg-white">{{ $layout->company_name }}</div>
+        <div class="text-2xl flex justify-center items-center border p-4 rounded-lg shadow bg-white">
+            {{ $layout->company_name }}
+        </div>
         <div class="flex flex-col items-center gap-2">
             <div class="text-sm">▼訪問処理用QRコード▼</div>
             <div class="shadow border p-2 rounded-lg bg-white">
