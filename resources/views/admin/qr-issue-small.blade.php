@@ -12,7 +12,7 @@
 </head>
 <body>
 @foreach($layouts as $layout)
-    <div class="w-full h-full flex flex-col justify-between items-center gap-6 px-4 py-10 card relative">
+    <div class="w-full h-full flex flex-col justify-between items-center gap-6 px-4 py-10 card relative" style="background-image: url('{{ asset('storage/postcard_background.png') }}')">
         <div class="flex justify-start w-full">
             <div>
                 <div class="text-sm px-6 py-3 rounded-lg flex flex-col gap-2 items-start">

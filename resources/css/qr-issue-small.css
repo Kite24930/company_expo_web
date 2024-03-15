@@ -7,7 +7,6 @@
   border-collapse: collapse;
 }
 .card {
-  background-image: url("/storage/postcard_background.png");
   background-size: cover;
   background-position: center;
 }
