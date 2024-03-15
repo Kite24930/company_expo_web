@@ -12,10 +12,10 @@
 .load-wrapper {
     width:200px;
     height:60px;
-    position: absolute;
-    left:50%;
-    top:50%;
-    transform: translate(-50%, -50%);
+    position: relative;
+    //left:50%;
+    //top:50%;
+    //transform: translate(-50%, -50%);
 
     .load-circle {
         width:20px;
@@ -63,15 +63,14 @@
             animation-delay: .3s;
         }
     }
+}
 
-    span {
-        position: absolute;
-        top:75px;
+.load-text {
+    color: #fff;
+    p {
         font-family: 'Lato';
         font-size: 20px;
         letter-spacing: 10px;
-        color: #fff;
-        left:15%;
     }
 }
 
