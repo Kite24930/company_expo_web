@@ -377,6 +377,14 @@ class AdminController extends Controller
         return view('admin.qr-issue-small', $data);
     }
 
+    public function AdminBoothNumberIssues() {
+        $booth = Booth::all();
+        $data = [
+            'booths' => $booth,
+        ];
+        return view('admin.booth-number-issues', $data);
+    }
+
     public function AdminAdmission() {
         $data = [
             'overview' => Overview::find(1),

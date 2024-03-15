@@ -31,6 +31,10 @@
         <x-symbols.qr-issue class="mr-2"/>
         ブースQRコード発行（卓上用）
     </x-dashboard.menu-item>
+    <x-dashboard.menu-item route="admin.booth_number.issues">
+        <x-symbols.qr-issue class="mr-2"/>
+        ブース番号発行
+    </x-dashboard.menu-item>
     <x-dashboard.menu-item route="admin.admission">
         <x-symbols.enter class="mr-2"/>
         入場処理

@@ -1,10 +1,16 @@
 @import "app.css";
 
 @page {
-    size: A5;
+    size: 100mm 148mm;
     bleed: 0mm;
     //marks: crop;
     margin: 0;
     font-family: "BIZ UDPGothic", sans-serif;
     border-collapse: collapse;
+}
+
+.card {
+    background-image: url("/storage/postcard_background.png");
+    background-size: cover;
+    background-position: center;
 }

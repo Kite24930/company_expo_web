@@ -12,22 +12,25 @@
 </head>
 <body>
 @foreach($layouts as $layout)
-    <div class="w-full h-full flex flex-col justify-between items-center gap-10 px-4 py-10">
-        <div class="flex justify-start w-full px-10">
+    <div class="w-full h-full flex flex-col justify-between items-center gap-6 px-4 py-10 card relative">
+        <div class="flex justify-start w-full">
             <div>
-                <div class="text-xl px-6 py-3 bg-blue-950 text-white rounded-lg flex flex-col items-center gap-4">
+                <div class="text-sm px-6 py-3 rounded-lg flex flex-col gap-2 items-start">
                     <div>
                         {{ __(date('n/j', strtotime($layout->date)).' '.$layout->period) }}
                     </div>
-                    <div class="text-4xl">
+                    <div class="text-5xl font-bold underline">
                         {{ __('No.'.$layout->booth_number) }}
                     </div>
                 </div>
             </div>
         </div>
-        <div class="text-5xl flex-1 flex justify-center items-center">{{ $layout->company_name }}</div>
-        <div>
-            <img src="{{ $layout->qr }}" alt="" class="h-56">
+        <div class="text-3xl flex justify-center items-center border p-4 rounded-lg shadow bg-white">{{ $layout->company_name }}</div>
+        <div class="flex flex-col items-center gap-2">
+            <div class="text-sm">▼訪問処理用QRコード▼</div>
+            <div class="shadow border p-2 rounded-lg bg-white">
+                <img src="{{ $layout->qr }}" alt="" class="h-48">
+            </div>
         </div>
     </div>
 @endforeach

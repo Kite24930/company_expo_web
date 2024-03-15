@@ -11,14 +11,16 @@
     @vite(['resources/css/qr-issue.css'])
 </head>
 <body>
-@foreach($layouts as $layout)
+@foreach($booths as $booth)
     <div class="w-full h-full flex flex-col justify-center items-center gap-10 p-20">
-        <div class="text-[200px] flex justify-center items-center">{{ $layout->company_name }}</div>
+        <div class="flex justify-center items-end">
+            <div class="text-[1000px] font-bold">{{ $booth->booth_number }}</div>
+        </div>
     </div>
 @endforeach
 <script>
     window.Laravel = {};
-    window.Laravel.layouts = @json($layouts);
+    window.Laravel.booths = @json($booths);
     console.log(window.Laravel)
 </script>
 @vite(['resources/js/qr-issue.js'])
