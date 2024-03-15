@@ -1,5 +1,18 @@
 <x-template title="企業一覧" css="main.css" :overview="$overview" :isAdmission="$is_admission">
     <div class="hidden flex items-center justify-between w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow fixed bottom-20 left-4 z-50 toast inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 bg-blue-100 rounded-lg text-sm ms-3 font-normal ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 w-3 h-3"></div>
+    <div id="loading" class="bg-gray-700 bg-opacity-50 fixed z-[1000] w-full h-full top-0 bottom-0 left-0 right-0 flex justify-center items-center">
+        <div class="flex flex-col items-center justify-center gap-4">
+            <div class="load-wrapper">
+                <div class="load-circle"></div>
+                <div class="load-circle"></div>
+                <div class="load-circle"></div>
+                <div class="load-shadow"></div>
+                <div class="load-shadow"></div>
+                <div class="load-shadow"></div>
+                <span>Loading</span>
+            </div>
+        </div>
+    </div>
     <main class="w-full min-h-screen flex flex-col items-center gap-4 px-2">
         <div id="move_page_top" class="fixed bottom-20 right-4 w-12 h-12 bg-white bg-opacity-50 flex justify-center items-center rounded-full cursor-pointer z-50">
             <x-symbols.arrow-up />
@@ -219,7 +232,7 @@
                     <ul class="text-sm flex flex-wrap -mb-px font-medium text-center sticky top-20" id="date_tab" data-tabs-toggle="#period_tab" role="tablist">
                         @foreach($dates as $index => $date)
                             <li class="flex-1" role="presentation">
-                                <button class="inline-block px-4 py-2 border-b-2 hover:text-gray-600 hover:border-gray-300 w-full tab-item border border-gray-200 @if($index === 0) rounded-tl-lg @elseif($index === count($dates) - 1) rounded-tr-lg @endif" id="{{ __('date_tab_'.$date->id) }}" data-tabs-target="{{ __('#by_date_'.$date->id) }}" type="button" role="tab" aria-controls="{{ __('by_date_'.$date->id) }}" aria-selected="{{ $index === 0 ? 1 : 0 }}">
+                                <button class="date-tab inline-block px-4 py-2 border-b-2 hover:text-gray-600 hover:border-gray-300 w-full tab-item border border-gray-200 @if($index === 0) rounded-tl-lg @elseif($index === count($dates) - 1) rounded-tr-lg @endif" id="{{ __('date_tab_'.$date->id) }}" data-tabs-target="{{ __('#by_date_'.$date->id) }}" type="button" role="tab" aria-controls="{{ __('by_date_'.$date->id) }}" aria-selected="{{ $index === 0 ? 1 : 0 }}" data-init="false">
                                     {{ date('n-j(D)', strtotime($date->date)) }}
                                 </button>
                             </li>
@@ -232,7 +245,7 @@
                             <ul class="text-sm flex flex-wrap -mb-px font-medium text-center" id="{{ __('period_tab_'.$date->id) }}" data-tabs-toggle="{{ __('period_inner_tab_'.$date->id) }}" role="tablist">
                                 @foreach($periods as $i => $period)
                                     <li class="flex-1" role="presentation">
-                                        <button class="inline-block px-4 py-2 border-b-2 hover:text-gray-600 hover:border-gray-300 w-full tab-item border-b border-gray-200" id="{{ __('period_tab_'.$date->id.'_'.$period->id) }}" data-tabs-target="{{ __('#by_period_'.$date->id.'_'.$period->id) }}" type="button" role="tab" aria-controls="{{ __('by_period_'.$date->id.'_'.$period->id) }}" aria-selected="{{ $i === 0 ? 1 : 0 }}">
+                                        <button class="period-tab inline-block px-4 py-2 border-b-2 hover:text-gray-600 hover:border-gray-300 w-full tab-item border-gray-200" id="{{ __('period_tab_'.$date->id.'_'.$period->id) }}" data-tabs-target="{{ __('#by_period_'.$date->id.'_'.$period->id) }}" type="button" role="tab" aria-controls="{{ __('by_period_'.$date->id.'_'.$period->id) }}" aria-selected="{{ $i === 0 ? 1 : 0 }}" data-init="false">
                                             {{ $period->period }}
                                         </button>
                                     </li>

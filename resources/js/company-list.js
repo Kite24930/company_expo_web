@@ -1,6 +1,16 @@
 import './common';
 import { notLogin, followCompany } from './module/follow';
 
+const loading = document.getElementById('loading');
+
+window.addEventListener('load', () => {
+    tabSessionCheck();
+    loading.classList.add('fade');
+    setTimeout(() => {
+        loading.classList.add('hidden');
+    }, 600);
+});
+
 let path_name = '/' + window.location.pathname.split('/')[1];
 if(process.env.NODE_ENV === 'local') {
     path_name = '';
@@ -151,4 +161,51 @@ document.querySelectorAll('.follow-btn').forEach((followBtn) => {
             followCompany(followBtn, Laravel.user.api_token);
         });
     }
+});
+
+const tabSelect = (tabName) => {
+    document.getElementById(tabName).click();
+}
+
+const tabSessionCheck = () => {
+    const dateTabSession = sessionStorage.getItem('date_tab');
+    if (dateTabSession) {
+        tabSelect(dateTabSession);
+    }
+    const periodTabSession = sessionStorage.getItem('period_tab');
+    if (periodTabSession) {
+        tabSelect(periodTabSession);
+    }
+    document.querySelectorAll('.date-tab').forEach((dateTab) => {
+        dateTab.setAttribute('data-init', 'true');
+    });
+    document.querySelectorAll('.period-tab').forEach((periodTab) => {
+        periodTab.setAttribute('data-init', 'true');
+    });
+}
+
+const dateTabChange = (el) => {
+    sessionStorage.setItem('date_tab', el.id);
+    const activePeriod = document.querySelector(el.getAttribute('data-tabs-target') + ' .period-tab[aria-selected="true"]');
+    sessionStorage.setItem('period_tab', activePeriod.id);
+}
+
+document.querySelectorAll('.date-tab').forEach((dateTab) => {
+    dateTab.addEventListener('click', () => {
+        if (dateTab.getAttribute('data-init') !== "false") {
+            dateTabChange(dateTab);
+        }
+    });
+});
+
+const periodTabChange = (el) => {
+    sessionStorage.setItem('period_tab', el.id);
+}
+
+document.querySelectorAll('.period-tab').forEach((periodTab) => {
+    periodTab.addEventListener('click', () => {
+        if (periodTab.getAttribute('data-init') !== "false") {
+            periodTabChange(periodTab);
+        }
+    });
 });
