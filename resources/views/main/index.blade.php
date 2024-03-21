@@ -205,7 +205,7 @@
                                         <td class="px-2 text-sm">{{ 'No.' . $layout->booth_number }}</td>
                                         <td><a href="{{ route('company.detail', $layout->company_id) }}" class="font-bold underline">{{ $layout->company_name }}</a></td>
                                     </tr>
-                                    @php($time[$period->id]->modify('+3 minutes'))
+                                    @php($time[$period->id]->modify('+2 minutes'))
                                 @endif
                             @endforeach
                             </tbody>
@@ -229,7 +229,7 @@
                             @php($time[1] = new DateTime('09:35'))
                             @php($time[2] = new DateTime('13:05'))
                             @php($exclude[1] = [6, 12])
-                            @php($exclude[2] = [1, 7, 8, 21, 25, 30, 32, 41])
+                            @php($exclude[2] = [1, 7, 8, 16, 21, 25, 30, 32, 41])
                             @foreach($layouts[$dates[1]->id][$period->id] as $layout)
                                 @if(!in_array($layout->booth_id, $exclude[$period->id]))
                                     <tr class="my-2 border-b w-full py-1 block">
@@ -237,7 +237,7 @@
                                         <td class="px-2 text-sm">{{ 'No.' . $layout->booth_number }}</td>
                                         <td><a href="{{ route('company.detail', $layout->company_id) }}" class="font-bold underline">{{ $layout->company_name }}</a></td>
                                     </tr>
-                                    @php($time[$period->id]->modify('+3 minutes'))
+                                    @php($time[$period->id]->modify('+2 minutes'))
                                 @endif
                             @endforeach
                             </tbody>
