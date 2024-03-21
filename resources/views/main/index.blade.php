@@ -192,7 +192,7 @@
                     <h5 class="text-xs text-red-500">※あくまでも予定であり、当日の現場の状況により時間が前後したり、企業が来られずなくなる可能性がございます。ご了承ください。</h5>
                     @foreach($periods as $period)
                         <h2 class="text-lg font-bold mt-2">{{ $period->period }}</h2>
-                        <table class="ml-2">
+                        <table class="ml-2 w-full">
                             <tbody>
                             @php($time[1] = new DateTime('09:35'))
                             @php($time[2] = new DateTime('13:05'))
@@ -200,10 +200,10 @@
                             @php($exclude[2] = [16, 32, 42])
                             @foreach($layouts[$dates[0]->id][$period->id] as $layout)
                                 @if(!in_array($layout->booth_id, $exclude[$period->id]))
-                                    <tr class="my-2">
-                                        <td>{{ $time[$period->id]->format('G:i') . '〜' }}</td>
-                                        <td class="px-2">{{ 'No.' . $layout->booth_number }}</td>
-                                        <td>{{ $layout->company_name }}</td>
+                                    <tr class="my-2 border-b w-full py-1 block">
+                                        <td class="text-sm">{{ $time[$period->id]->format('G:i') . '〜' }}</td>
+                                        <td class="px-2 text-sm">{{ 'No.' . $layout->booth_number }}</td>
+                                        <td><a href="{{ route('company.detail', $layout->company_id) }}" class="font-bold underline">{{ $layout->company_name }}</a></td>
                                     </tr>
                                     @php($time[$period->id]->modify('+3 minutes'))
                                 @endif
@@ -232,10 +232,10 @@
                             @php($exclude[2] = [1, 7, 8, 21, 25, 30, 32, 41])
                             @foreach($layouts[$dates[1]->id][$period->id] as $layout)
                                 @if(!in_array($layout->booth_id, $exclude[$period->id]))
-                                    <tr class="my-2">
-                                        <td>{{ $time[$period->id]->format('G:i') . '〜' }}</td>
-                                        <td class="px-2">{{ 'No.' . $layout->booth_number }}</td>
-                                        <td>{{ $layout->company_name }}</td>
+                                    <tr class="my-2 border-b w-full py-1 block">
+                                        <td class="text-sm">{{ $time[$period->id]->format('G:i') . '〜' }}</td>
+                                        <td class="px-2 text-sm">{{ 'No.' . $layout->booth_number }}</td>
+                                        <td><a href="{{ route('company.detail', $layout->company_id) }}" class="font-bold underline">{{ $layout->company_name }}</a></td>
                                     </tr>
                                     @php($time[$period->id]->modify('+3 minutes'))
                                 @endif
