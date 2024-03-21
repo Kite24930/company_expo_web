@@ -92,12 +92,20 @@ class MainController extends Controller
                 'industries' => implode(',', IndustryView::where('major_class_id', $major_industry->id)->pluck('industry_id')->toArray()),
             ];
         }
+        $dates = Date::all();
+        $periods = Period::all();
+        foreach ($dates as $date) {
+            foreach ($periods as $period) {
+                $layouts[$date->id][$period->id] = LayoutView::where('date_id', $date->id)->where('period_id', $period->id)->whereNotNull('company_id')->orderBy('booth_id')->get();
+            }
+        }
         $data = [
             'overview' => Overview::find(1),
-            'dates' => Date::all(),
-            'periods' => Period::all(),
             'industries' => $industries,
             'weekdays' => $this->weekdays,
+            'dates' => $dates,
+            'periods' => $periods,
+            'layouts' => $layouts,
         ];
         if (Auth()->check()) {
             $data['follows'] = FollowerView::where('student_user_id', Auth()->user()->id)->pluck('company_id')->toArray();

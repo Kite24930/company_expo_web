@@ -189,7 +189,28 @@
                     </button>
                 </h2>
                 <div id="period_1_body" class="hidden p-4" aria-labelledby="period_1_head">
-                    準備中
+                    <h5 class="text-xs text-red-500">※あくまでも予定であり、当日の現場の状況により時間が前後したり、企業が来られずなくなる可能性がございます。ご了承ください。</h5>
+                    @foreach($periods as $period)
+                        <h2 class="text-lg font-bold mt-2">{{ $period->period }}</h2>
+                        <table class="ml-2">
+                            <tbody>
+                            @php($time[1] = new DateTime('09:35'))
+                            @php($time[2] = new DateTime('13:05'))
+                            @php($exclude[1] = [5, 16])
+                            @php($exclude[2] = [16, 32, 42])
+                            @foreach($layouts[$dates[0]->id][$period->id] as $layout)
+                                @if(!in_array($layout->booth_id, $exclude[$period->id]))
+                                    <tr class="my-2">
+                                        <td>{{ $time[$period->id]->format('G:i') . '〜' }}</td>
+                                        <td class="px-2">{{ 'No.' . $layout->booth_number }}</td>
+                                        <td>{{ $layout->company_name }}</td>
+                                    </tr>
+                                    @php($time[$period->id]->modify('+3 minutes'))
+                                @endif
+                            @endforeach
+                            </tbody>
+                        </table>
+                    @endforeach
                 </div>
                 <h2 id="period_2_head">
                     <button type="button" class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-b-lg focus:ring-4 focus:ring-gray-200" aria-expanded="false" aria-controls="period_2_body">
@@ -199,8 +220,29 @@
                         </svg>
                     </button>
                 </h2>
-                <div id="period_2_body" class="hidden p-4" aria-labelledby="period_1_head">
-                    準備中
+                <div id="period_2_body" class="hidden p-4" aria-labelledby="period_2_head">
+                    <h5 class="text-xs text-red-500">※あくまでも予定であり、当日の現場の状況により時間が前後したり、企業が来られずなくなる可能性がございます。ご了承ください。</h5>
+                    @foreach($periods as $period)
+                        <h2 class="text-lg font-bold mt-2">{{ $period->period }}</h2>
+                        <table class="ml-2">
+                            <tbody>
+                            @php($time[1] = new DateTime('09:35'))
+                            @php($time[2] = new DateTime('13:05'))
+                            @php($exclude[1] = [6, 12])
+                            @php($exclude[2] = [1, 7, 8, 21, 25, 30, 32, 41])
+                            @foreach($layouts[$dates[1]->id][$period->id] as $layout)
+                                @if(!in_array($layout->booth_id, $exclude[$period->id]))
+                                    <tr class="my-2">
+                                        <td>{{ $time[$period->id]->format('G:i') . '〜' }}</td>
+                                        <td class="px-2">{{ 'No.' . $layout->booth_number }}</td>
+                                        <td>{{ $layout->company_name }}</td>
+                                    </tr>
+                                    @php($time[$period->id]->modify('+3 minutes'))
+                                @endif
+                            @endforeach
+                            </tbody>
+                        </table>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -315,6 +357,7 @@
         window.Laravel.periods = @json($periods);
         window.Laravel.industries = @json($industries);
         window.Laravel.weekdays = @json($weekdays);
+        window.Laravel.layouts = @json($layouts);
         console.log(window.Laravel);
     </script>
     @vite(['resources/js/index.js'])
